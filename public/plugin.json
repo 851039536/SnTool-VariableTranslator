@@ -1,0 +1,21 @@
+{
+  "main": "index.html",
+  "preload": "preload/services.js",
+  "logo": "logo.png",
+  "development": {
+    "main": "http://localhost:5173"
+  },
+  "features": [
+
+    {
+      "code": "translator",
+      "explain": "中文变量名翻译助手",
+      "mainHide": true,
+      "cmds": ["变量翻译", "翻译", "中文翻译", "命名助手", "translator" ,{
+        "type": "over",
+        "label": "变量翻译"
+      }]
+    }
+
+  ]
+}
