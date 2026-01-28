@@ -33,7 +33,7 @@
             <div class="form-group">
               <label>API 端点</label>
               <input
-                v-model="apiConfig.endpoint"
+                v-model="currentPresetConfig.endpoint"
                 type="text"
                 class="input"
                 placeholder="https://api.example.com/v1/chat/completions"
@@ -42,11 +42,11 @@
             </div>
             <div class="form-group">
               <label>API Key</label>
-              <input v-model="apiConfig.apiKey" type="text" class="input" placeholder="sk-..." />
+              <input v-model="currentPresetConfig.apiKey" type="text" class="input" placeholder="sk-..." />
             </div>
             <div class="form-group">
               <label>模型名称</label>
-              <input v-model="apiConfig.model" type="text" class="input" placeholder="gpt-3.5-turbo" />
+              <input v-model="currentPresetConfig.model" type="text" class="input" placeholder="gpt-3.5-turbo" />
             </div>
             <button @click="saveApiConfig" class="btn btn-primary">保存配置</button>
             <span v-if="configSaved" class="save-tip">✓ 已保存</span>
@@ -179,34 +179,33 @@ const emit = defineEmits(['toggle-theme']);
 // 数据
 const showApiConfig = ref(false);
 const selectedPreset = ref('');
-const apiConfig = ref({
-  endpoint: '',
-  apiKey: '',
-  model: 'gpt-3.5-turbo'
-});
 const configSaved = ref(false);
 const copiedButton = ref(null); // 记录当前复制的按钮
 const isFromUtools = ref(false); // 标记是否来自 uTools 的自动填充
 
-// API 预设配置
-const presets = {
+// API 预设配置（每个预设包含 endpoint, apiKey, model）
+const presets = ref({
   qwen: {
     endpoint: 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',
+    apiKey: '',
     model: 'qwen-turbo'
   },
   deepseek: {
     endpoint: 'https://api.deepseek.com/v1/chat/completions',
+    apiKey: '',
     model: 'deepseek-chat'
   },
   zhipu: {
     endpoint: 'https://open.bigmodel.cn/api/paas/v4/chat/completions',
+    apiKey: '',
     model: 'glm-4-flash'
   },
   kimi: {
     endpoint: 'https://api.moonshot.cn/v1/chat/completions',
+    apiKey: '',
     model: 'moonshot-v1-8k'
   }
-};
+});
 
 const modes = [
   { value: 'variable', label: '变量命名', icon: '', desc: '名词或名词短语' },
@@ -220,9 +219,16 @@ const error = ref('');
 const isTranslating = ref(false);
 let debounceTimer = null;
 
-// 计算属性
+// 计算属性 - 获取当前选中预设的配置
+const currentPresetConfig = computed(() => {
+  if (!selectedPreset.value) {
+    return { endpoint: '', apiKey: '', model: '' };
+  }
+  return presets.value[selectedPreset.value] || { endpoint: '', apiKey: '', model: '' };
+});
+
 const isApiConfigured = computed(() => {
-  return apiConfig.value.endpoint && apiConfig.value.apiKey;
+  return currentPresetConfig.value.endpoint && currentPresetConfig.value.apiKey;
 });
 
 // 方法
@@ -240,26 +246,22 @@ function applyPreset() {
     console.log('applyPreset - 加载配置中，跳过');
     return;
   }
-  console.log('applyPreset - 应用预设:', selectedPreset.value);
-  if (selectedPreset.value && presets[selectedPreset.value]) {
-    const preset = presets[selectedPreset.value];
-    apiConfig.value.endpoint = preset.endpoint;
-    apiConfig.value.model = preset.model;
-    console.log('applyPreset - 已应用:', preset);
-  }
+  console.log('applyPreset - 切换预设:', selectedPreset.value);
+  // 预设切换时，自动从已保存的配置中加载
+  loadApiConfig();
 }
 
 function saveApiConfig() {
   try {
-    const config = {
-      ...apiConfig.value,
-      preset: selectedPreset.value
-    };
-    console.log('saveApiConfig - 保存配置:', config);
-    // 使用 uTools 数据库存储
+    // 保存所有预设的配置
     window.utools.db.put({
       _id: 'translator_api_config',
-      data: config
+      data: presets.value
+    });
+    // 同时保存当前选中的预设
+    window.utools.db.put({
+      _id: 'translator_selected_preset',
+      data: selectedPreset.value
     });
     configSaved.value = true;
     setTimeout(() => {
@@ -285,53 +287,32 @@ function loadApiConfig() {
     isLoadingConfig = true; // 开始加载配置
     console.log('loadApiConfig - 开始加载配置');
 
-    // 从 uTools 数据库读取
-    const saved = window.utools.db.get('translator_api_config');
-    console.log('loadApiConfig - saved:', saved);
-
-    if (saved && saved.data) {
-      const config = saved.data;
-      console.log('loadApiConfig - config:', config);
-
-      apiConfig.value = {
-        endpoint: config.endpoint || '',
-        apiKey: config.apiKey || '',
-        model: config.model || 'gpt-3.5-turbo'
-      };
-
-      // 检查保存的预设是否与当前配置匹配，如果匹配才设置
-      // 否则设置为空（自定义），避免触发 applyPreset 导致覆盖
-      const savedPreset = config.preset || '';
-      if (savedPreset && presets[savedPreset]) {
-        const preset = presets[savedPreset];
-        // 只有当保存的配置与预设完全匹配时，才设置 preset
-        if (apiConfig.value.endpoint === preset.endpoint && apiConfig.value.model === preset.model) {
-          selectedPreset.value = savedPreset;
-        } else {
-          selectedPreset.value = '';
+    // 从 uTools 数据库读取所有预设配置
+    const savedPresets = window.utools.db.get('translator_api_config');
+    if (savedPresets && savedPresets.data) {
+      // 合并已保存的配置到 presets
+      Object.keys(savedPresets.data).forEach((key) => {
+        if (presets.value[key]) {
+          presets.value[key] = { ...presets.value[key], ...savedPresets.data[key] };
         }
-      } else {
-        selectedPreset.value = '';
-      }
-
-      console.log('loadApiConfig - applied:', {
-        apiConfig: apiConfig.value,
-        selectedPreset: selectedPreset.value
       });
-    } else {
-      // 没有保存的配置，重置为默认
-      selectedPreset.value = '';
-      console.log('loadApiConfig - 没有保存的配置');
+      console.log('loadApiConfig - 已加载预设配置');
+    }
+
+    // 读取当前选中的预设
+    const savedPreset = window.utools.db.get('translator_selected_preset');
+    if (savedPreset && savedPreset.data) {
+      selectedPreset.value = savedPreset.data;
+      console.log('loadApiConfig - 当前预设:', selectedPreset.value);
     }
 
     // 使用 setTimeout 延迟重置标记，确保 DOM 更新和事件处理都已完成
-    // 比 nextTick 更可靠
     setTimeout(() => {
       isLoadingConfig = false;
       console.log('loadApiConfig - 加载完成');
     }, 100);
   } catch (e) {
-    console.error('加载配置失败', e);
+    console.error('loadApiConfig - 加载失败:', e);
     isLoadingConfig = false;
   }
 }
@@ -425,14 +406,14 @@ async function translate() {
   translationResult.value = null;
 
   try {
-    const response = await fetch(apiConfig.value.endpoint, {
+    const response = await fetch(currentPresetConfig.value.endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiConfig.value.apiKey}`
+        Authorization: `Bearer ${currentPresetConfig.value.apiKey}`
       },
       body: JSON.stringify({
-        model: apiConfig.value.model,
+        model: currentPresetConfig.value.model,
         messages: [
           {
             role: 'user',
@@ -626,493 +607,5 @@ watch(chineseInput, (newValue) => {
 </script>
 
 <style scoped>
-.github-dark {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  min-height: 100vh;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
-  padding: 16px;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
-}
-
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-header {
-  text-align: center;
-  margin-bottom: 16px;
-  position: relative;
-}
-
-header h1 {
-  font-size: 20px;
-  margin-bottom: 4px;
-  color: #3b82f6;
-  font-weight: 600;
-}
-
-header p {
-  color: var(--text-secondary);
-  font-size: 13px;
-}
-
-.header-controls {
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.btn-theme {
-  padding: 8px 12px;
-  font-size: 18px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  background: var(--bg-secondary);
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-theme:hover {
-  background: var(--bg-tertiary);
-  color: var(--text-primary);
-  transform: rotate(20deg);
-}
-
-.btn-config {
-  padding: 8px 12px;
-  font-size: 18px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  background: var(--bg-secondary);
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.btn-config:hover {
-  background: var(--bg-tertiary);
-  color: var(--text-primary);
-  transform: rotate(45deg);
-}
-
-.card {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 14px;
-  margin-bottom: 10px;
-}
-
-.card h2 {
-  margin-top: 0;
-  margin-bottom: 12px;
-  font-size: 18px;
-  color: var(--text-primary);
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.btn-text {
-  background: transparent;
-  color: #3b82f6;
-  border: none;
-  cursor: pointer;
-  font-size: 13px;
-  padding: 4px 8px;
-}
-
-.btn-text:hover {
-  color: #1d4ed8;
-}
-
-.config-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.config-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
-}
-
-.config-panel {
-  position: relative;
-  background: var(--bg-primary);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  width: 90%;
-  max-width: 500px;
-  max-height: 80vh;
-  overflow-y: auto;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-}
-
-.config-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  background: var(--bg-primary);
-  z-index: 1;
-}
-
-.config-header h2 {
-  margin: 0;
-  font-size: 18px;
-  color: var(--text-primary);
-}
-
-.btn-close {
-  padding: 4px 10px;
-  font-size: 24px;
-  line-height: 1;
-  border: none;
-  background: transparent;
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: color 0.2s;
-}
-
-.btn-close:hover {
-  color: var(--text-primary);
-}
-
-.config-content {
-  padding: 20px;
-}
-
-.form-group {
-  margin-bottom: 16px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 6px;
-  color: var(--text-secondary);
-  font-size: 14px;
-}
-
-.input {
-  width: 100%;
-  padding: 10px 12px;
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-dark);
-  border-radius: 6px;
-  color: var(--text-primary);
-  font-size: 14px;
-  box-sizing: border-box;
-}
-
-.input:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
-}
-
-.textarea {
-  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
-  resize: vertical;
-  line-height: 1.6;
-}
-
-.status-tip {
-  font-size: 13px;
-  color: var(--text-secondary);
-}
-
-.keyboard-hints {
-  margin-left: 12px;
-  font-size: 12px;
-  color: var(--text-secondary);
-  opacity: 0.8;
-}
-
-.result-group {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 18px;
-  margin-bottom: 16px;
-}
-
-.result-title {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 24px;
-  padding-bottom: 18px;
-  border-bottom: 3px solid var(--border);
-  transition: border-color 0.2s;
-}
-
-.result-index {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  color: #ffffff;
-  border-radius: 50%;
-  font-size: 15px;
-  font-weight: 700;
-  flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
-}
-
-.result-chinese {
-  font-size: 26px;
-  font-weight: 700;
-  color: #3b82f6;
-  letter-spacing: 0.5px;
-}
-
-.naming-types {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 16px;
-}
-
-.naming-type {
-  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px;
-  transition: all 0.2s;
-}
-
-.naming-type:hover {
-  border-color: var(--border-dark);
-  background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--border-dark) 100%);
-}
-
-.type-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 14px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid var(--border-dark);
-  transition: border-color 0.2s;
-}
-
-.type-header:hover {
-  border-bottom-color: var(--text-secondary);
-}
-
-.type-icon {
-  font-size: 20px;
-  flex-shrink: 0;
-}
-
-.type-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  flex: 1;
-}
-
-.type-label {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-primary);
-  letter-spacing: 0.3px;
-}
-
-.type-desc {
-  font-size: 12px;
-  color: var(--text-secondary);
-  font-weight: 400;
-  letter-spacing: 0.2px;
-}
-
-.naming-options {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.naming-option {
-  background: var(--bg-primary);
-  border-radius: 4px;
-  padding: 10px;
-}
-
-.option-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.style-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 4px 5px;
-  background: var(--bg-tertiary);
-  border-radius: 4px;
-  transition: all 0.2s;
-}
-
-.style-row:hover {
-  background: var(--border-dark);
-}
-
-.style-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  background: var(--bg-secondary);
-  padding: 4px 8px;
-  border-radius: 3px;
-  flex-shrink: 0;
-  min-width: 110px;
-  text-align: center;
-  letter-spacing: 0.2px;
-  border: 1px solid var(--border);
-  transition: all 0.2s;
-}
-
-.style-row:hover .style-label {
-  background: var(--border-dark);
-  border-color: var(--text-secondary);
-  color: var(--text-primary);
-}
-
-.code-text {
-  flex: 1;
-  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
-  color: #3b82f6;
-  font-size: 18px;
-  font-weight: 500;
-  background: transparent;
-  border: none;
-  padding: 0;
-  word-break: break-all;
-  letter-spacing: 0.3px;
-}
-
-.copy-btn {
-  padding: 4px 8px;
-  font-size: 12px;
-  border: 1px solid #d1d5db;
-  background: #f9fafb;
-  border-radius: 4px;
-  cursor: pointer;
-  opacity: 0.7;
-  transition: all 0.2s;
-  flex-shrink: 0;
-  min-width: 28px;
-  text-align: center;
-}
-
-.copy-btn:hover {
-  opacity: 1;
-  background: #e5e7eb;
-  transform: scale(1.05);
-}
-
-.copy-btn.copied {
-  background: #10b981;
-  color: #ffffff;
-  opacity: 1;
-  border-color: #10b981;
-  animation: copySuccess 0.3s ease;
-}
-
-@keyframes copySuccess {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.15);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
-.result-actions {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.btn-copy {
-  padding: 4px 8px;
-  font-size: 12px;
-  border: 1px solid #30363d;
-  background: #21262d;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.btn-copy:hover {
-  background: #30363d;
-}
-
-.error-card {
-  border-color: #dc2626;
-  background: rgba(220, 38, 38, 0.05);
-}
-
-.phonetic-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 5px;
-  background: var(--bg-secondary);
-  border-radius: 4px;
-  margin-top: 8px;
-  border: 1px solid var(--border);
-}
-
-.phonetic-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  flex-shrink: 0;
-  min-width: 80px;
-}
-
-.pinyin-box {
-  flex: 1;
-  background: var(--bg-primary);
-  border: 1px solid var(--border-dark);
-  border-radius: 4px;
-  padding: 6px 10px;
-  color: #3b82f6;
-  font-weight: 600;
-  font-size: 14px;
-  letter-spacing: 0.3px;
-}
+@import './index.css';
 </style>
