@@ -247,16 +247,41 @@ function applyPreset() {
     return;
   }
   console.log('applyPreset - 切换预设:', selectedPreset.value);
-  // 预设切换时，自动从已保存的配置中加载
-  loadApiConfig();
+  // 如果切换到"自定义"，提示用户
+  if (!selectedPreset.value) {
+    error.value = '请选择一个预设，自定义功能暂不可用';
+    setTimeout(() => {
+      error.value = '';
+    }, 2000);
+    return;
+  }
+  // 预设切换后，配置会自动通过 currentPresetConfig 计算属性切换
+  // 不需要重新加载配置
 }
 
 function saveApiConfig() {
   try {
+    // 如果没有选中预设，提示用户先选择预设
+    if (!selectedPreset.value) {
+      error.value = '请先选择一个预设';
+      setTimeout(() => {
+        error.value = '';
+      }, 2000);
+      return;
+    }
+
+    console.log('saveApiConfig - 保存配置:', {
+      preset: selectedPreset.value,
+      config: presets.value[selectedPreset.value]
+    });
+
+    // 将 Vue 响应式对象转换为普通对象
+    const plainPresets = JSON.parse(JSON.stringify(presets.value));
+
     // 保存所有预设的配置
     window.utools.db.put({
       _id: 'translator_api_config',
-      data: presets.value
+      data: plainPresets
     });
     // 同时保存当前选中的预设
     window.utools.db.put({
@@ -289,22 +314,39 @@ function loadApiConfig() {
 
     // 从 uTools 数据库读取所有预设配置
     const savedPresets = window.utools.db.get('translator_api_config');
+    console.log('loadApiConfig - savedPresets:', savedPresets);
+
     if (savedPresets && savedPresets.data) {
-      // 合并已保存的配置到 presets
+      console.log('loadApiConfig - 已保存的配置:', savedPresets.data);
+      // 直接替换整个 presets 对象
       Object.keys(savedPresets.data).forEach((key) => {
         if (presets.value[key]) {
-          presets.value[key] = { ...presets.value[key], ...savedPresets.data[key] };
+          // 保留原有的结构，只更新值
+          presets.value[key].endpoint = savedPresets.data[key].endpoint || presets.value[key].endpoint;
+          presets.value[key].apiKey = savedPresets.data[key].apiKey || '';
+          presets.value[key].model = savedPresets.data[key].model || presets.value[key].model;
         }
       });
-      console.log('loadApiConfig - 已加载预设配置');
+      console.log('loadApiConfig - 加载后的 presets:', JSON.stringify(presets.value));
     }
 
     // 读取当前选中的预设
     const savedPreset = window.utools.db.get('translator_selected_preset');
+    console.log('loadApiConfig - savedPreset:', savedPreset);
+
     if (savedPreset && savedPreset.data) {
       selectedPreset.value = savedPreset.data;
       console.log('loadApiConfig - 当前预设:', selectedPreset.value);
+    } else if (!selectedPreset.value) {
+      // 如果没有保存的预设且当前没有选中，默认选中第一个预设
+      selectedPreset.value = 'qwen';
+      console.log('loadApiConfig - 使用默认预设: qwen');
     }
+
+    console.log('loadApiConfig - 最终配置:', {
+      selectedPreset: selectedPreset.value,
+      currentConfig: presets.value[selectedPreset.value]
+    });
 
     // 使用 setTimeout 延迟重置标记，确保 DOM 更新和事件处理都已完成
     setTimeout(() => {
