@@ -42,7 +42,7 @@
             </div>
             <div class="form-group">
               <label>API Key</label>
-              <input v-model="apiConfig.apiKey" type="password" class="input" placeholder="sk-..." />
+              <input v-model="apiConfig.apiKey" type="text" class="input" placeholder="sk-..." />
             </div>
             <div class="form-group">
               <label>模型名称</label>
