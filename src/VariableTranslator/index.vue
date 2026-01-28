@@ -2,15 +2,12 @@
   <div class="github-dark" :data-theme="isDarkTheme ? 'dark' : 'light'">
     <div class="container">
       <header>
-        <h1>🔤 中文变量名翻译助手</h1>
         <p>将中文转换为符合编程规范的英文变量名</p>
         <div class="header-controls">
           <button @click="toggleTheme" class="btn-theme" :title="isDarkTheme ? '切换到亮色' : '切换到暗色'">
             {{ isDarkTheme ? '☀️' : '🌙' }}
           </button>
-          <button @click="toggleApiConfig" class="btn-config" title="API配置">
-            ⚙️
-          </button>
+          <button @click="toggleApiConfig" class="btn-config" title="API配置">⚙️</button>
         </div>
       </header>
 
@@ -27,7 +24,6 @@
               <label>选择预设</label>
               <select v-model="selectedPreset" @change="applyPreset" class="input">
                 <option value="">自定义</option>
-                <option value="openai">OpenAI</option>
                 <option value="qwen">通义千问</option>
                 <option value="deepseek">DeepSeek</option>
                 <option value="zhipu">智谱 GLM</option>
@@ -36,8 +32,12 @@
             </div>
             <div class="form-group">
               <label>API 端点</label>
-              <input v-model="apiConfig.endpoint" type="text" class="input"
-                placeholder="https://api.example.com/v1/chat/completions" />
+              <input
+                v-model="apiConfig.endpoint"
+                type="text"
+                class="input"
+                placeholder="https://api.example.com/v1/chat/completions"
+              />
               <span class="input-tip">支持 OpenAI 兼容格式的接口</span>
             </div>
             <div class="form-group">
@@ -58,8 +58,12 @@
       <div class="card">
         <h2>✍️ 输入中文</h2>
         <div class="form-group">
-          <textarea v-model="chineseInput" class="input textarea" placeholder="例如：用户名称,获取用户信息;输入完成后将自动翻译..."
-            rows="1"></textarea>
+          <textarea
+            v-model="chineseInput"
+            class="input textarea"
+            placeholder="例如：用户名称,获取用户信息;输入完成后将自动翻译..."
+            rows="1"
+          ></textarea>
         </div>
 
         <div class="status-bar">
@@ -94,37 +98,43 @@
                   <div class="option-group">
                     <div class="style-row">
                       <code class="code-text">{{ option.camelCase }}</code>
-                      <button @click="copyToClipboard(option.camelCase, getButtonId(index, mode.value, idx, 'camel'))"
+                      <button
+                        @click="copyToClipboard(option.camelCase, getButtonId(index, mode.value, idx, 'camel'))"
                         class="copy-btn"
-                        :class="{ 'copied': copiedButton === getButtonId(index, mode.value, idx, 'camel') }">
+                        :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'camel') }"
+                      >
                         {{ copiedButton === getButtonId(index, mode.value, idx, 'camel') ? '✓' : '📋' }}
                       </button>
                     </div>
                     <div class="style-row">
                       <code class="code-text">{{ option.snake_case }}</code>
-                      <button @click="copyToClipboard(option.snake_case, getButtonId(index, mode.value, idx, 'snake'))"
+                      <button
+                        @click="copyToClipboard(option.snake_case, getButtonId(index, mode.value, idx, 'snake'))"
                         class="copy-btn"
-                        :class="{ 'copied': copiedButton === getButtonId(index, mode.value, idx, 'snake') }">
+                        :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'snake') }"
+                      >
                         {{ copiedButton === getButtonId(index, mode.value, idx, 'snake') ? '✓' : '📋' }}
                       </button>
                     </div>
                     <div class="style-row">
                       <code class="code-text">{{ option.PascalCase }}</code>
-                      <button @click="copyToClipboard(option.PascalCase, getButtonId(index, mode.value, idx, 'pascal'))"
+                      <button
+                        @click="copyToClipboard(option.PascalCase, getButtonId(index, mode.value, idx, 'pascal'))"
                         class="copy-btn"
-                        :class="{ 'copied': copiedButton === getButtonId(index, mode.value, idx, 'pascal') }">
+                        :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'pascal') }"
+                      >
                         {{ copiedButton === getButtonId(index, mode.value, idx, 'pascal') ? '✓' : '📋' }}
                       </button>
                     </div>
                     <div v-if="option.phonetic" class="phonetic-row">
                       <span class="phonetic-label">🎧 谐音：</span>
                       <div class="pinyin-box">{{ option.phonetic }}</div>
-                      <button @click="speakPhonetic(option.camelCase)" class="copy-btn" title="读出英文发音">
-                        🔊
-                      </button>
-                      <button @click="copyToClipboard(option.phonetic, getButtonId(index, mode.value, idx, 'phonetic'))"
+                      <button @click="speakPhonetic(option.camelCase)" class="copy-btn" title="读出英文发音">🔊</button>
+                      <button
+                        @click="copyToClipboard(option.phonetic, getButtonId(index, mode.value, idx, 'phonetic'))"
                         class="copy-btn"
-                        :class="{ 'copied': copiedButton === getButtonId(index, mode.value, idx, 'phonetic') }">
+                        :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'phonetic') }"
+                      >
                         {{ copiedButton === getButtonId(index, mode.value, idx, 'phonetic') ? '✓' : '📋' }}
                       </button>
                     </div>
@@ -139,7 +149,6 @@
           <button @click="clearResults" class="btn btn-outline">🗑️ 清空结果</button>
         </div>
       </div>
-
 
       <!-- 错误提示 -->
       <div v-if="error" class="card error-card">
@@ -181,10 +190,6 @@ const isFromUtools = ref(false); // 标记是否来自 uTools 的自动填充
 
 // API 预设配置
 const presets = {
-  openai: {
-    endpoint: 'https://api.openai.com/v1/chat/completions',
-    model: 'gpt-3.5-turbo'
-  },
   qwen: {
     endpoint: 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',
     model: 'qwen-turbo'
@@ -300,8 +305,7 @@ function loadApiConfig() {
       if (savedPreset && presets[savedPreset]) {
         const preset = presets[savedPreset];
         // 只有当保存的配置与预设完全匹配时，才设置 preset
-        if (apiConfig.value.endpoint === preset.endpoint &&
-            apiConfig.value.model === preset.model) {
+        if (apiConfig.value.endpoint === preset.endpoint && apiConfig.value.model === preset.model) {
           selectedPreset.value = savedPreset;
         } else {
           selectedPreset.value = '';
@@ -370,8 +374,6 @@ function speakPhonetic(englishText) {
   }
 }
 
-
-
 function getPrompt() {
   return `你是一个专业的编程命名助手。请将以下中文翻译为符合编程规范的英文命名。
 
@@ -427,7 +429,7 @@ async function translate() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiConfig.value.apiKey}`
+        Authorization: `Bearer ${apiConfig.value.apiKey}`
       },
       body: JSON.stringify({
         model: apiConfig.value.model,
@@ -458,14 +460,10 @@ async function translate() {
 
       const parsed = JSON.parse(jsonText);
       translationResult.value = Array.isArray(parsed) ? parsed : [parsed];
-
-
-
     } catch (parseError) {
       console.error('JSON解析错误:', parseError, '\n原始内容:', resultText);
       throw new Error('翻译结果格式错误，请重试');
     }
-
   } catch (e) {
     error.value = e.message || '翻译失败，请检查 API 配置';
   } finally {
@@ -491,15 +489,11 @@ function getButtonId(resultIndex, modeValue, optionIndex, styleType) {
   return `${resultIndex}-${modeValue}-${optionIndex}-${styleType}`;
 }
 
-
-
 function clearResults() {
   translationResult.value = null;
   chineseInput.value = '';
   error.value = '';
 }
-
-
 
 // 键盘快捷键处理
 function handleKeyDown(event) {
@@ -538,44 +532,48 @@ onMounted(() => {
 });
 
 // 监听 enterAction 变化，处理 uTools 输入
-watch(() => props.enterAction, (action) => {
-  if (!action || !action.payload) {
-    return;
-  }
+watch(
+  () => props.enterAction,
+  (action) => {
+    if (!action || !action.payload) {
+      return;
+    }
 
-  // 每次进入时重新加载配置，确保数据不丢失
-  loadApiConfig();
+    // 每次进入时重新加载配置，确保数据不丢失
+    loadApiConfig();
 
-  let text = '';
+    let text = '';
 
-  // 处理 over 类型（从搜索框过来的文本）
-  if (action.type === 'over') {
-    if (typeof action.payload === 'string') {
+    // 处理 over 类型（从搜索框过来的文本）
+    if (action.type === 'over') {
+      if (typeof action.payload === 'string') {
+        text = action.payload;
+      } else if (action.payload.text) {
+        text = action.payload.text;
+      }
+    }
+    // 处理直接输入的情况
+    else if (typeof action.payload === 'string') {
       text = action.payload;
     } else if (action.payload.text) {
       text = action.payload.text;
     }
-  }
-  // 处理直接输入的情况
-  else if (typeof action.payload === 'string') {
-    text = action.payload;
-  } else if (action.payload.text) {
-    text = action.payload.text;
-  }
 
-  // 如果获取到文本，填充并翻译
-  if (text.trim()) {
-    // 先设置标记
-    isFromUtools.value = true;
-    // 使用 nextTick 确保在下一个 tick 设置值，这样 watch 能正确触发
-    nextTick(() => {
-      chineseInput.value = text.trim();
-    });
+    // 如果获取到文本，填充并翻译
+    if (text.trim()) {
+      // 先设置标记
+      isFromUtools.value = true;
+      // 使用 nextTick 确保在下一个 tick 设置值，这样 watch 能正确触发
+      nextTick(() => {
+        chineseInput.value = text.trim();
+      });
+    }
+  },
+  {
+    immediate: true,
+    deep: true
   }
-}, {
-  immediate: true,
-  deep: true
-});
+);
 
 onUnmounted(() => {
   // 清理键盘事件监听
@@ -634,7 +632,9 @@ watch(chineseInput, (newValue) => {
   min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
   padding: 16px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 .container {
