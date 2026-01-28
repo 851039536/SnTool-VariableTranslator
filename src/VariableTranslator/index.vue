@@ -270,13 +270,17 @@ function saveApiConfig() {
       return;
     }
 
-    console.log('saveApiConfig - 保存配置:', {
+    console.log('saveApiConfig - 保存配置前 presets.value:', JSON.stringify(presets.value));
+    console.log('saveApiConfig - 当前预设配置:', {
       preset: selectedPreset.value,
-      config: presets.value[selectedPreset.value]
+      endpoint: presets.value[selectedPreset.value].endpoint,
+      apiKey: presets.value[selectedPreset.value].apiKey,
+      model: presets.value[selectedPreset.value].model
     });
 
     // 将 Vue 响应式对象转换为普通对象
     const plainPresets = JSON.parse(JSON.stringify(presets.value));
+    console.log('saveApiConfig - 转换后的 plainPresets:', JSON.stringify(plainPresets));
 
     // 保存所有预设的配置
     window.utools.db.put({
@@ -288,6 +292,13 @@ function saveApiConfig() {
       _id: 'translator_selected_preset',
       data: selectedPreset.value
     });
+
+    // 立即验证保存是否成功
+    setTimeout(() => {
+      const verify = window.utools.db.get('translator_api_config');
+      console.log('saveApiConfig - 验证保存结果:', verify);
+    }, 100);
+
     configSaved.value = true;
     setTimeout(() => {
       configSaved.value = false;
@@ -318,15 +329,33 @@ function loadApiConfig() {
 
     if (savedPresets && savedPresets.data) {
       console.log('loadApiConfig - 已保存的配置:', savedPresets.data);
-      // 直接替换整个 presets 对象
-      Object.keys(savedPresets.data).forEach((key) => {
-        if (presets.value[key]) {
-          // 保留原有的结构，只更新值
-          presets.value[key].endpoint = savedPresets.data[key].endpoint || presets.value[key].endpoint;
-          presets.value[key].apiKey = savedPresets.data[key].apiKey || '';
-          presets.value[key].model = savedPresets.data[key].model || presets.value[key].model;
+
+      // 检查数据格式：如果是旧格式（扁平结构），需要迁移
+      if (savedPresets.data.preset && !savedPresets.data.qwen) {
+        console.log('loadApiConfig - 检测到旧格式数据，进行迁移');
+        // 旧格式：{ endpoint, apiKey, model, preset }
+        // 迁移到新格式
+        const oldPreset = savedPresets.data.preset;
+        if (oldPreset && presets.value[oldPreset]) {
+          presets.value[oldPreset].endpoint = savedPresets.data.endpoint || presets.value[oldPreset].endpoint;
+          presets.value[oldPreset].apiKey = savedPresets.data.apiKey || '';
+          presets.value[oldPreset].model = savedPresets.data.model || presets.value[oldPreset].model;
+          console.log('loadApiConfig - 已迁移旧数据到预设:', oldPreset);
         }
-      });
+        // 删除旧格式数据
+        window.utools.db.remove('translator_api_config');
+        console.log('loadApiConfig - 已删除旧格式数据');
+      } else {
+        // 新格式：{ qwen: {...}, deepseek: {...}, ... }
+        Object.keys(savedPresets.data).forEach((key) => {
+          if (presets.value[key]) {
+            // 保留原有的结构，只更新值
+            presets.value[key].endpoint = savedPresets.data[key].endpoint || presets.value[key].endpoint;
+            presets.value[key].apiKey = savedPresets.data[key].apiKey || '';
+            presets.value[key].model = savedPresets.data[key].model || presets.value[key].model;
+          }
+        });
+      }
       console.log('loadApiConfig - 加载后的 presets:', JSON.stringify(presets.value));
     }
 
