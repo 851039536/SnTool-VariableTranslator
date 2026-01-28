@@ -365,44 +365,6 @@ function loadApiConfig() {
   }
 }
 
-// Web Speech API 方法 - 播放英文发音
-function speakPhonetic(englishText) {
-  // 检查浏览器是否支持 Web Speech API
-  const SpeechSynthesisUtterance = window.SpeechSynthesisUtterance || window.webkitSpeechSynthesisUtterance;
-  const speechSynthesis = window.speechSynthesis;
-
-  if (!SpeechSynthesisUtterance || !speechSynthesis) {
-    error.value = '你的浏览器不支持 Web Speech API';
-    setTimeout(() => {
-      error.value = '';
-    }, 2000);
-    return;
-  }
-
-  try {
-    // 取消正在播放的音声
-    if (speechSynthesis.speaking) {
-      speechSynthesis.cancel();
-    }
-
-    // 创建语音对象
-    const utterance = new SpeechSynthesisUtterance(englishText);
-    utterance.lang = 'en-US';
-    utterance.rate = 1; // 正常速度
-    utterance.pitch = 1;
-    utterance.volume = 1;
-
-    // 播放语音
-    speechSynthesis.speak(utterance);
-  } catch (e) {
-    console.error('Web Speech API 错误:', e);
-    error.value = '音频播放失败';
-    setTimeout(() => {
-      error.value = '';
-    }, 2000);
-  }
-}
-
 function getPrompt() {
   return `你是一个专业的编程命名助手。请将以下中文翻译为符合编程规范的英文命名。
 
