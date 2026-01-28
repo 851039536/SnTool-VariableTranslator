@@ -230,18 +230,18 @@ header p {
 .result-group {
   background: var(--bg-secondary);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 18px;
-  margin-bottom: 16px;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 10px;
 }
 
 .result-title {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 24px;
-  padding-bottom: 18px;
-  border-bottom: 3px solid var(--border);
+  gap: 8px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
   transition: border-color 0.2s;
 }
 
@@ -249,35 +249,35 @@ header p {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 22px;
+  height: 22px;
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   color: #ffffff;
   border-radius: 50%;
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 600;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 1px 4px rgba(59, 130, 246, 0.3);
 }
 
 .result-chinese {
-  font-size: 26px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 600;
   color: #3b82f6;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.2px;
 }
 
 .naming-types {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
 }
 
 .naming-type {
   background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px;
+  border-radius: 6px;
+  padding: 10px;
   transition: all 0.2s;
 }
 
@@ -289,10 +289,10 @@ header p {
 .type-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 14px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid var(--border-dark);
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border-dark);
   transition: border-color 0.2s;
 }
 
@@ -301,56 +301,56 @@ header p {
 }
 
 .type-icon {
-  font-size: 20px;
+  font-size: 14px;
   flex-shrink: 0;
 }
 
 .type-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
   flex: 1;
 }
 
 .type-label {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--text-primary);
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
 }
 
 .type-desc {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-secondary);
   font-weight: 400;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.1px;
 }
 
 .naming-options {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 6px;
 }
 
 .naming-option {
   background: var(--bg-primary);
-  border-radius: 4px;
-  padding: 10px;
+  border-radius: 3px;
+  padding: 6px;
 }
 
 .option-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
 }
 
 .style-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 4px 5px;
+  gap: 6px;
+  padding: 3px 4px;
   background: var(--bg-tertiary);
-  border-radius: 4px;
+  border-radius: 3px;
   transition: all 0.2s;
 }
 
@@ -383,26 +383,26 @@ header p {
   flex: 1;
   font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
   color: #3b82f6;
-  font-size: 18px;
+  font-size: 13px;
   font-weight: 500;
   background: transparent;
   border: none;
   padding: 0;
   word-break: break-all;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
 }
 
 .copy-btn {
-  padding: 4px 8px;
-  font-size: 12px;
+  padding: 2px 6px;
+  font-size: 11px;
   border: 1px solid #d1d5db;
   background: #f9fafb;
-  border-radius: 4px;
+  border-radius: 3px;
   cursor: pointer;
   opacity: 0.7;
   transition: all 0.2s;
   flex-shrink: 0;
-  min-width: 28px;
+  min-width: 22px;
   text-align: center;
 }
 
@@ -435,7 +435,7 @@ header p {
 }
 
 .result-actions {
-  margin-top: 20px;
+  margin-top: 12px;
   text-align: center;
 }
 
@@ -460,30 +460,30 @@ header p {
 .phonetic-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 5px;
+  gap: 6px;
+  padding: 4px;
   background: var(--bg-secondary);
-  border-radius: 4px;
-  margin-top: 8px;
+  border-radius: 3px;
+  margin-top: 4px;
   border: 1px solid var(--border);
 }
 
 .phonetic-label {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 500;
   color: var(--text-secondary);
   flex-shrink: 0;
-  min-width: 80px;
+  min-width: 60px;
 }
 
 .pinyin-box {
   flex: 1;
   background: var(--bg-primary);
   border: 1px solid var(--border-dark);
-  border-radius: 4px;
-  padding: 6px 10px;
+  border-radius: 3px;
+  padding: 3px 6px;
   color: #3b82f6;
-  font-weight: 600;
-  font-size: 14px;
-  letter-spacing: 0.3px;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.2px;
 }

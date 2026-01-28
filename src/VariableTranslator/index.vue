@@ -126,18 +126,6 @@
                         {{ copiedButton === getButtonId(index, mode.value, idx, 'pascal') ? '✓' : '📋' }}
                       </button>
                     </div>
-                    <div v-if="option.phonetic" class="phonetic-row">
-                      <span class="phonetic-label">🎧 谐音：</span>
-                      <div class="pinyin-box">{{ option.phonetic }}</div>
-                      <button @click="speakPhonetic(option.camelCase)" class="copy-btn" title="读出英文发音">🔊</button>
-                      <button
-                        @click="copyToClipboard(option.phonetic, getButtonId(index, mode.value, idx, 'phonetic'))"
-                        class="copy-btn"
-                        :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'phonetic') }"
-                      >
-                        {{ copiedButton === getButtonId(index, mode.value, idx, 'phonetic') ? '✓' : '📋' }}
-                      </button>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -280,7 +268,6 @@ function saveApiConfig() {
 
     // 将 Vue 响应式对象转换为普通对象
     const plainPresets = JSON.parse(JSON.stringify(presets.value));
-    console.log('saveApiConfig - 转换后的 plainPresets:', JSON.stringify(plainPresets));
 
     // 保存所有预设的配置
     window.utools.db.put({
@@ -296,14 +283,12 @@ function saveApiConfig() {
     // 立即验证保存是否成功
     setTimeout(() => {
       const verify = window.utools.db.get('translator_api_config');
-      console.log('saveApiConfig - 验证保存结果:', verify);
     }, 100);
 
     configSaved.value = true;
     setTimeout(() => {
       configSaved.value = false;
     }, 2000);
-    console.log('saveApiConfig - 保存成功');
   } catch (e) {
     console.error('saveApiConfig - 保存失败:', e);
     error.value = '保存配置失败';
@@ -315,21 +300,16 @@ let isLoadingConfig = false; // 标记是否正在加载配置，防止触发 ap
 function loadApiConfig() {
   // 防止重复调用
   if (isLoadingConfig) {
-    console.log('loadApiConfig - 已在加载中，跳过');
     return;
   }
 
   try {
     isLoadingConfig = true; // 开始加载配置
-    console.log('loadApiConfig - 开始加载配置');
 
     // 从 uTools 数据库读取所有预设配置
     const savedPresets = window.utools.db.get('translator_api_config');
-    console.log('loadApiConfig - savedPresets:', savedPresets);
 
     if (savedPresets && savedPresets.data) {
-      console.log('loadApiConfig - 已保存的配置:', savedPresets.data);
-
       // 检查数据格式：如果是旧格式（扁平结构），需要迁移
       if (savedPresets.data.preset && !savedPresets.data.qwen) {
         console.log('loadApiConfig - 检测到旧格式数据，进行迁移');
@@ -344,7 +324,6 @@ function loadApiConfig() {
         }
         // 删除旧格式数据
         window.utools.db.remove('translator_api_config');
-        console.log('loadApiConfig - 已删除旧格式数据');
       } else {
         // 新格式：{ qwen: {...}, deepseek: {...}, ... }
         Object.keys(savedPresets.data).forEach((key) => {
@@ -356,7 +335,6 @@ function loadApiConfig() {
           }
         });
       }
-      console.log('loadApiConfig - 加载后的 presets:', JSON.stringify(presets.value));
     }
 
     // 读取当前选中的预设
@@ -380,7 +358,6 @@ function loadApiConfig() {
     // 使用 setTimeout 延迟重置标记，确保 DOM 更新和事件处理都已完成
     setTimeout(() => {
       isLoadingConfig = false;
-      console.log('loadApiConfig - 加载完成');
     }, 100);
   } catch (e) {
     console.error('loadApiConfig - 加载失败:', e);
