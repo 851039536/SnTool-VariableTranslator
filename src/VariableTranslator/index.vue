@@ -230,10 +230,17 @@ function toggleTheme() {
 }
 
 function applyPreset() {
+  // 如果正在加载配置，不应用预设，避免覆盖已保存的配置
+  if (isLoadingConfig) {
+    console.log('applyPreset - 加载配置中，跳过');
+    return;
+  }
+  console.log('applyPreset - 应用预设:', selectedPreset.value);
   if (selectedPreset.value && presets[selectedPreset.value]) {
     const preset = presets[selectedPreset.value];
     apiConfig.value.endpoint = preset.endpoint;
     apiConfig.value.model = preset.model;
+    console.log('applyPreset - 已应用:', preset);
   }
 }
 
@@ -243,6 +250,7 @@ function saveApiConfig() {
       ...apiConfig.value,
       preset: selectedPreset.value
     };
+    console.log('saveApiConfig - 保存配置:', config);
     // 使用 uTools 数据库存储
     window.utools.db.put({
       _id: 'translator_api_config',
@@ -252,26 +260,75 @@ function saveApiConfig() {
     setTimeout(() => {
       configSaved.value = false;
     }, 2000);
+    console.log('saveApiConfig - 保存成功');
   } catch (e) {
+    console.error('saveApiConfig - 保存失败:', e);
     error.value = '保存配置失败';
   }
 }
 
+let isLoadingConfig = false; // 标记是否正在加载配置，防止触发 applyPreset
+
 function loadApiConfig() {
+  // 防止重复调用
+  if (isLoadingConfig) {
+    console.log('loadApiConfig - 已在加载中，跳过');
+    return;
+  }
+
   try {
+    isLoadingConfig = true; // 开始加载配置
+    console.log('loadApiConfig - 开始加载配置');
+
     // 从 uTools 数据库读取
     const saved = window.utools.db.get('translator_api_config');
+    console.log('loadApiConfig - saved:', saved);
+
     if (saved && saved.data) {
       const config = saved.data;
+      console.log('loadApiConfig - config:', config);
+
       apiConfig.value = {
         endpoint: config.endpoint || '',
         apiKey: config.apiKey || '',
         model: config.model || 'gpt-3.5-turbo'
       };
-      selectedPreset.value = config.preset || '';
+
+      // 检查保存的预设是否与当前配置匹配，如果匹配才设置
+      // 否则设置为空（自定义），避免触发 applyPreset 导致覆盖
+      const savedPreset = config.preset || '';
+      if (savedPreset && presets[savedPreset]) {
+        const preset = presets[savedPreset];
+        // 只有当保存的配置与预设完全匹配时，才设置 preset
+        if (apiConfig.value.endpoint === preset.endpoint &&
+            apiConfig.value.model === preset.model) {
+          selectedPreset.value = savedPreset;
+        } else {
+          selectedPreset.value = '';
+        }
+      } else {
+        selectedPreset.value = '';
+      }
+
+      console.log('loadApiConfig - applied:', {
+        apiConfig: apiConfig.value,
+        selectedPreset: selectedPreset.value
+      });
+    } else {
+      // 没有保存的配置，重置为默认
+      selectedPreset.value = '';
+      console.log('loadApiConfig - 没有保存的配置');
     }
+
+    // 使用 setTimeout 延迟重置标记，确保 DOM 更新和事件处理都已完成
+    // 比 nextTick 更可靠
+    setTimeout(() => {
+      isLoadingConfig = false;
+      console.log('loadApiConfig - 加载完成');
+    }, 100);
   } catch (e) {
     console.error('加载配置失败', e);
+    isLoadingConfig = false;
   }
 }
 
@@ -472,7 +529,10 @@ function handleKeyDown(event) {
 }
 
 onMounted(() => {
-  loadApiConfig();
+  // 延迟加载配置，避免与 watch enterAction 冲突
+  setTimeout(() => {
+    loadApiConfig();
+  }, 50);
   // 注册键盘事件监听
   window.addEventListener('keydown', handleKeyDown);
 });
