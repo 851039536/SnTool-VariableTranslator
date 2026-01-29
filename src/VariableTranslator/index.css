@@ -394,13 +394,9 @@ header p {
 }
 
 .copy-btn {
-  padding: 2px 6px;
   font-size: 11px;
-  border: 1px solid #d1d5db;
-  background: #f9fafb;
   border-radius: 3px;
   cursor: pointer;
-  opacity: 0.7;
   transition: all 0.2s;
   flex-shrink: 0;
   min-width: 22px;

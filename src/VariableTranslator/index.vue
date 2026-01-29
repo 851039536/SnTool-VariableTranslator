@@ -99,7 +99,13 @@
                         class="copy-btn"
                         :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'camel') }"
                       >
-                        {{ copiedButton === getButtonId(index, mode.value, idx, 'camel') ? '✓' : '📋' }}
+                        <svg v-if="copiedButton === getButtonId(index, mode.value, idx, 'camel')" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
                       </button>
                     </div>
                     <div class="style-row">
@@ -109,7 +115,13 @@
                         class="copy-btn"
                         :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'snake') }"
                       >
-                        {{ copiedButton === getButtonId(index, mode.value, idx, 'snake') ? '✓' : '📋' }}
+                        <svg v-if="copiedButton === getButtonId(index, mode.value, idx, 'snake')" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
                       </button>
                     </div>
                     <div class="style-row">
@@ -119,7 +131,13 @@
                         class="copy-btn"
                         :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'pascal') }"
                       >
-                        {{ copiedButton === getButtonId(index, mode.value, idx, 'pascal') ? '✓' : '📋' }}
+                        <svg v-if="copiedButton === getButtonId(index, mode.value, idx, 'pascal')" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
                       </button>
                     </div>
                   </div>
