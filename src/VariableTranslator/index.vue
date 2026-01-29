@@ -58,12 +58,7 @@
       <div class="card">
         <h2>✍️ 输入中文</h2>
         <div class="form-group">
-          <textarea
-            v-model="chineseInput"
-            class="input textarea"
-            placeholder="例如：用户名称"
-            rows="1"
-          ></textarea>
+          <textarea v-model="chineseInput" class="input textarea" placeholder="例如：用户名称" rows="1"></textarea>
         </div>
 
         <div class="status-bar">
@@ -77,14 +72,11 @@
 
       <!-- 翻译结果 -->
       <div v-if="translationResult && translationResult.length > 0" class="result-card">
-        <div class="result-source">
-          <span v-if="isFromCache" class="cache-badge">💾 来自缓存</span>
-          <span v-else class="api-badge">🌐 API 翻译</span>
-        </div>
         <div v-for="(result, index) in translationResult" :key="index" class="result-group">
           <div class="result-title">
-            <span class="result-index">{{ index + 1 }}</span>
             <span class="result-chinese">{{ result.chinese }}</span>
+            <span v-if="isFromCache" class="cache-badge">💾 来自缓存</span>
+            <span v-else class="api-badge">🌐 API 翻译</span>
           </div>
 
           <div class="naming-types">
@@ -136,7 +128,6 @@
             </div>
           </div>
         </div>
-
       </div>
 
       <!-- 错误提示 -->
