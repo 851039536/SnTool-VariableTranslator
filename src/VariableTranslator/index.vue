@@ -61,7 +61,7 @@
           <textarea
             v-model="chineseInput"
             class="input textarea"
-            placeholder="例如：用户名称,获取用户信息;输入完成后将自动翻译..."
+            placeholder="例如：用户名称"
             rows="1"
           ></textarea>
         </div>
@@ -406,6 +406,15 @@ ${chineseInput.value}`;
 
 async function translate() {
   if (!chineseInput.value.trim() || !isApiConfigured.value) return;
+
+  // 超过15个字符不翻译
+  if (chineseInput.value.length > 15) {
+    error.value = '输入过长，请控制在15字以内';
+    setTimeout(() => {
+      error.value = '';
+    }, 2000);
+    return;
+  }
 
   isTranslating.value = true;
   error.value = '';
