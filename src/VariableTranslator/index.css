@@ -231,18 +231,17 @@ header p {
   background: var(--bg-secondary);
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 12px;
-  margin-bottom: 10px;
+  padding: 4px;
+  margin-bottom: 6px;
 }
 
 .result-title {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 4px;
   padding-bottom: 8px;
   border-bottom: 1px solid var(--border);
-  transition: border-color 0.2s;
 }
 
 .result-index {
@@ -277,7 +276,7 @@ header p {
   background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 10px;
+  padding: 2px;
   transition: all 0.2s;
 }
 
@@ -290,8 +289,8 @@ header p {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 8px;
-  padding-bottom: 6px;
+  margin-bottom: 4px;
+  padding-bottom: 4px;
   border-bottom: 1px solid var(--border-dark);
   transition: border-color 0.2s;
 }
@@ -313,7 +312,7 @@ header p {
 }
 
 .type-label {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--text-primary);
   letter-spacing: 0.2px;
@@ -381,9 +380,11 @@ header p {
 
 .code-text {
   flex: 1;
-  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, monospace;
+  font-family:
+    'FZCode', 'FZFangSong', 'FZShuSong', '方正书宋', '方正仿宋', ui-monospace, SFMono-Regular, 'SF Mono', Menlo,
+    Consolas, monospace;
   color: #3b82f6;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 500;
   background: transparent;
   border: none;
