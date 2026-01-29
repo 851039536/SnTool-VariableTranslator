@@ -71,7 +71,7 @@
           <span v-else-if="!isApiConfigured" class="status-tip error">⚠️ 请先配置 API</span>
           <span v-else-if="chineseInput.trim()" class="status-tip ready">✓ 就绪，稍后自动翻译</span>
           <span v-else class="status-tip">✏️ 请输入中文</span>
-          <span class="keyboard-hints">💡 Ctrl+Enter 立即翻译 | Ctrl+K 清空</span>
+          <span class="keyboard-hints">💡 Ctrl+Enter 立即翻译</span>
         </div>
       </div>
 
