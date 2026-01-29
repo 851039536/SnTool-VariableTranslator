@@ -77,6 +77,10 @@
 
       <!-- 翻译结果 -->
       <div v-if="translationResult && translationResult.length > 0" class="result-card">
+        <div class="result-source">
+          <span v-if="isFromCache" class="cache-badge">💾 来自缓存</span>
+          <span v-else class="api-badge">🌐 API 翻译</span>
+        </div>
         <div v-for="(result, index) in translationResult" :key="index" class="result-group">
           <div class="result-title">
             <span class="result-index">{{ index + 1 }}</span>
@@ -202,6 +206,7 @@ const chineseInput = ref('');
 const translationResult = ref(null);
 const error = ref('');
 const isTranslating = ref(false);
+const isFromCache = ref(false);
 let debounceTimer = null;
 
 // 计算属性 - 获取当前选中预设的配置
@@ -464,9 +469,13 @@ async function translate() {
     const cachedResult = await loadFromCache();
     if (cachedResult) {
       translationResult.value = cachedResult;
+      isFromCache.value = true;
       isTranslating.value = false;
       return;
     }
+
+    // 缓存未命中，标记为 API 翻译
+    isFromCache.value = false;
 
     // 缓存未命中，调用 API 翻译
     const response = await fetch(currentPresetConfig.value.endpoint, {
