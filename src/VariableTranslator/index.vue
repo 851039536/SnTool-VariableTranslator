@@ -133,9 +133,6 @@
           </div>
         </div>
 
-        <div class="result-actions">
-          <button @click="clearResults" class="btn btn-outline">🗑️ 清空结果</button>
-        </div>
       </div>
 
       <!-- 错误提示 -->
