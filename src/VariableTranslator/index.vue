@@ -404,6 +404,45 @@ function getPrompt() {
 ${chineseInput.value}`;
 }
 
+// 生成缓存键名（基于输入文本和模型的哈希）
+function getCacheKey() {
+  const input = chineseInput.value.trim();
+  const model = currentPresetConfig.value.model || 'default';
+  // 简单哈希：将输入文本和模型名组合
+  return `translator_cache_${model}_${input}`;
+}
+
+// 从缓存加载翻译结果
+async function loadFromCache() {
+  try {
+    const cacheKey = getCacheKey();
+    const cached = window.utools.db.get(cacheKey);
+    if (cached && cached.data) {
+      console.log('从缓存加载翻译结果:', cacheKey);
+      return cached.data;
+    }
+    return null;
+  } catch (e) {
+    console.error('读取缓存失败:', e);
+    return null;
+  }
+}
+
+// 保存翻译结果到缓存
+async function saveToCache(result) {
+  try {
+    const cacheKey = getCacheKey();
+    window.utools.db.put({
+      _id: cacheKey,
+      data: result,
+      timestamp: Date.now()
+    });
+    console.log('翻译结果已缓存:', cacheKey);
+  } catch (e) {
+    console.error('保存缓存失败:', e);
+  }
+}
+
 async function translate() {
   if (!chineseInput.value.trim() || !isApiConfigured.value) return;
 
@@ -421,6 +460,15 @@ async function translate() {
   translationResult.value = null;
 
   try {
+    // 先尝试从缓存加载
+    const cachedResult = await loadFromCache();
+    if (cachedResult) {
+      translationResult.value = cachedResult;
+      isTranslating.value = false;
+      return;
+    }
+
+    // 缓存未命中，调用 API 翻译
     const response = await fetch(currentPresetConfig.value.endpoint, {
       method: 'POST',
       headers: {
@@ -455,7 +503,11 @@ async function translate() {
       }
 
       const parsed = JSON.parse(jsonText);
-      translationResult.value = Array.isArray(parsed) ? parsed : [parsed];
+      const result = Array.isArray(parsed) ? parsed : [parsed];
+      translationResult.value = result;
+
+      // 保存到缓存
+      await saveToCache(result);
     } catch (parseError) {
       console.error('JSON解析错误:', parseError, '\n原始内容:', resultText);
       throw new Error('翻译结果格式错误，请重试');

@@ -42,8 +42,8 @@ header p {
 }
 
 .btn-theme {
-  padding: 8px 12px;
-  font-size: 18px;
+  padding: 2px 12px;
+  font-size: 12px;
   border-radius: 6px;
   border: 1px solid var(--border);
   background: var(--bg-secondary);
@@ -59,8 +59,8 @@ header p {
 }
 
 .btn-config {
-  padding: 8px 12px;
-  font-size: 18px;
+  padding: 2px 12px;
+  font-size: 12px;
   border-radius: 6px;
   border: 1px solid var(--border);
   background: var(--bg-secondary);
