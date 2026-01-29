@@ -379,7 +379,6 @@ function getPrompt() {
    - camelCase:驼峰命名(首字母小写),如:userName
    - snake_case:下划线命名(全小写),如:user_name
    - PascalCase:帕斯卡命名(首字母大写),如:UserName
-   - phonetic:英文发音的谐音(使用英式自然发音,带拼音标注,如:西斯腾(xī sī téng))
 
 3. 语义清晰、简洁、符合英语习惯
 
