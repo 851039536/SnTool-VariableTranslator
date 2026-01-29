@@ -389,16 +389,16 @@ function getPrompt() {
   {
     "chinese": "控制台",
     "variable": [
-      { "camelCase": "console", "snake_case": "console", "PascalCase": "Console", "phonetic": "康萨欧(kāng sà ōu)" }
+      { "camelCase": "console", "snake_case": "console", "PascalCase": "Console" }
     ],
     "method": [
-      { "camelCase": "getConsole", "snake_case": "get_console", "PascalCase": "GetConsole", "phonetic": "盖特康萨欧(gài tè kāng sà ōu)" }
+      { "camelCase": "getConsole", "snake_case": "get_console", "PascalCase": "GetConsole" }
     ],
     "constant": [
-      { "camelCase": "CONSOLE", "snake_case": "CONSOLE", "PascalCase": "CONSOLE", "phonetic": "康萨欧(kāng sà ōu)" }
+      { "camelCase": "CONSOLE", "snake_case": "CONSOLE", "PascalCase": "CONSOLE" }
     ],
     "class": [
-      { "camelCase": "Console", "snake_case": "console", "PascalCase": "Console", "phonetic": "康萨欧(kāng sà ōu)" }
+      { "camelCase": "Console", "snake_case": "console", "PascalCase": "Console" }
     ]
   }
 ]
