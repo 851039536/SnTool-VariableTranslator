@@ -375,7 +375,7 @@ function getPrompt() {
    - constant(常量命名):全大写下划线,如:USER_NAME
    - class(类名):名词,使用PascalCase
 
-2. 每种类型提供1-2个可选方案,每个方案包含3种命名风格和谐音:
+2. 每种类型提供1个方案,每个方案包含3种命名风格:
    - camelCase:驼峰命名(首字母小写),如:userName
    - snake_case:下划线命名(全小写),如:user_name
    - PascalCase:帕斯卡命名(首字母大写),如:UserName
