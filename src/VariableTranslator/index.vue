@@ -2,8 +2,11 @@
   <div class="github-dark" :data-theme="isDarkTheme ? 'dark' : 'light'">
     <div class="container">
       <header class="header">
-        <span class="header-desc">将中文转换为符合编程规范的英文变量名</span>
+        <span class="header-desc">{{ isZhToEn ? '中文 → 英文变量名' : '英文变量名 → 中文释义' }}</span>
         <div class="header-controls">
+          <button @click="toggleDirection" class="btn-swap" title="切换翻译方向">
+            <Icon :icon="COMMON_ICONS.swap" width="16" />
+          </button>
           <button @click="toggleTheme" class="btn-theme" :title="isDarkTheme ? '切换到亮色' : '切换到暗色'">
             <Icon :icon="isDarkTheme ? COMMON_ICONS.sun : COMMON_ICONS.moon" width="16" />
           </button>
@@ -13,7 +16,8 @@
       <!-- 翻译区域 -->
       <div class="card card-input">
         <div class="input-wrap">
-          <textarea v-model="chineseInput" class="input textarea" placeholder="输入中文，例如：用户名称" rows="1"></textarea>
+          <textarea v-model="chineseInput" class="input textarea"
+            :placeholder="isZhToEn ? '输入中文，例如：用户名称' : '输入英文变量名，例如：getUserName'" rows="1"></textarea>
         </div>
         <div class="status-bar">
           <span v-if="isTranslating" class="status-tip status-tip--active">
@@ -23,17 +27,17 @@
             <Icon :icon="TI.warning" width="14" /> 请在 src/config/api.ts 中配置 API Key
           </span>
           <span v-else-if="chineseInput.trim()" class="status-tip status-tip--ready">
-            <Icon :icon="TI.ready" width="14" /> 就绪
+            <Icon :icon="TI.ready" width="14" /> 就绪 · {{ isZhToEn ? '中→英' : '英→中' }}
           </span>
           <span v-else class="status-tip">
-            <Icon :icon="TI.edit" width="14" /> 输入中文开始翻译
+            <Icon :icon="TI.edit" width="14" /> {{ isZhToEn ? '输入中文开始翻译' : '输入英文变量名开始翻译' }}
           </span>
           <span class="keyboard-hints">Ctrl+Enter 翻译 · Ctrl+K 清空</span>
         </div>
       </div>
 
-      <!-- 翻译结果 -->
-      <div v-if="translationResult && translationResult.length > 0" class="result-card">
+      <!-- 中→英 翻译结果 -->
+      <div v-if="isZhToEn && translationResult && translationResult.length > 0" class="result-card">
         <div v-for="(result, index) in translationResult" :key="index" class="result-group">
           <div class="result-title">
             <span class="result-chinese">{{ result.chinese }}</span>
@@ -99,6 +103,38 @@
         </div>
       </div>
 
+      <!-- 英→中 翻译结果 -->
+      <div v-if="!isZhToEn && translationResult && translationResult.length > 0" class="result-card">
+        <div v-for="(result, index) in translationResult" :key="index" class="result-group">
+          <div class="result-title">
+            <code class="result-english">{{ result.input }}</code>
+            <span class="style-badge" :class="'badge-' + (result.style || 'unknown')">{{ result.style || 'unknown'
+              }}</span>
+            <span v-if="isFromCache" class="cache-badge">
+              <Icon :icon="TI.cache" width="12" /> 缓存
+            </span>
+            <span v-else class="api-badge">
+              <Icon :icon="TI.api" width="12" /> API
+            </span>
+          </div>
+          <div class="reverse-body">
+            <div class="reverse-meaning">{{ result.meaning }}</div>
+            <div class="reverse-breakdown">
+              <span v-for="(part, pIdx) in (result.breakdown || [])" :key="pIdx" class="breakdown-chip">
+                <code>{{ part.en }}</code>
+                <span class="breakdown-arrow">→</span>
+                <span>{{ part.zh }}</span>
+              </span>
+            </div>
+            <button @click="copyToClipboard(result.meaning, 'meaning-' + index)" class="copy-btn copy-btn-text"
+              :class="{ copied: copiedButton === 'meaning-' + index }">
+              <Icon :icon="copiedButton === 'meaning-' + index ? COMMON_ICONS.copied : COMMON_ICONS.copy" width="14" />
+              <span>复制释义</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
       <!-- 错误提示 -->
       <div v-if="error" class="card error-card">
         <h2>
@@ -141,6 +177,8 @@ const modes = [
   { value: 'constant', label: 'Constant', icon: TI.constant, desc: '全大写下划线' },
   { value: 'class', label: 'Class', icon: TI.class, desc: 'PascalCase' }
 ];
+const direction = ref('zh-en'); // 'zh-en' | 'en-zh'
+const isZhToEn = computed(() => direction.value === 'zh-en');
 const chineseInput = ref('');
 const translationResult = ref(null);
 const error = ref('');
@@ -154,16 +192,32 @@ function toggleTheme() {
   emit('toggle-theme');
 }
 
+function toggleDirection() {
+  direction.value = direction.value === 'zh-en' ? 'en-zh' : 'zh-en';
+  clearResults();
+}
+
 function getPrompt() {
+  return isZhToEn.value ? getPromptZhToEn() : getPromptEnToZh();
+}
+
+function getPromptZhToEn() {
   return `编程命名翻译。为每个中文词提供4类(variable/method/constant/class)翻译，每类含camelCase/snake_case/PascalCase。仅输出JSON数组，无解释。
 示例输入:控制台
 输出:[{"chinese":"控制台","variable":[{"camelCase":"console","snake_case":"console","PascalCase":"Console"}],"method":[{"camelCase":"getConsole","snake_case":"get_console","PascalCase":"GetConsole"}],"constant":[{"camelCase":"CONSOLE","snake_case":"CONSOLE","PascalCase":"CONSOLE"}],"class":[{"camelCase":"Console","snake_case":"console","PascalCase":"Console"}]}]
 翻译:${chineseInput.value}`;
 }
 
+function getPromptEnToZh() {
+  return `分析编程命名。返回JSON数组，无解释。
+示例输入:getUserName
+输出:[{"input":"getUserName","style":"camelCase","breakdown":[{"en":"get","zh":"获取"},{"en":"user","zh":"用户"},{"en":"name","zh":"名称"}],"meaning":"获取用户名称"}]
+分析:${chineseInput.value}`;
+}
+
 // 生成缓存键名（仅基于输入文本，与模型无关）
 function getCacheKey() {
-  return `translator_cache_${chineseInput.value.trim()}`;
+  return `translator_cache_${direction.value}_${chineseInput.value.trim()}`;
 }
 
 // 从缓存加载翻译结果（含 7 天过期检查）
@@ -206,12 +260,18 @@ async function translate() {
   if (!chineseInput.value.trim() || !isApiConfigured.value) return;
 
   // 超过15个字符不翻译
-  if (chineseInput.value.length > 15) {
+  if (isZhToEn.value && chineseInput.value.length > 15) {
     error.value = '输入过长，请控制在15字以内';
-    setTimeout(() => {
-      error.value = '';
-    }, 2000);
+    setTimeout(() => { error.value = ''; }, 2000);
     return;
+  }
+  if (!isZhToEn.value) {
+    const words = chineseInput.value.trim().split(/[_\s-]+/);
+    if (words.some(w => w.length > 30)) {
+      error.value = '单词过长';
+      setTimeout(() => { error.value = ''; }, 2000);
+      return;
+    }
   }
 
   isTranslating.value = true;

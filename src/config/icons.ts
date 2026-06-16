@@ -23,10 +23,11 @@ import {
   mdiFunctionVariant,
   mdiFormatText,
   mdiCubeOutline,
+  mdiSwapHorizontal,
 } from '@mdi/js';
 
-/** 将 SVG path 转为 Iconify icon data */
-const icon = (path: string) => ({ body: path, width: 24, height: 24 });
+/** 将 SVG path d 属性转为 Iconify icon data */
+const icon = (d: string) => ({ body: `<path d="${d}"/>`, width: 24, height: 24 });
 
 /** 跨 Feature 通用图标 */
 export const COMMON_ICONS = {
@@ -37,6 +38,7 @@ export const COMMON_ICONS = {
   close: icon(mdiClose),
   copy: icon(mdiContentCopy),
   copied: icon(mdiCheckBold),
+  swap: icon(mdiSwapHorizontal),
 } as const;
 
 /** 各 Feature 专属图标 */
