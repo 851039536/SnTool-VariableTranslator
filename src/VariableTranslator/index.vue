@@ -32,12 +32,8 @@
             </div>
             <div class="form-group">
               <label>API 端点</label>
-              <input
-                v-model="currentPresetConfig.endpoint"
-                type="text"
-                class="input"
-                placeholder="https://api.example.com/v1/chat/completions"
-              />
+              <input v-model="currentPresetConfig.endpoint" type="text" class="input"
+                placeholder="https://api.example.com/v1/chat/completions" />
               <span class="input-tip">支持 OpenAI 兼容格式的接口</span>
             </div>
             <div class="form-group">
@@ -94,15 +90,15 @@
                   <div class="option-group">
                     <div class="style-row">
                       <code class="code-text">{{ option.camelCase }}</code>
-                      <button
-                        @click="copyToClipboard(option.camelCase, getButtonId(index, mode.value, idx, 'camel'))"
+                      <button @click="copyToClipboard(option.camelCase, getButtonId(index, mode.value, idx, 'camel'))"
                         class="copy-btn"
-                        :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'camel') }"
-                      >
-                        <svg v-if="copiedButton === getButtonId(index, mode.value, idx, 'camel')" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'camel') }">
+                        <svg v-if="copiedButton === getButtonId(index, mode.value, idx, 'camel')" width="14" height="14"
+                          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                           <polyline points="20 6 9 17 4 12"></polyline>
                         </svg>
-                        <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                          stroke-width="2">
                           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                           <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                         </svg>
@@ -110,15 +106,15 @@
                     </div>
                     <div class="style-row">
                       <code class="code-text">{{ option.snake_case }}</code>
-                      <button
-                        @click="copyToClipboard(option.snake_case, getButtonId(index, mode.value, idx, 'snake'))"
+                      <button @click="copyToClipboard(option.snake_case, getButtonId(index, mode.value, idx, 'snake'))"
                         class="copy-btn"
-                        :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'snake') }"
-                      >
-                        <svg v-if="copiedButton === getButtonId(index, mode.value, idx, 'snake')" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'snake') }">
+                        <svg v-if="copiedButton === getButtonId(index, mode.value, idx, 'snake')" width="14" height="14"
+                          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                           <polyline points="20 6 9 17 4 12"></polyline>
                         </svg>
-                        <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                          stroke-width="2">
                           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                           <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                         </svg>
@@ -126,15 +122,15 @@
                     </div>
                     <div class="style-row">
                       <code class="code-text">{{ option.PascalCase }}</code>
-                      <button
-                        @click="copyToClipboard(option.PascalCase, getButtonId(index, mode.value, idx, 'pascal'))"
+                      <button @click="copyToClipboard(option.PascalCase, getButtonId(index, mode.value, idx, 'pascal'))"
                         class="copy-btn"
-                        :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'pascal') }"
-                      >
-                        <svg v-if="copiedButton === getButtonId(index, mode.value, idx, 'pascal')" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'pascal') }">
+                        <svg v-if="copiedButton === getButtonId(index, mode.value, idx, 'pascal')" width="14"
+                          height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                           <polyline points="20 6 9 17 4 12"></polyline>
                         </svg>
-                        <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                          stroke-width="2">
                           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                           <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                         </svg>
@@ -691,6 +687,6 @@ watch(chineseInput, (newValue) => {
 });
 </script>
 
-<style scoped>
-@import './index.css';
+<style lang="scss" scoped>
+@import './index.scss';
 </style>

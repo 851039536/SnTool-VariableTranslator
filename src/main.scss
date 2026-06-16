@@ -1,0 +1,113 @@
+// Tokens 由 vite additionalData 全局注入，无需手动 @use
+
+// ============================================================
+// Codex 主题 Token — 映射到 --b3-* 变量体系
+// ============================================================
+
+:root[data-theme="light"],
+:root:not([data-theme]) {
+  // 基础色
+  --blue: rgb(88, 164, 246);
+  --light: #fff;
+
+  // 背景层
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-tertiary: #f3f4f6;
+
+  // 文本层
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+
+  // 边框
+  --border: #e5e7eb;
+  --border-dark: #d1d5db;
+
+  // Codex 语义别名
+  --b3-theme-primary: #3b82f6;
+  --b3-theme-primary-dark: #2563eb;
+  --b3-theme-primary-lightest: rgba(59, 130, 246, 0.12);
+  --b3-theme-surface: var(--bg-secondary);
+  --b3-theme-surface-alt: var(--bg-tertiary);
+  --b3-theme-on-surface: var(--text-primary);
+  --b3-theme-on-surface-secondary: var(--text-secondary);
+  --b3-border-color: var(--border);
+  --b3-border-color-dark: var(--border-dark);
+  --b3-theme-success: #10b981;
+  --b3-theme-error: #dc2626;
+  --b3-theme-error-bg: rgba(220, 38, 38, 0.05);
+}
+
+:root[data-theme="dark"] {
+  --blue: rgb(88, 164, 246);
+  --light: #fff;
+
+  --bg-primary: #303133;
+  --bg-secondary: #3a3d40;
+  --bg-tertiary: #424549;
+
+  --text-primary: #ffffff;
+  --text-secondary: #a8abb0;
+
+  --border: #4a4f56;
+  --border-dark: #5a6067;
+
+  // Codex 语义别名（暗色）
+  --b3-theme-primary: #3b82f6;
+  --b3-theme-primary-dark: #60a5fa;
+  --b3-theme-primary-lightest: rgba(59, 130, 246, 0.18);
+  --b3-theme-surface: var(--bg-secondary);
+  --b3-theme-surface-alt: var(--bg-tertiary);
+  --b3-theme-on-surface: var(--text-primary);
+  --b3-theme-on-surface-secondary: var(--text-secondary);
+  --b3-border-color: var(--border);
+  --b3-border-color-dark: var(--border-dark);
+  --b3-theme-success: #34d399;
+  --b3-theme-error: #f87171;
+  --b3-theme-error-bg: rgba(248, 113, 113, 0.08);
+}
+
+// ============================================================
+// 全局重置
+// ============================================================
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: $vp-transition-bg, $vp-transition-color;
+}
+
+// ============================================================
+// 全局按钮（Codex 主按钮实底）
+// ============================================================
+
+button {
+  border: none;
+  background: var(--b3-theme-primary);
+  color: var(--light);
+  line-height: 2.5;
+  border-radius: $vp-radius;
+  cursor: pointer;
+  transition: $vp-transition;
+}
+
+button:disabled {
+  filter: grayscale(1);
+  cursor: not-allowed;
+}
+
+button:not(:disabled):active {
+  opacity: 0.6;
+}
+
+// ============================================================
+// textarea 基础
+// ============================================================
+
+textarea {
+  display: block;
+  margin: 0;
+}

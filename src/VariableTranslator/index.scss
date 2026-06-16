@@ -1,0 +1,568 @@
+// ============================================================
+// VariableTranslator — Codex 风格
+// Tokens 由 vite additionalData 全局注入，无需手动 @use
+// ============================================================
+
+// ── 容器 ──────────────────────────────────────────────────────
+
+.github-dark {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+  padding: $spacing-lg;
+  transition: $vp-transition-bg, $vp-transition-color;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+// ── 头部 ──────────────────────────────────────────────────────
+
+header {
+  text-align: center;
+  margin-bottom: $spacing-lg;
+  position: relative;
+}
+
+header h1 {
+  font-size: 20px;
+  margin-bottom: $spacing-xs;
+  color: var(--b3-theme-primary);
+  font-weight: 600;
+}
+
+header p {
+  color: var(--b3-theme-on-surface-secondary);
+  font-size: 13px;
+}
+
+.header-controls {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  gap: $spacing-sm;
+  align-items: center;
+}
+
+// ── Ghost 按钮（主题/配置）─────────────────────────────────────
+
+%btn-ghost {
+  padding: $spacing-xs $spacing-md;
+  font-size: 12px;
+  border-radius: $vp-radius;
+  border: 1px solid var(--b3-border-color);
+  background: transparent;
+  color: var(--b3-theme-on-surface-secondary);
+  cursor: pointer;
+  transition: $vp-transition;
+
+  &:hover {
+    border-color: var(--b3-theme-primary);
+    background: var(--b3-theme-surface-alt);
+    color: var(--b3-theme-on-surface);
+  }
+}
+
+.btn-theme {
+  @extend %btn-ghost;
+
+  &:hover {
+    transform: rotate(20deg);
+  }
+}
+
+.btn-config {
+  @extend %btn-ghost;
+
+  &:hover {
+    transform: rotate(45deg);
+  }
+}
+
+// ── 卡片 ──────────────────────────────────────────────────────
+
+.card {
+  background: var(--b3-theme-surface);
+  border: 1px solid var(--b3-border-color);
+  border-radius: $vp-radius;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-md;
+  transition: $vp-transition-border;
+
+  &:hover {
+    border-color: var(--b3-theme-primary);
+  }
+}
+
+.card h2 {
+  margin-top: 0;
+  margin-bottom: $spacing-md;
+  font-size: 18px;
+  color: var(--b3-theme-on-surface);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-md;
+}
+
+.btn-text {
+  background: transparent;
+  color: var(--b3-theme-primary);
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  padding: $spacing-xs $spacing-sm;
+  transition: $vp-transition-color;
+
+  &:hover {
+    color: var(--b3-theme-primary-dark);
+  }
+}
+
+// ── 配置弹窗 ──────────────────────────────────────────────────
+
+.config-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.config-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.config-panel {
+  position: relative;
+  background: var(--bg-primary);
+  border: 1px solid var(--b3-border-color);
+  border-radius: $radius-lg;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh;
+  overflow-y: auto;
+  // Codex: 边框优先，禁用阴影
+}
+
+.config-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-lg $spacing-lg;
+  border-bottom: 1px solid var(--b3-border-color);
+  position: sticky;
+  top: 0;
+  background: var(--bg-primary);
+  z-index: 1;
+}
+
+.config-header h2 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--b3-theme-on-surface);
+}
+
+.btn-close {
+  padding: $spacing-xs $spacing-md;
+  font-size: 24px;
+  line-height: 1;
+  border: none;
+  background: transparent;
+  color: var(--b3-theme-on-surface-secondary);
+  cursor: pointer;
+  transition: $vp-transition-color;
+
+  &:hover {
+    color: var(--b3-theme-on-surface);
+  }
+}
+
+.config-content {
+  padding: $spacing-lg;
+}
+
+// ── 表单（Codex 大写标签）─────────────────────────────────────
+
+.form-group {
+  margin-bottom: $spacing-lg;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: $spacing-xs;
+  color: var(--b3-theme-on-surface-secondary);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.45;
+}
+
+.input-tip {
+  display: block;
+  margin-top: $spacing-xs;
+  font-size: 11px;
+  color: var(--b3-theme-on-surface-secondary);
+  opacity: 0.7;
+}
+
+.input {
+  width: 100%;
+  padding: $spacing-sm $spacing-md;
+  background: var(--b3-theme-surface-alt);
+  border: 1px solid var(--b3-border-color-dark);
+  border-radius: $vp-radius;
+  color: var(--b3-theme-on-surface);
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: $vp-transition-border;
+
+  &:focus {
+    outline: none;
+    border-color: var(--b3-theme-primary);
+    box-shadow: 0 0 0 2px var(--b3-theme-primary-lightest);
+  }
+}
+
+.textarea {
+  font-family: $vp-mono;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+// ── 状态提示 ──────────────────────────────────────────────────
+
+.status-tip {
+  font-size: 13px;
+  color: var(--b3-theme-on-surface-secondary);
+}
+
+.keyboard-hints {
+  margin-left: $spacing-md;
+  font-size: 12px;
+  color: var(--b3-theme-on-surface-secondary);
+  opacity: 0.8;
+}
+
+// ── 保存提示 ──────────────────────────────────────────────────
+
+.save-tip {
+  margin-left: $spacing-sm;
+  font-size: 13px;
+  color: var(--b3-theme-success);
+}
+
+// ── 主按钮（实底）─────────────────────────────────────────────
+
+.btn-primary {
+  background: var(--b3-theme-primary);
+  color: #fff;
+  border: none;
+  border-radius: $vp-radius;
+  padding: $spacing-sm $spacing-lg;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: $vp-transition;
+
+  &:hover {
+    background: var(--b3-theme-primary-dark);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// ── Ghost 按钮 ────────────────────────────────────────────────
+
+.btn-ghost {
+  border: 1px solid var(--b3-border-color);
+  background: transparent;
+  color: var(--b3-theme-on-surface-secondary);
+  border-radius: $vp-radius;
+  padding: $spacing-sm $spacing-lg;
+  cursor: pointer;
+  transition: $vp-transition;
+
+  &:hover {
+    border-color: var(--b3-theme-primary);
+    color: var(--b3-theme-primary);
+  }
+}
+
+// ── 结果卡片 ──────────────────────────────────────────────────
+
+.result-group {
+  background: var(--b3-theme-surface);
+  border: 1px solid var(--b3-border-color);
+  border-radius: $vp-radius;
+  padding: $spacing-xs;
+  margin-bottom: $spacing-sm;
+}
+
+.result-title {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-xs;
+  padding-bottom: $spacing-sm;
+  border-bottom: 1px solid var(--b3-border-color);
+}
+
+.result-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: var(--b3-theme-primary);
+  color: #fff;
+  border-radius: $radius-full;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+  // Codex: 禁用阴影
+}
+
+.result-chinese {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--b3-theme-primary);
+  letter-spacing: 0.2px;
+}
+
+// ── 命名类型网格 ──────────────────────────────────────────────
+
+.naming-types {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: $spacing-sm;
+}
+
+.naming-type {
+  background: var(--b3-theme-surface);
+  border: 1px solid var(--b3-border-color);
+  border-radius: $vp-radius;
+  padding: $spacing-xs;
+  transition: $vp-transition;
+
+  &:hover {
+    border-color: var(--b3-theme-primary);
+  }
+}
+
+.type-header {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-xs;
+  padding-bottom: $spacing-xs;
+  border-bottom: 1px solid var(--b3-border-color);
+  transition: $vp-transition-border;
+
+  &:hover {
+    border-bottom-color: var(--b3-theme-on-surface-secondary);
+  }
+}
+
+.type-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.type-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+}
+
+// Codex 大写标签样式
+.type-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--b3-theme-on-surface);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.type-desc {
+  font-size: 11px;
+  color: var(--b3-theme-on-surface-secondary);
+  font-weight: 400;
+  letter-spacing: 0.1px;
+}
+
+.naming-options {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.naming-option {
+  background: var(--bg-primary);
+  border-radius: $radius-sm;
+  padding: $spacing-xs;
+}
+
+.option-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+// ── 样式行 ────────────────────────────────────────────────────
+
+.style-row {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-xs;
+  background: var(--b3-theme-surface-alt);
+  border-radius: $radius-sm;
+  transition: $vp-transition;
+
+  &:hover {
+    background: var(--b3-border-color-dark);
+  }
+}
+
+.style-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--b3-theme-on-surface-secondary);
+  background: var(--b3-theme-surface);
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-sm;
+  flex-shrink: 0;
+  min-width: 110px;
+  text-align: center;
+  letter-spacing: 0.2px;
+  border: 1px solid var(--b3-border-color);
+  transition: $vp-transition;
+
+  .style-row:hover & {
+    background: var(--b3-border-color-dark);
+    border-color: var(--b3-theme-on-surface-secondary);
+    color: var(--b3-theme-on-surface);
+  }
+}
+
+// ── 代码文本（等宽字段）────────────────────────────────────────
+
+.code-text {
+  flex: 1;
+  font-family: $vp-mono;
+  color: var(--b3-theme-primary);
+  font-size: 14px;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  padding: 0;
+  word-break: break-all;
+  letter-spacing: 0.2px;
+}
+
+// ── 复制按钮 ──────────────────────────────────────────────────
+
+.copy-btn {
+  font-size: 11px;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: $vp-transition;
+  flex-shrink: 0;
+  min-width: 22px;
+  text-align: center;
+
+  &:hover {
+    opacity: 1;
+    background: var(--b3-border-color);
+  }
+
+  &.copied {
+    background: var(--b3-theme-success);
+    color: #fff;
+    opacity: 1;
+    border-color: var(--b3-theme-success);
+    animation: copySuccess 0.3s ease;
+  }
+}
+
+@keyframes copySuccess {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+// ── 底部操作区 ────────────────────────────────────────────────
+
+.result-actions {
+  margin-top: $spacing-md;
+  text-align: center;
+}
+
+.btn-copy {
+  padding: $spacing-xs $spacing-sm;
+  font-size: 12px;
+  border: 1px solid var(--b3-border-color);
+  background: transparent;
+  color: var(--b3-theme-on-surface-secondary);
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: $vp-transition;
+
+  &:hover {
+    border-color: var(--b3-theme-primary);
+    color: var(--b3-theme-primary);
+  }
+}
+
+// ── 错误卡片 ──────────────────────────────────────────────────
+
+.error-card {
+  border-color: var(--b3-theme-error);
+  background: var(--b3-theme-error-bg);
+}
+
+.result-source {
+  display: flex;
+  justify-content: center;
+  margin-bottom: $spacing-md;
+}
+
+// ── 徽章（Codex: 实底标签，无渐变）────────────────────────────
+
+.cache-badge,
+.api-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: var(--b3-theme-on-surface-secondary);
+}

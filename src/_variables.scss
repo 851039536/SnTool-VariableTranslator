@@ -1,0 +1,26 @@
+// ============================================================
+// Codex Design Tokens
+// 所有 feature 的 scss 文件首先 @use '@/variables.scss' as *;
+// ============================================================
+
+// 圆角 — 禁止硬编码 border-radius
+$vp-radius: 6px;     // 卡片/控件/字段标准圆角（优先使用）
+$radius-sm: 0.25rem; // 4px  标签/徽章
+$radius-md: 0.5rem;  // 8px  section/面板
+$radius-lg: 0.75rem; // 12px 弹窗/对话框
+$radius-full: 9999px;// 胶囊/药丸形状
+
+// 间距 — 禁止硬编码 padding/gap/margin
+$spacing-xs: 4px;    // 紧密间距
+$spacing-sm: 8px;    // 元素内间距
+$spacing-md: 12px;   // 中等间距（段落/块间）
+$spacing-lg: 16px;   // 标准 section 内边距
+
+// 等宽字体栈（路径/版本号/日期/标签/密码字段）
+$vp-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", "Consolas", monospace;
+
+// 过渡动画
+$vp-transition: all 0.12s;
+$vp-transition-border: border-color 0.12s;
+$vp-transition-bg: background 0.12s;
+$vp-transition-color: color 0.12s;
