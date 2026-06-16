@@ -32,7 +32,10 @@
           <span v-else class="status-tip">
             <Icon :icon="TI.edit" width="14" /> {{ isZhToEn ? '输入中文开始翻译' : '输入英文变量名开始翻译' }}
           </span>
-          <span class="keyboard-hints">Ctrl+Enter 翻译 · Ctrl+K 清空</span>
+          <span class="keyboard-hints">
+            <span :class="{ 'len-over': inputLen > maxLen }">{{ inputLen }}/{{ maxLen }}</span>
+            · Ctrl+Enter 翻译 · Ctrl+K 清空
+          </span>
         </div>
       </div>
 
@@ -187,6 +190,8 @@ const isFromCache = ref(false);
 let debounceTimer = null;
 
 const isApiConfigured = computed(() => !!API_CONFIG.apiKey);
+const maxLen = computed(() => isZhToEn.value ? 15 : 30);
+const inputLen = computed(() => chineseInput.value.trim().length);
 
 function toggleTheme() {
   emit('toggle-theme');
@@ -260,19 +265,12 @@ async function saveToCache(result) {
 async function translate() {
   if (!chineseInput.value.trim() || !isApiConfigured.value) return;
 
-  // 超过15个字符不翻译
-  if (isZhToEn.value && chineseInput.value.length > 15) {
-    error.value = '输入过长，请控制在15字以内';
+  // 长度限制：中文≤15字，英文≤30字符
+  const maxLen = isZhToEn.value ? 15 : 30;
+  if (chineseInput.value.trim().length > maxLen) {
+    error.value = `输入过长，请控制在${maxLen}个字符以内`;
     setTimeout(() => { error.value = ''; }, 2000);
     return;
-  }
-  if (!isZhToEn.value) {
-    const words = chineseInput.value.trim().split(/[_\s-]+/);
-    if (words.some(w => w.length > 30)) {
-      error.value = '单词过长';
-      setTimeout(() => { error.value = ''; }, 2000);
-      return;
-    }
   }
 
   isTranslating.value = true;
