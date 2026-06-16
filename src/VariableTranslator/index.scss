@@ -537,6 +537,16 @@
   100% { transform: scale(1); }
 }
 
+// loading 图标旋转动画
+.icon-spin {
+  animation: iconSpin 1s linear infinite;
+}
+
+@keyframes iconSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 // ── 底部操作区 ────────────────────────────────────────────────
 
 .result-actions {

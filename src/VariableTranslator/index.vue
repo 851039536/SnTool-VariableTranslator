@@ -5,9 +5,11 @@
         <span class="header-desc">将中文转换为符合编程规范的英文变量名</span>
         <div class="header-controls">
           <button @click="toggleTheme" class="btn-theme" :title="isDarkTheme ? '切换到亮色' : '切换到暗色'">
-            {{ isDarkTheme ? '☀️' : '🌙' }}
+            <Icon :icon="isDarkTheme ? COMMON_ICONS.sun : COMMON_ICONS.moon" width="16" />
           </button>
-          <button @click="toggleApiConfig" class="btn-config" title="API配置">⚙️</button>
+          <button @click="toggleApiConfig" class="btn-config" title="API配置">
+            <Icon :icon="COMMON_ICONS.cog" width="16" />
+          </button>
         </div>
       </header>
 
@@ -16,8 +18,12 @@
         <div class="config-overlay" @click="toggleApiConfig"></div>
         <div class="config-panel">
           <div class="config-header">
-            <h2>⚙️ API 配置</h2>
-            <button @click="toggleApiConfig" class="btn-close">×</button>
+            <h2>
+              <Icon :icon="COMMON_ICONS.cog" width="16" /> API 配置
+            </h2>
+            <button @click="toggleApiConfig" class="btn-close">
+              <Icon :icon="COMMON_ICONS.close" width="18" />
+            </button>
           </div>
           <div class="config-content">
             <div class="form-group">
@@ -45,7 +51,9 @@
               <input v-model="currentPresetConfig.model" type="text" class="input" placeholder="gpt-3.5-turbo" />
             </div>
             <button @click="saveApiConfig" class="btn btn-primary">保存配置</button>
-            <span v-if="configSaved" class="save-tip">✓ 已保存</span>
+            <span v-if="configSaved" class="save-tip">
+              <Icon :icon="COMMON_ICONS.check" width="14" /> 已保存
+            </span>
           </div>
         </div>
       </div>
@@ -56,10 +64,18 @@
           <textarea v-model="chineseInput" class="input textarea" placeholder="输入中文，例如：用户名称" rows="1"></textarea>
         </div>
         <div class="status-bar">
-          <span v-if="isTranslating" class="status-tip status-tip--active">🔄 翻译中...</span>
-          <span v-else-if="!isApiConfigured" class="status-tip status-tip--warn">⚠️ 请先配置 API</span>
-          <span v-else-if="chineseInput.trim()" class="status-tip status-tip--ready">✓ 就绪</span>
-          <span v-else class="status-tip">✏️ 输入中文开始翻译</span>
+          <span v-if="isTranslating" class="status-tip status-tip--active">
+            <Icon :icon="TI.loading" width="14" class="icon-spin" /> 翻译中...
+          </span>
+          <span v-else-if="!isApiConfigured" class="status-tip status-tip--warn">
+            <Icon :icon="TI.warning" width="14" /> 请先配置 API
+          </span>
+          <span v-else-if="chineseInput.trim()" class="status-tip status-tip--ready">
+            <Icon :icon="TI.ready" width="14" /> 就绪
+          </span>
+          <span v-else class="status-tip">
+            <Icon :icon="TI.edit" width="14" /> 输入中文开始翻译
+          </span>
           <span class="keyboard-hints">Ctrl+Enter 翻译 · Ctrl+K 清空</span>
         </div>
       </div>
@@ -69,14 +85,20 @@
         <div v-for="(result, index) in translationResult" :key="index" class="result-group">
           <div class="result-title">
             <span class="result-chinese">{{ result.chinese }}</span>
-            <span v-if="isFromCache" class="cache-badge">💾 来自缓存</span>
-            <span v-else class="api-badge">🌐 API 翻译</span>
+            <span v-if="isFromCache" class="cache-badge">
+              <Icon :icon="TI.cache" width="12" /> 来自缓存
+            </span>
+            <span v-else class="api-badge">
+              <Icon :icon="TI.api" width="12" /> API 翻译
+            </span>
           </div>
 
           <div class="naming-types">
             <div v-for="mode in modes" :key="mode.value" class="naming-type">
               <div class="type-header">
-                <span class="type-icon">{{ mode.icon }}</span>
+                <span class="type-icon">
+                  <Icon :icon="mode.icon" width="14" />
+                </span>
                 <div class="type-info">
                   <span class="type-label">{{ mode.label }}</span>
                   <span class="type-desc">{{ mode.desc }}</span>
@@ -91,15 +113,7 @@
                     <button @click="copyToClipboard(option.camelCase, getButtonId(index, mode.value, idx, 'camel'))"
                       class="copy-btn"
                       :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'camel') }">
-                      <svg v-if="copiedButton === getButtonId(index, mode.value, idx, 'camel')" width="14" height="14"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                      <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                      </svg>
+                      <Icon :icon="copiedButton === getButtonId(index, mode.value, idx, 'camel') ? COMMON_ICONS.copied : COMMON_ICONS.copy" width="14" />
                     </button>
                   </div>
                   <div class="style-row">
@@ -108,15 +122,7 @@
                     <button @click="copyToClipboard(option.snake_case, getButtonId(index, mode.value, idx, 'snake'))"
                       class="copy-btn"
                       :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'snake') }">
-                      <svg v-if="copiedButton === getButtonId(index, mode.value, idx, 'snake')" width="14" height="14"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                      <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                      </svg>
+                      <Icon :icon="copiedButton === getButtonId(index, mode.value, idx, 'snake') ? COMMON_ICONS.copied : COMMON_ICONS.copy" width="14" />
                     </button>
                   </div>
                   <div class="style-row">
@@ -125,15 +131,7 @@
                     <button @click="copyToClipboard(option.PascalCase, getButtonId(index, mode.value, idx, 'pascal'))"
                       class="copy-btn"
                       :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'pascal') }">
-                      <svg v-if="copiedButton === getButtonId(index, mode.value, idx, 'pascal')" width="14" height="14"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                      <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2">
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                      </svg>
+                      <Icon :icon="copiedButton === getButtonId(index, mode.value, idx, 'pascal') ? COMMON_ICONS.copied : COMMON_ICONS.copy" width="14" />
                     </button>
                   </div>
                 </div>
@@ -145,7 +143,9 @@
 
       <!-- 错误提示 -->
       <div v-if="error" class="card error-card">
-        <h2>❌ 翻译失败</h2>
+        <h2>
+          <Icon :icon="TI.error" width="16" /> 翻译失败
+        </h2>
         <p>{{ error }}</p>
       </div>
     </div>
@@ -154,6 +154,9 @@
 
 <script setup>
 import { ref, computed, onMounted, watch, onUnmounted, nextTick } from 'vue';
+import { COMMON_ICONS, FEATURE_ICONS } from '@/config/icons';
+
+const TI = FEATURE_ICONS.translator;
 
 // 接收来自 App.vue 的 enterAction prop
 const props = defineProps({
@@ -201,10 +204,10 @@ const presets = ref({
 });
 
 const modes = [
-  { value: 'variable', label: 'Variable', icon: '𝑥', desc: '名词或名词短语' },
-  { value: 'method', label: 'Method', icon: 'ƒ', desc: '动词开头' },
-  { value: 'constant', label: 'Constant', icon: '■', desc: '全大写下划线' },
-  { value: 'class', label: 'Class', icon: '◆', desc: 'PascalCase' }
+  { value: 'variable', label: 'Variable', icon: TI.variable, desc: '名词或名词短语' },
+  { value: 'method', label: 'Method', icon: TI.method, desc: '动词开头' },
+  { value: 'constant', label: 'Constant', icon: TI.constant, desc: '全大写下划线' },
+  { value: 'class', label: 'Class', icon: TI.class, desc: 'PascalCase' }
 ];
 const chineseInput = ref('');
 const translationResult = ref(null);
