@@ -1,6 +1,6 @@
 // ============================================================
-// VariableTranslator — Codex 风格
-// Tokens 由 vite additionalData 全局注入，无需手动 @use
+// VariableTranslator — Codex 排版优化
+// Tokens 由 vite additionalData 全局注入
 // ============================================================
 
 // ── 容器 ──────────────────────────────────────────────────────
@@ -10,7 +10,7 @@
   color: var(--text-primary);
   min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
-  padding: $spacing-lg;
+  padding: $spacing-md $spacing-lg;
   transition: $vp-transition-bg, $vp-transition-color;
 }
 
@@ -19,40 +19,34 @@
   margin: 0 auto;
 }
 
-// ── 头部 ──────────────────────────────────────────────────────
+// ── 头部（紧凑 flex 行）───────────────────────────────────────
 
-header {
-  text-align: center;
-  margin-bottom: $spacing-lg;
-  position: relative;
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
 }
 
-header h1 {
-  font-size: 20px;
-  margin-bottom: $spacing-xs;
-  color: var(--b3-theme-primary);
-  font-weight: 600;
-}
-
-header p {
+.header-desc {
+  font-size: 12px;
   color: var(--b3-theme-on-surface-secondary);
-  font-size: 13px;
+  letter-spacing: 0.02em;
 }
 
 .header-controls {
-  position: absolute;
-  top: 0;
-  right: 0;
   display: flex;
-  gap: $spacing-sm;
+  gap: $spacing-xs;
   align-items: center;
+  flex-shrink: 0;
 }
 
 // ── Ghost 按钮（主题/配置）─────────────────────────────────────
 
-%btn-ghost {
-  padding: $spacing-xs $spacing-md;
-  font-size: 12px;
+%btn-ghost-icon {
+  padding: $spacing-xs $spacing-sm;
+  font-size: 13px;
+  line-height: 1;
   border-radius: $vp-radius;
   border: 1px solid var(--b3-border-color);
   background: transparent;
@@ -62,13 +56,12 @@ header p {
 
   &:hover {
     border-color: var(--b3-theme-primary);
-    background: var(--b3-theme-surface-alt);
     color: var(--b3-theme-on-surface);
   }
 }
 
 .btn-theme {
-  @extend %btn-ghost;
+  @extend %btn-ghost-icon;
 
   &:hover {
     transform: rotate(20deg);
@@ -76,7 +69,7 @@ header p {
 }
 
 .btn-config {
-  @extend %btn-ghost;
+  @extend %btn-ghost-icon;
 
   &:hover {
     transform: rotate(45deg);
@@ -89,8 +82,8 @@ header p {
   background: var(--b3-theme-surface);
   border: 1px solid var(--b3-border-color);
   border-radius: $vp-radius;
-  padding: $spacing-lg;
-  margin-bottom: $spacing-md;
+  padding: $spacing-md;
+  margin-bottom: $spacing-sm;
   transition: $vp-transition-border;
 
   &:hover {
@@ -99,41 +92,76 @@ header p {
 }
 
 .card h2 {
-  margin-top: 0;
-  margin-bottom: $spacing-md;
-  font-size: 18px;
+  margin: 0 0 $spacing-sm 0;
+  font-size: 14px;
   color: var(--b3-theme-on-surface);
+  font-weight: 600;
 }
 
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: $spacing-md;
+// ── 输入卡片（特殊紧凑布局）───────────────────────────────────
+
+.card-input {
+  padding: $spacing-sm $spacing-md;
 }
 
-.btn-text {
-  background: transparent;
-  color: var(--b3-theme-primary);
-  border: none;
-  cursor: pointer;
-  font-size: 13px;
-  padding: $spacing-xs $spacing-sm;
-  transition: $vp-transition-color;
+.input-wrap {
+  margin-bottom: $spacing-xs;
 
-  &:hover {
-    color: var(--b3-theme-primary-dark);
+  .textarea {
+    border: none;
+    background: transparent;
+    padding: $spacing-xs 0;
+    font-size: 15px;
+    line-height: 1.5;
+
+    &:focus {
+      box-shadow: none;
+    }
   }
+}
+
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: $spacing-xs;
+  border-top: 1px solid var(--b3-border-color);
+}
+
+.status-tip {
+  font-size: 11px;
+  color: var(--b3-theme-on-surface-secondary);
+  opacity: 0.6;
+
+  &--active {
+    color: var(--b3-theme-primary);
+    opacity: 1;
+  }
+
+  &--warn {
+    color: var(--b3-theme-error);
+    opacity: 0.8;
+  }
+
+  &--ready {
+    color: var(--b3-theme-success);
+    opacity: 0.8;
+  }
+}
+
+.keyboard-hints {
+  font-size: 11px;
+  color: var(--b3-theme-on-surface-secondary);
+  opacity: 0.4;
+  font-family: $vp-mono;
+  letter-spacing: -0.02em;
 }
 
 // ── 配置弹窗 ──────────────────────────────────────────────────
 
 .config-modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -143,7 +171,7 @@ header p {
 .config-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
 }
 
@@ -153,33 +181,33 @@ header p {
   border: 1px solid var(--b3-border-color);
   border-radius: $radius-lg;
   width: 90%;
-  max-width: 500px;
+  max-width: 480px;
   max-height: 80vh;
   overflow-y: auto;
-  // Codex: 边框优先，禁用阴影
 }
 
 .config-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: $spacing-lg $spacing-lg;
+  padding: $spacing-md $spacing-lg;
   border-bottom: 1px solid var(--b3-border-color);
   position: sticky;
   top: 0;
   background: var(--bg-primary);
   z-index: 1;
-}
 
-.config-header h2 {
-  margin: 0;
-  font-size: 18px;
-  color: var(--b3-theme-on-surface);
+  h2 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--b3-theme-on-surface);
+  }
 }
 
 .btn-close {
-  padding: $spacing-xs $spacing-md;
-  font-size: 24px;
+  padding: 0 $spacing-xs;
+  font-size: 20px;
   line-height: 1;
   border: none;
   background: transparent;
@@ -199,18 +227,18 @@ header p {
 // ── 表单（Codex 大写标签）─────────────────────────────────────
 
 .form-group {
-  margin-bottom: $spacing-lg;
-}
+  margin-bottom: $spacing-md;
 
-.form-group label {
-  display: block;
-  margin-bottom: $spacing-xs;
-  color: var(--b3-theme-on-surface-secondary);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  opacity: 0.45;
+  label {
+    display: block;
+    margin-bottom: $spacing-xs;
+    color: var(--b3-theme-on-surface-secondary);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.45;
+  }
 }
 
 .input-tip {
@@ -218,7 +246,7 @@ header p {
   margin-top: $spacing-xs;
   font-size: 11px;
   color: var(--b3-theme-on-surface-secondary);
-  opacity: 0.7;
+  opacity: 0.6;
 }
 
 .input {
@@ -228,7 +256,7 @@ header p {
   border: 1px solid var(--b3-border-color-dark);
   border-radius: $vp-radius;
   color: var(--b3-theme-on-surface);
-  font-size: 14px;
+  font-size: 13px;
   box-sizing: border-box;
   transition: $vp-transition-border;
 
@@ -242,32 +270,17 @@ header p {
 .textarea {
   font-family: $vp-mono;
   resize: vertical;
-  line-height: 1.6;
+  line-height: 1.5;
 }
-
-// ── 状态提示 ──────────────────────────────────────────────────
-
-.status-tip {
-  font-size: 13px;
-  color: var(--b3-theme-on-surface-secondary);
-}
-
-.keyboard-hints {
-  margin-left: $spacing-md;
-  font-size: 12px;
-  color: var(--b3-theme-on-surface-secondary);
-  opacity: 0.8;
-}
-
-// ── 保存提示 ──────────────────────────────────────────────────
 
 .save-tip {
   margin-left: $spacing-sm;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--b3-theme-success);
+  font-weight: 500;
 }
 
-// ── 主按钮（实底）─────────────────────────────────────────────
+// ── 按钮 ──────────────────────────────────────────────────────
 
 .btn-primary {
   background: var(--b3-theme-primary);
@@ -275,7 +288,7 @@ header p {
   border: none;
   border-radius: $vp-radius;
   padding: $spacing-sm $spacing-lg;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: $vp-transition;
@@ -290,77 +303,95 @@ header p {
   }
 }
 
-// ── Ghost 按钮 ────────────────────────────────────────────────
-
-.btn-ghost {
-  border: 1px solid var(--b3-border-color);
+.btn-text {
   background: transparent;
-  color: var(--b3-theme-on-surface-secondary);
-  border-radius: $vp-radius;
-  padding: $spacing-sm $spacing-lg;
+  color: var(--b3-theme-primary);
+  border: none;
   cursor: pointer;
-  transition: $vp-transition;
+  font-size: 12px;
+  padding: $spacing-xs $spacing-sm;
+  transition: $vp-transition-color;
 
   &:hover {
-    border-color: var(--b3-theme-primary);
-    color: var(--b3-theme-primary);
+    color: var(--b3-theme-primary-dark);
   }
 }
 
 // ── 结果卡片 ──────────────────────────────────────────────────
 
+.result-card {
+  margin-top: $spacing-sm;
+}
+
 .result-group {
   background: var(--b3-theme-surface);
   border: 1px solid var(--b3-border-color);
   border-radius: $vp-radius;
-  padding: $spacing-xs;
+  padding: $spacing-sm $spacing-md;
   margin-bottom: $spacing-sm;
+  transition: $vp-transition-border;
+
+  &:hover {
+    border-color: var(--b3-theme-primary);
+  }
+
+  & + & {
+    margin-top: $spacing-sm;
+  }
 }
 
 .result-title {
   display: flex;
   align-items: center;
   gap: $spacing-sm;
-  margin-bottom: $spacing-xs;
   padding-bottom: $spacing-sm;
-  border-bottom: 1px solid var(--b3-border-color);
-}
-
-.result-index {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  background: var(--b3-theme-primary);
-  color: #fff;
-  border-radius: $radius-full;
-  font-size: 12px;
-  font-weight: 600;
-  flex-shrink: 0;
-  // Codex: 禁用阴影
+  margin-bottom: $spacing-sm;
+  border-bottom: 1px dashed var(--b3-border-color);
 }
 
 .result-chinese {
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 700;
   color: var(--b3-theme-primary);
-  letter-spacing: 0.2px;
+  letter-spacing: 0.3px;
+}
+
+// ── 徽章（药丸形状 + 背景色）───────────────────────────────────
+
+.cache-badge,
+.api-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 2px $spacing-sm;
+  border-radius: $radius-full;
+  background: var(--b3-theme-surface-alt);
+  color: var(--b3-theme-on-surface-secondary);
+  border: 1px solid var(--b3-border-color);
+}
+
+.cache-badge {
+  color: var(--b3-theme-success);
+  border-color: var(--b3-theme-success);
+  opacity: 0.7;
 }
 
 // ── 命名类型网格 ──────────────────────────────────────────────
 
 .naming-types {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: $spacing-sm;
 }
 
 .naming-type {
-  background: var(--b3-theme-surface);
+  background: var(--bg-primary);
   border: 1px solid var(--b3-border-color);
   border-radius: $vp-radius;
-  padding: $spacing-xs;
+  padding: $spacing-sm;
   transition: $vp-transition;
 
   &:hover {
@@ -372,19 +403,18 @@ header p {
   display: flex;
   align-items: center;
   gap: $spacing-sm;
-  margin-bottom: $spacing-xs;
+  margin-bottom: $spacing-sm;
   padding-bottom: $spacing-xs;
   border-bottom: 1px solid var(--b3-border-color);
-  transition: $vp-transition-border;
-
-  &:hover {
-    border-bottom-color: var(--b3-theme-on-surface-secondary);
-  }
 }
 
 .type-icon {
-  font-size: 14px;
+  font-size: 13px;
+  color: var(--b3-theme-primary);
   flex-shrink: 0;
+  width: 18px;
+  text-align: center;
+  font-weight: 600;
 }
 
 .type-info {
@@ -394,22 +424,21 @@ header p {
   flex: 1;
 }
 
-// Codex 大写标签样式
 .type-label {
   font-size: 10px;
   font-weight: 700;
   color: var(--b3-theme-on-surface);
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  opacity: 0.75;
 }
 
 .type-desc {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--b3-theme-on-surface-secondary);
-  font-weight: 400;
-  letter-spacing: 0.1px;
+  opacity: 0.6;
 }
+
+// ── 命名选项 + 样式行 ─────────────────────────────────────────
 
 .naming-options {
   display: flex;
@@ -418,52 +447,33 @@ header p {
 }
 
 .naming-option {
-  background: var(--bg-primary);
   border-radius: $radius-sm;
-  padding: $spacing-xs;
 }
-
-.option-group {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-xs;
-}
-
-// ── 样式行 ────────────────────────────────────────────────────
 
 .style-row {
   display: flex;
   align-items: center;
-  gap: $spacing-xs;
-  padding: $spacing-xs $spacing-xs;
-  background: var(--b3-theme-surface-alt);
+  gap: $spacing-sm;
+  padding: $spacing-xs $spacing-sm;
   border-radius: $radius-sm;
   transition: $vp-transition;
 
   &:hover {
-    background: var(--b3-border-color-dark);
+    background: var(--b3-theme-surface-alt);
   }
 }
 
-.style-label {
-  font-size: 12px;
+// 风格标签（camel / snake / Pascal）
+.style-tag {
+  font-family: $vp-mono;
+  font-size: 10px;
   font-weight: 600;
+  letter-spacing: 0.02em;
   color: var(--b3-theme-on-surface-secondary);
-  background: var(--b3-theme-surface);
-  padding: $spacing-xs $spacing-sm;
-  border-radius: $radius-sm;
+  opacity: 0.5;
   flex-shrink: 0;
-  min-width: 110px;
-  text-align: center;
-  letter-spacing: 0.2px;
-  border: 1px solid var(--b3-border-color);
-  transition: $vp-transition;
-
-  .style-row:hover & {
-    background: var(--b3-border-color-dark);
-    border-color: var(--b3-theme-on-surface-secondary);
-    color: var(--b3-theme-on-surface);
-  }
+  width: 42px;
+  text-align: right;
 }
 
 // ── 代码文本（等宽字段）────────────────────────────────────────
@@ -472,29 +482,44 @@ header p {
   flex: 1;
   font-family: $vp-mono;
   color: var(--b3-theme-primary);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   background: transparent;
   border: none;
   padding: 0;
   word-break: break-all;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.1px;
+  line-height: 1.4;
 }
 
 // ── 复制按钮 ──────────────────────────────────────────────────
 
 .copy-btn {
-  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  font-size: 0;
   border-radius: $radius-sm;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--b3-theme-on-surface-secondary);
   cursor: pointer;
-  transition: $vp-transition;
+  opacity: 0.4;
   flex-shrink: 0;
-  min-width: 22px;
-  text-align: center;
+  transition: $vp-transition;
+
+  .style-row:hover & {
+    opacity: 1;
+    border-color: var(--b3-border-color);
+  }
 
   &:hover {
     opacity: 1;
-    background: var(--b3-border-color);
+    background: var(--b3-theme-surface-alt);
+    border-color: var(--b3-border-color);
   }
 
   &.copied {
@@ -502,20 +527,14 @@ header p {
     color: #fff;
     opacity: 1;
     border-color: var(--b3-theme-success);
-    animation: copySuccess 0.3s ease;
+    animation: copyPop 0.25s ease;
   }
 }
 
-@keyframes copySuccess {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.15);
-  }
-  100% {
-    transform: scale(1);
-  }
+@keyframes copyPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
 }
 
 // ── 底部操作区 ────────────────────────────────────────────────
@@ -546,23 +565,21 @@ header p {
 .error-card {
   border-color: var(--b3-theme-error);
   background: var(--b3-theme-error-bg);
+
+  h2 {
+    font-size: 13px;
+    color: var(--b3-theme-error);
+  }
+
+  p {
+    font-size: 12px;
+    margin: $spacing-xs 0 0;
+    color: var(--b3-theme-on-surface-secondary);
+  }
 }
 
 .result-source {
   display: flex;
   justify-content: center;
-  margin-bottom: $spacing-md;
-}
-
-// ── 徽章（Codex: 实底标签，无渐变）────────────────────────────
-
-.cache-badge,
-.api-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: $spacing-xs;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.3px;
-  color: var(--b3-theme-on-surface-secondary);
+  margin-bottom: $spacing-sm;
 }

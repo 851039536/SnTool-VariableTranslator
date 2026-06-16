@@ -1,8 +1,8 @@
 <template>
   <div class="github-dark" :data-theme="isDarkTheme ? 'dark' : 'light'">
     <div class="container">
-      <header>
-        <p>将中文转换为符合编程规范的英文变量名</p>
+      <header class="header">
+        <span class="header-desc">将中文转换为符合编程规范的英文变量名</span>
         <div class="header-controls">
           <button @click="toggleTheme" class="btn-theme" :title="isDarkTheme ? '切换到亮色' : '切换到暗色'">
             {{ isDarkTheme ? '☀️' : '🌙' }}
@@ -51,18 +51,16 @@
       </div>
 
       <!-- 翻译区域 -->
-      <div class="card">
-        <h2>✍️ 输入中文</h2>
-        <div class="form-group">
-          <textarea v-model="chineseInput" class="input textarea" placeholder="例如：用户名称" rows="1"></textarea>
+      <div class="card card-input">
+        <div class="input-wrap">
+          <textarea v-model="chineseInput" class="input textarea" placeholder="输入中文，例如：用户名称" rows="1"></textarea>
         </div>
-
         <div class="status-bar">
-          <span v-if="isTranslating" class="status-tip translating">🔄 翻译中...</span>
-          <span v-else-if="!isApiConfigured" class="status-tip error">⚠️ 请先配置 API</span>
-          <span v-else-if="chineseInput.trim()" class="status-tip ready">✓ 就绪，稍后自动翻译</span>
-          <span v-else class="status-tip">✏️ 请输入中文</span>
-          <span class="keyboard-hints">💡 Ctrl+Enter 立即翻译</span>
+          <span v-if="isTranslating" class="status-tip status-tip--active">🔄 翻译中...</span>
+          <span v-else-if="!isApiConfigured" class="status-tip status-tip--warn">⚠️ 请先配置 API</span>
+          <span v-else-if="chineseInput.trim()" class="status-tip status-tip--ready">✓ 就绪</span>
+          <span v-else class="status-tip">✏️ 输入中文开始翻译</span>
+          <span class="keyboard-hints">Ctrl+Enter 翻译 · Ctrl+K 清空</span>
         </div>
       </div>
 
@@ -87,55 +85,56 @@
 
               <div class="naming-options">
                 <div v-for="(option, idx) in result[mode.value]" :key="idx" class="naming-option">
-                  <div class="option-group">
-                    <div class="style-row">
-                      <code class="code-text">{{ option.camelCase }}</code>
-                      <button @click="copyToClipboard(option.camelCase, getButtonId(index, mode.value, idx, 'camel'))"
-                        class="copy-btn"
-                        :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'camel') }">
-                        <svg v-if="copiedButton === getButtonId(index, mode.value, idx, 'camel')" width="14" height="14"
-                          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                        <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                          stroke-width="2">
-                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                        </svg>
-                      </button>
-                    </div>
-                    <div class="style-row">
-                      <code class="code-text">{{ option.snake_case }}</code>
-                      <button @click="copyToClipboard(option.snake_case, getButtonId(index, mode.value, idx, 'snake'))"
-                        class="copy-btn"
-                        :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'snake') }">
-                        <svg v-if="copiedButton === getButtonId(index, mode.value, idx, 'snake')" width="14" height="14"
-                          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                        <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                          stroke-width="2">
-                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                        </svg>
-                      </button>
-                    </div>
-                    <div class="style-row">
-                      <code class="code-text">{{ option.PascalCase }}</code>
-                      <button @click="copyToClipboard(option.PascalCase, getButtonId(index, mode.value, idx, 'pascal'))"
-                        class="copy-btn"
-                        :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'pascal') }">
-                        <svg v-if="copiedButton === getButtonId(index, mode.value, idx, 'pascal')" width="14"
-                          height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                        <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                          stroke-width="2">
-                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                        </svg>
-                      </button>
-                    </div>
+                  <div class="style-row">
+                    <span class="style-tag tag-camel">camel</span>
+                    <code class="code-text">{{ option.camelCase }}</code>
+                    <button @click="copyToClipboard(option.camelCase, getButtonId(index, mode.value, idx, 'camel'))"
+                      class="copy-btn"
+                      :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'camel') }">
+                      <svg v-if="copiedButton === getButtonId(index, mode.value, idx, 'camel')" width="14" height="14"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="style-row">
+                    <span class="style-tag tag-snake">snake</span>
+                    <code class="code-text">{{ option.snake_case }}</code>
+                    <button @click="copyToClipboard(option.snake_case, getButtonId(index, mode.value, idx, 'snake'))"
+                      class="copy-btn"
+                      :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'snake') }">
+                      <svg v-if="copiedButton === getButtonId(index, mode.value, idx, 'snake')" width="14" height="14"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="style-row">
+                    <span class="style-tag tag-pascal">Pascal</span>
+                    <code class="code-text">{{ option.PascalCase }}</code>
+                    <button @click="copyToClipboard(option.PascalCase, getButtonId(index, mode.value, idx, 'pascal'))"
+                      class="copy-btn"
+                      :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'pascal') }">
+                      <svg v-if="copiedButton === getButtonId(index, mode.value, idx, 'pascal')" width="14" height="14"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                      </svg>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -202,10 +201,10 @@ const presets = ref({
 });
 
 const modes = [
-  { value: 'variable', label: '变量命名', icon: '', desc: '名词或名词短语' },
-  { value: 'method', label: '方法命名', icon: '', desc: '动词开头' },
-  { value: 'constant', label: '常量命名', icon: '', desc: '全大写下划线' },
-  { value: 'class', label: '类名命名', icon: '', desc: 'PascalCase' }
+  { value: 'variable', label: 'Variable', icon: '𝑥', desc: '名词或名词短语' },
+  { value: 'method', label: 'Method', icon: 'ƒ', desc: '动词开头' },
+  { value: 'constant', label: 'Constant', icon: '■', desc: '全大写下划线' },
+  { value: 'class', label: 'Class', icon: '◆', desc: 'PascalCase' }
 ];
 const chineseInput = ref('');
 const translationResult = ref(null);

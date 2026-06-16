@@ -77,6 +77,8 @@ body {
   padding: 0;
   background-color: var(--bg-primary);
   color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.5;
   transition: $vp-transition-bg, $vp-transition-color;
 }
 
@@ -86,10 +88,9 @@ body {
 
 button {
   border: none;
-  background: var(--b3-theme-primary);
-  color: var(--light);
-  line-height: 2.5;
-  border-radius: $vp-radius;
+  background: none;
+  color: inherit;
+  font: inherit;
   cursor: pointer;
   transition: $vp-transition;
 }
