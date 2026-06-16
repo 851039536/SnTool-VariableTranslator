@@ -11,7 +11,7 @@
 export const API_CONFIG = {
   endpoint: 'https://api.deepseek.com/chat/completions',
   model: 'deepseek-v4-flash', // DeepSeek-V3
-  apiKey: 'sk-0f0264689f9740ecb5fb55bd409b3362', // ← 替换为你的 API Key
+  apiKey: 'sk-xxxxxxxxxxxx', // ← 替换为你的 API Key
 } as const;
 
 /** 缓存有效期：7 天 */
