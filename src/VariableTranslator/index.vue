@@ -109,7 +109,7 @@
           <div class="result-title">
             <code class="result-english">{{ result.input }}</code>
             <span class="style-badge" :class="'badge-' + (result.style || 'unknown')">{{ result.style || 'unknown'
-              }}</span>
+            }}</span>
             <span v-if="isFromCache" class="cache-badge">
               <Icon :icon="TI.cache" width="12" /> 缓存
             </span>
@@ -220,11 +220,12 @@ function getCacheKey() {
   return `translator_cache_${direction.value}_${chineseInput.value.trim()}`;
 }
 
-// 从缓存加载翻译结果（含 7 天过期检查）
+// 从缓存加载翻译结果（含 7 天过期检查 + 精确匹配）
 async function loadFromCache() {
   try {
-    const cached = window.utools.db.get(getCacheKey());
-    if (cached?.data && (Date.now() - cached.timestamp) < CACHE_TTL) {
+    const key = getCacheKey();
+    const cached = window.utools.db.get(key);
+    if (cached?._id === key && cached?.data && (Date.now() - cached.timestamp) < CACHE_TTL) {
       // 累加缓存命中计数
       try {
         const stats = window.utools.db.get('translator_cache_stats');
@@ -472,15 +473,15 @@ watch(chineseInput, (newValue) => {
     return;
   }
 
-  // 延迟1.5秒后自动翻译（手动输入的情况）
+  // 延迟2.5秒后自动翻译（手动输入的情况）
   debounceTimer = setTimeout(() => {
     if (isApiConfigured.value && newValue.trim()) {
       translate();
     }
-  }, 1500);
+  }, 2500);
 });
 </script>
 
 <style lang="scss" scoped>
-@import './index.scss';
+@use './index.scss';
 </style>
