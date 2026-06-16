@@ -66,10 +66,13 @@ npm run build
 
 ### CSS 架构
 
-主题系统使用 [src/main.css](src/main.css) 中定义的 CSS 自定义属性：
+项目采用 SCSS + Codex 设计 Token 体系：
 
-- 在 `:root` 上设置 `data-theme="light"` 或 `data-theme="dark"`
-- CSS 变量：`--bg-primary`、`--bg-secondary`、`--text-primary`、`--border` 等
+- 全局 Token：[src/_variables.scss](src/_variables.scss) — 圆角 `$vp-radius`、间距 `$spacing-*`、字体 `$vp-mono`、动画 `$vp-transition`
+- 全局样式：[src/main.scss](src/main.scss) — CSS 变量 + `--b3-*` 语义别名
+- 组件样式：[src/VariableTranslator/index.scss](src/VariableTranslator/index.scss)
+- Vite `additionalData` 自动注入 `@use "@/variables.scss" as *;`，无需手动引入
+- 主题：`:root` 上设置 `data-theme="light"` 或 `data-theme="dark"`
 
 ## 核心实现细节
 
@@ -123,15 +126,53 @@ npm run build
 
 ### 样式文件组织
 
-- [src/main.css](src/main.css)：全局样式和主题 CSS 变量
-- [src/VariableTranslator/index.css](src/VariableTranslator/index.css)：翻译器组件专用样式
+- [src/_variables.scss](src/_variables.scss)：Codex 全局设计 Token（圆角/间距/字体/动画）
+- [src/main.scss](src/main.scss)：全局样式、主题变量、`--b3-*` 语义别名
+- [src/VariableTranslator/index.scss](src/VariableTranslator/index.scss)：翻译器组件专用样式
+- [src/config/icons.ts](src/config/icons.ts)：Iconify 图标注册表
 
 ### 依赖说明
 
 主要依赖（[package.json](package.json)）：
 
 - vue@^3.5.13：前端框架
-- unocss@^66.5.4：原子化 CSS 框架（开发依赖）
+- @iconify/vue：Iconify 图标组件
+- sass：SCSS 预处理器（开发依赖）
+- @mdi/js：MDI 图标 SVG path，tree-shakeable（开发依赖）
+
+## 强制规则
+
+### UI 规范：Codex 风格
+
+所有新增 feature 的 UI 必须遵循 Codex 风格，使用全局设计 Token，**禁止硬编码**。
+
+核心 Token（`src/_variables.scss`）：
+
+- 圆角：`$vp-radius`（6px）、`$radius-sm`（4px）、`$radius-md`（8px）、`$radius-lg`（12px）、`$radius-full`（胶囊）
+- 间距：`$spacing-xs`（4px）、`$spacing-sm`（8px）、`$spacing-md`（12px）、`$spacing-lg`（16px）
+- 等宽字体：`$vp-mono`
+- 动画：`$vp-transition`（0.12s）
+
+核心模式：
+
+| 模式 | 规则 |
+|------|------|
+| 卡片 | `border: 1px solid var(--b3-border-color)`，禁用阴影 |
+| 卡片 hover | `border-color: var(--b3-theme-primary)` |
+| 大写标签 | `font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase` |
+| 等宽字段 | 路径/版本号/日期/密码使用 `$vp-mono` |
+| focus 发光 | `box-shadow: 0 0 0 2px var(--b3-theme-primary-lightest)` |
+| 按钮 | 主按钮实底 `var(--b3-theme-primary)` / 次按钮描边 ghost |
+| 动画 | 统一 `0.12s` 过渡 |
+
+### 图标规范
+
+- **禁止使用 emoji 表情作为图标**
+- 所有图标必须从 `src/config/icons.ts` 导入已注册的 Iconify 图标
+- 图标来源：`@mdi/js`（按需导入 SVG path，tree-shakeable）
+- 新增图标步骤：在 `icons.ts` 中从 `@mdi/js` 导入对应 path → 注册到 `COMMON_ICONS` 或 `FEATURE_ICONS` → 组件中引用
+- 浏览可用图标：https://icon-sets.iconify.design/mdi/
+- 图标渲染：通过全局注册的 `<Icon>` 组件，`:icon` 属性传入 icon data 对象
 
 ### 文档参考
 
