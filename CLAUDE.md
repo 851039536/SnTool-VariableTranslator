@@ -4,7 +4,7 @@
 
 ## 项目概述
 
-这是一个基于 Vue 3 构建的 uTools 插件，用于将中文变量名翻译为符合编程规范的英文命名。支持使用 OpenAI 兼容的 API（通义千问、DeepSeek、智谱 GLM、Moonshot Kimi）进行翻译。
+这是一个基于 Vue 3 构建的 uTools 插件，用于将中文变量名翻译为符合编程规范的英文命名。内置固定使用 DeepSeek-V3 模型（非思考模式），用户仅需配置 API Key。
 
 ### 构建与开发
 
@@ -54,15 +54,12 @@ npm run build
 
 | 存储方式           | 键名                         | 用途                                           |
 | ------------------ | ---------------------------- | ---------------------------------------------- |
-| `window.utools.db` | `translator_api_config`      | 所有预设的 API 配置（endpoint、apiKey、model） |
-| `window.utools.db` | `translator_selected_preset` | 当前选中的预设名称                             |
+| `window.utools.db` | `translator_api_key`         | DeepSeek API Key                               |
+| `window.utools.db` | `translator_cache_*`         | 翻译结果缓存（key 为输入文本，7天过期）         |
+| `window.utools.db` | `translator_cache_stats`     | 缓存命中统计（hits/total）                     |
 | `localStorage`     | `translator_theme`           | 主题偏好（亮色/暗色）                          |
 
-重要提示： 修改 API 配置持久化时，注意以下竞态条件：
-
-- `loadApiConfig()` 在 `onMounted` 中调用（延迟 50ms）
-- `watch(() => props.enterAction)` 使用 `immediate: true`
-- `isLoadingConfig` 标志（模块级变量，在 100ms 后重置）
+重要提示： API Key 加载在 `onMounted` 中延迟 50ms 执行，`watch(() => props.enterAction)` 使用 `immediate: true`，两者之间可能产生竞态。
 
 ### CSS 架构
 
@@ -78,12 +75,18 @@ npm run build
 
 ### 翻译提示词结构
 
-`getPrompt()` 函数（[VariableTranslator/index.vue:368-409](src/VariableTranslator/index.vue#L368-L409)）定义了 AI 提示词。输出格式为 JSON，每个中文词汇包含 4 种命名类型：
+`getPrompt()` 函数（[VariableTranslator/index.vue](src/VariableTranslator/index.vue)）定义了极简 AI 提示词，约 120 token。输出格式为 JSON 数组，每个中文词汇包含 4 种命名类型：
 
-- `variable`：名词短语（camelCase、snake_case、PascalCase、谐音）
-- `method`：动词开头（camelCase、snake_case、PascalCase、谐音）
+- `variable`：名词短语（camelCase、snake_case、PascalCase）
+- `method`：动词开头（camelCase、snake_case、PascalCase）
 - `constant`：全大写下划线（UPPER_SNAKE_CASE）
 - `class`：PascalCase 名词
+
+API 调用参数优化：
+- `temperature: 0.1`（降低随机性，提高命名一致性）
+- `max_tokens: 300`（限制输出长度）
+- `response_format: { type: 'json_object' }`（强制 JSON 输出）
+- `thinking: { type: 'disabled' }`（非思考模式，节省 reasoning token）
 
 ### 防抖自动翻译
 
@@ -95,27 +98,21 @@ npm run build
 | -------------------------- | ----------------- |
 | `Ctrl+Enter` / `Cmd+Enter` | 立即翻译          |
 | `Ctrl+K` / `Cmd+K`         | 清空输入和结果    |
-| `Esc`                      | 关闭 API 配置弹窗 |
 
-### API 预设管理
+### 模型配置
 
-项目支持多个 API 预设配置（[VariableTranslator/index.vue:174-196](src/VariableTranslator/index.vue#L174-L196)）：
+配置文件：[src/config/api.ts](src/config/api.ts)（已加入 `.gitignore`，禁止提交）
 
-- 通义千问：使用 DashScope 兼容模式端点
-- DeepSeek：官方 API 端点
-- 智谱 GLM：使用 glm-4-flash 模型
-- Moonshot Kimi：使用 moonshot-v1-8k 模型
+- 端点：`https://api.deepseek.com/v1/chat/completions`
+- 模型：`deepseek-chat`（DeepSeek-V3）
+- API Key 直接写在 `api.ts` 的 `apiKey` 字段，无需 UI 配置
+- 参考模板：[src/config/api.example.ts](src/config/api.example.ts)（可提交，供参考）
 
-配置数据格式：
+### 缓存机制
 
-```javascript
-{
-  qwen: { endpoint: '', apiKey: '', model: 'qwen-turbo' },
-  deepseek: { endpoint: '', apiKey: '', model: 'deepseek-chat' },
-  zhipu: { endpoint: '', apiKey: '', model: 'glm-4-flash' },
-  kimi: { endpoint: '', apiKey: '', model: 'moonshot-v1-8k' }
-}
-```
+- 缓存 key：`translator_cache_${input}`（仅基于输入文本，与模型无关）
+- 缓存有效期：7 天（`CACHE_TTL`）
+- 缓存统计：`translator_cache_stats` 记录命中次数和总请求数
 
 ### 组件通信
 
@@ -130,6 +127,8 @@ npm run build
 - [src/main.scss](src/main.scss)：全局样式、主题变量、`--b3-*` 语义别名
 - [src/VariableTranslator/index.scss](src/VariableTranslator/index.scss)：翻译器组件专用样式
 - [src/config/icons.ts](src/config/icons.ts)：Iconify 图标注册表
+- [src/config/api.ts](src/config/api.ts)：API 配置（含 Key，.gitignore 排除）
+- [src/config/api.example.ts](src/config/api.example.ts)：API 配置模板（可提交）
 
 ### 依赖说明
 

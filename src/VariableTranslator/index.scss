@@ -68,13 +68,6 @@
   }
 }
 
-.btn-config {
-  @extend %btn-ghost-icon;
-
-  &:hover {
-    transform: rotate(45deg);
-  }
-}
 
 // ── 卡片 ──────────────────────────────────────────────────────
 
@@ -157,98 +150,6 @@
   letter-spacing: -0.02em;
 }
 
-// ── 配置弹窗 ──────────────────────────────────────────────────
-
-.config-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.config-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
-}
-
-.config-panel {
-  position: relative;
-  background: var(--bg-primary);
-  border: 1px solid var(--b3-border-color);
-  border-radius: $radius-lg;
-  width: 90%;
-  max-width: 480px;
-  max-height: 80vh;
-  overflow-y: auto;
-}
-
-.config-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: $spacing-md $spacing-lg;
-  border-bottom: 1px solid var(--b3-border-color);
-  position: sticky;
-  top: 0;
-  background: var(--bg-primary);
-  z-index: 1;
-
-  h2 {
-    margin: 0;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--b3-theme-on-surface);
-  }
-}
-
-.btn-close {
-  padding: 0 $spacing-xs;
-  font-size: 20px;
-  line-height: 1;
-  border: none;
-  background: transparent;
-  color: var(--b3-theme-on-surface-secondary);
-  cursor: pointer;
-  transition: $vp-transition-color;
-
-  &:hover {
-    color: var(--b3-theme-on-surface);
-  }
-}
-
-.config-content {
-  padding: $spacing-lg;
-}
-
-// ── 表单（Codex 大写标签）─────────────────────────────────────
-
-.form-group {
-  margin-bottom: $spacing-md;
-
-  label {
-    display: block;
-    margin-bottom: $spacing-xs;
-    color: var(--b3-theme-on-surface-secondary);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    opacity: 0.45;
-  }
-}
-
-.input-tip {
-  display: block;
-  margin-top: $spacing-xs;
-  font-size: 11px;
-  color: var(--b3-theme-on-surface-secondary);
-  opacity: 0.6;
-}
-
 .input {
   width: 100%;
   padding: $spacing-sm $spacing-md;
@@ -271,50 +172,6 @@
   font-family: $vp-mono;
   resize: vertical;
   line-height: 1.5;
-}
-
-.save-tip {
-  margin-left: $spacing-sm;
-  font-size: 12px;
-  color: var(--b3-theme-success);
-  font-weight: 500;
-}
-
-// ── 按钮 ──────────────────────────────────────────────────────
-
-.btn-primary {
-  background: var(--b3-theme-primary);
-  color: #fff;
-  border: none;
-  border-radius: $vp-radius;
-  padding: $spacing-sm $spacing-lg;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: $vp-transition;
-
-  &:hover {
-    background: var(--b3-theme-primary-dark);
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-}
-
-.btn-text {
-  background: transparent;
-  color: var(--b3-theme-primary);
-  border: none;
-  cursor: pointer;
-  font-size: 12px;
-  padding: $spacing-xs $spacing-sm;
-  transition: $vp-transition-color;
-
-  &:hover {
-    color: var(--b3-theme-primary-dark);
-  }
 }
 
 // ── 结果卡片 ──────────────────────────────────────────────────

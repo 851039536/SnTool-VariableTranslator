@@ -7,56 +7,8 @@
           <button @click="toggleTheme" class="btn-theme" :title="isDarkTheme ? '切换到亮色' : '切换到暗色'">
             <Icon :icon="isDarkTheme ? COMMON_ICONS.sun : COMMON_ICONS.moon" width="16" />
           </button>
-          <button @click="toggleApiConfig" class="btn-config" title="API配置">
-            <Icon :icon="COMMON_ICONS.cog" width="16" />
-          </button>
         </div>
       </header>
-
-      <!-- API 配置浮层 -->
-      <div v-show="showApiConfig" class="config-modal">
-        <div class="config-overlay" @click="toggleApiConfig"></div>
-        <div class="config-panel">
-          <div class="config-header">
-            <h2>
-              <Icon :icon="COMMON_ICONS.cog" width="16" /> API 配置
-            </h2>
-            <button @click="toggleApiConfig" class="btn-close">
-              <Icon :icon="COMMON_ICONS.close" width="18" />
-            </button>
-          </div>
-          <div class="config-content">
-            <div class="form-group">
-              <label>选择预设</label>
-              <select v-model="selectedPreset" @change="applyPreset" class="input">
-                <option value="">自定义</option>
-                <option value="qwen">通义千问</option>
-                <option value="deepseek">DeepSeek</option>
-                <option value="zhipu">智谱 GLM</option>
-                <option value="kimi">Moonshot Kimi</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>API 端点</label>
-              <input v-model="currentPresetConfig.endpoint" type="text" class="input"
-                placeholder="https://api.example.com/v1/chat/completions" />
-              <span class="input-tip">支持 OpenAI 兼容格式的接口</span>
-            </div>
-            <div class="form-group">
-              <label>API Key</label>
-              <input v-model="currentPresetConfig.apiKey" type="text" class="input" placeholder="sk-..." />
-            </div>
-            <div class="form-group">
-              <label>模型名称</label>
-              <input v-model="currentPresetConfig.model" type="text" class="input" placeholder="gpt-3.5-turbo" />
-            </div>
-            <button @click="saveApiConfig" class="btn btn-primary">保存配置</button>
-            <span v-if="configSaved" class="save-tip">
-              <Icon :icon="COMMON_ICONS.check" width="14" /> 已保存
-            </span>
-          </div>
-        </div>
-      </div>
 
       <!-- 翻译区域 -->
       <div class="card card-input">
@@ -68,7 +20,7 @@
             <Icon :icon="TI.loading" width="14" class="icon-spin" /> 翻译中...
           </span>
           <span v-else-if="!isApiConfigured" class="status-tip status-tip--warn">
-            <Icon :icon="TI.warning" width="14" /> 请先配置 API
+            <Icon :icon="TI.warning" width="14" /> 请在 src/config/api.ts 中配置 API Key
           </span>
           <span v-else-if="chineseInput.trim()" class="status-tip status-tip--ready">
             <Icon :icon="TI.ready" width="14" /> 就绪
@@ -113,7 +65,9 @@
                     <button @click="copyToClipboard(option.camelCase, getButtonId(index, mode.value, idx, 'camel'))"
                       class="copy-btn"
                       :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'camel') }">
-                      <Icon :icon="copiedButton === getButtonId(index, mode.value, idx, 'camel') ? COMMON_ICONS.copied : COMMON_ICONS.copy" width="14" />
+                      <Icon
+                        :icon="copiedButton === getButtonId(index, mode.value, idx, 'camel') ? COMMON_ICONS.copied : COMMON_ICONS.copy"
+                        width="14" />
                     </button>
                   </div>
                   <div class="style-row">
@@ -122,7 +76,9 @@
                     <button @click="copyToClipboard(option.snake_case, getButtonId(index, mode.value, idx, 'snake'))"
                       class="copy-btn"
                       :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'snake') }">
-                      <Icon :icon="copiedButton === getButtonId(index, mode.value, idx, 'snake') ? COMMON_ICONS.copied : COMMON_ICONS.copy" width="14" />
+                      <Icon
+                        :icon="copiedButton === getButtonId(index, mode.value, idx, 'snake') ? COMMON_ICONS.copied : COMMON_ICONS.copy"
+                        width="14" />
                     </button>
                   </div>
                   <div class="style-row">
@@ -131,7 +87,9 @@
                     <button @click="copyToClipboard(option.PascalCase, getButtonId(index, mode.value, idx, 'pascal'))"
                       class="copy-btn"
                       :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'pascal') }">
-                      <Icon :icon="copiedButton === getButtonId(index, mode.value, idx, 'pascal') ? COMMON_ICONS.copied : COMMON_ICONS.copy" width="14" />
+                      <Icon
+                        :icon="copiedButton === getButtonId(index, mode.value, idx, 'pascal') ? COMMON_ICONS.copied : COMMON_ICONS.copy"
+                        width="14" />
                     </button>
                   </div>
                 </div>
@@ -155,6 +113,7 @@
 <script setup>
 import { ref, computed, onMounted, watch, onUnmounted, nextTick } from 'vue';
 import { COMMON_ICONS, FEATURE_ICONS } from '@/config/icons';
+import { API_CONFIG, CACHE_TTL } from '@/config/api';
 
 const TI = FEATURE_ICONS.translator;
 
@@ -173,35 +132,8 @@ const props = defineProps({
 const emit = defineEmits(['toggle-theme']);
 
 // 数据
-const showApiConfig = ref(false);
-const selectedPreset = ref('');
-const configSaved = ref(false);
-const copiedButton = ref(null); // 记录当前复制的按钮
+const copiedButton = ref(null);  // 记录当前复制的按钮
 const isFromUtools = ref(false); // 标记是否来自 uTools 的自动填充
-
-// API 预设配置（每个预设包含 endpoint, apiKey, model）
-const presets = ref({
-  qwen: {
-    endpoint: 'https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions',
-    apiKey: '',
-    model: 'qwen-turbo'
-  },
-  deepseek: {
-    endpoint: 'https://api.deepseek.com/v1/chat/completions',
-    apiKey: '',
-    model: 'deepseek-chat'
-  },
-  zhipu: {
-    endpoint: 'https://open.bigmodel.cn/api/paas/v4/chat/completions',
-    apiKey: '',
-    model: 'glm-4-flash'
-  },
-  kimi: {
-    endpoint: 'https://api.moonshot.cn/v1/chat/completions',
-    apiKey: '',
-    model: 'moonshot-v1-8k'
-  }
-});
 
 const modes = [
   { value: 'variable', label: 'Variable', icon: TI.variable, desc: '名词或名词短语' },
@@ -216,226 +148,39 @@ const isTranslating = ref(false);
 const isFromCache = ref(false);
 let debounceTimer = null;
 
-// 计算属性 - 获取当前选中预设的配置
-const currentPresetConfig = computed(() => {
-  if (!selectedPreset.value) {
-    return { endpoint: '', apiKey: '', model: '' };
-  }
-  return presets.value[selectedPreset.value] || { endpoint: '', apiKey: '', model: '' };
-});
-
-const isApiConfigured = computed(() => {
-  return currentPresetConfig.value.endpoint && currentPresetConfig.value.apiKey;
-});
-
-// 方法
-function toggleApiConfig() {
-  showApiConfig.value = !showApiConfig.value;
-}
+const isApiConfigured = computed(() => !!API_CONFIG.apiKey);
 
 function toggleTheme() {
   emit('toggle-theme');
 }
 
-function applyPreset() {
-  // 如果正在加载配置，不应用预设，避免覆盖已保存的配置
-  if (isLoadingConfig) {
-    console.log('applyPreset - 加载配置中，跳过');
-    return;
-  }
-  console.log('applyPreset - 切换预设:', selectedPreset.value);
-  // 如果切换到"自定义"，提示用户
-  if (!selectedPreset.value) {
-    error.value = '请选择一个预设，自定义功能暂不可用';
-    setTimeout(() => {
-      error.value = '';
-    }, 2000);
-    return;
-  }
-  // 预设切换后，配置会自动通过 currentPresetConfig 计算属性切换
-  // 不需要重新加载配置
-}
-
-function saveApiConfig() {
-  try {
-    // 如果没有选中预设，提示用户先选择预设
-    if (!selectedPreset.value) {
-      error.value = '请先选择一个预设';
-      setTimeout(() => {
-        error.value = '';
-      }, 2000);
-      return;
-    }
-
-    console.log('saveApiConfig - 保存配置前 presets.value:', JSON.stringify(presets.value));
-    console.log('saveApiConfig - 当前预设配置:', {
-      preset: selectedPreset.value,
-      endpoint: presets.value[selectedPreset.value].endpoint,
-      apiKey: presets.value[selectedPreset.value].apiKey,
-      model: presets.value[selectedPreset.value].model
-    });
-
-    // 将 Vue 响应式对象转换为普通对象
-    const plainPresets = JSON.parse(JSON.stringify(presets.value));
-
-    // 保存所有预设的配置
-    window.utools.db.put({
-      _id: 'translator_api_config',
-      data: plainPresets
-    });
-    // 同时保存当前选中的预设
-    window.utools.db.put({
-      _id: 'translator_selected_preset',
-      data: selectedPreset.value
-    });
-
-    // 立即验证保存是否成功
-    setTimeout(() => {
-      const verify = window.utools.db.get('translator_api_config');
-    }, 100);
-
-    configSaved.value = true;
-    setTimeout(() => {
-      configSaved.value = false;
-    }, 2000);
-  } catch (e) {
-    console.error('saveApiConfig - 保存失败:', e);
-    error.value = '保存配置失败';
-  }
-}
-
-let isLoadingConfig = false; // 标记是否正在加载配置，防止触发 applyPreset
-
-function loadApiConfig() {
-  // 防止重复调用
-  if (isLoadingConfig) {
-    return;
-  }
-
-  try {
-    isLoadingConfig = true; // 开始加载配置
-
-    // 从 uTools 数据库读取所有预设配置
-    const savedPresets = window.utools.db.get('translator_api_config');
-
-    if (savedPresets && savedPresets.data) {
-      // 检查数据格式：如果是旧格式（扁平结构），需要迁移
-      if (savedPresets.data.preset && !savedPresets.data.qwen) {
-        console.log('loadApiConfig - 检测到旧格式数据，进行迁移');
-        // 旧格式：{ endpoint, apiKey, model, preset }
-        // 迁移到新格式
-        const oldPreset = savedPresets.data.preset;
-        if (oldPreset && presets.value[oldPreset]) {
-          presets.value[oldPreset].endpoint = savedPresets.data.endpoint || presets.value[oldPreset].endpoint;
-          presets.value[oldPreset].apiKey = savedPresets.data.apiKey || '';
-          presets.value[oldPreset].model = savedPresets.data.model || presets.value[oldPreset].model;
-          console.log('loadApiConfig - 已迁移旧数据到预设:', oldPreset);
-        }
-        // 删除旧格式数据
-        window.utools.db.remove('translator_api_config');
-      } else {
-        // 新格式：{ qwen: {...}, deepseek: {...}, ... }
-        Object.keys(savedPresets.data).forEach((key) => {
-          if (presets.value[key]) {
-            // 保留原有的结构，只更新值
-            presets.value[key].endpoint = savedPresets.data[key].endpoint || presets.value[key].endpoint;
-            presets.value[key].apiKey = savedPresets.data[key].apiKey || '';
-            presets.value[key].model = savedPresets.data[key].model || presets.value[key].model;
-          }
-        });
-      }
-    }
-
-    // 读取当前选中的预设
-    const savedPreset = window.utools.db.get('translator_selected_preset');
-    console.log('loadApiConfig - savedPreset:', savedPreset);
-
-    if (savedPreset && savedPreset.data) {
-      selectedPreset.value = savedPreset.data;
-      console.log('loadApiConfig - 当前预设:', selectedPreset.value);
-    } else if (!selectedPreset.value) {
-      // 如果没有保存的预设且当前没有选中，默认选中第一个预设
-      selectedPreset.value = 'qwen';
-      console.log('loadApiConfig - 使用默认预设: qwen');
-    }
-
-    console.log('loadApiConfig - 最终配置:', {
-      selectedPreset: selectedPreset.value,
-      currentConfig: presets.value[selectedPreset.value]
-    });
-
-    // 使用 setTimeout 延迟重置标记，确保 DOM 更新和事件处理都已完成
-    setTimeout(() => {
-      isLoadingConfig = false;
-    }, 100);
-  } catch (e) {
-    console.error('loadApiConfig - 加载失败:', e);
-    isLoadingConfig = false;
-  }
-}
-
 function getPrompt() {
-  return `你是一个专业的编程命名助手。请将以下中文翻译为符合编程规范的英文命名。
-
-要求:
-1. 为每个中文提供4种类型的翻译:
-   - variable(变量命名):名词或名词短语
-   - method(方法命名):动词开头
-   - constant(常量命名):全大写下划线,如:USER_NAME
-   - class(类名):名词,使用PascalCase
-
-2. 每种类型提供1个方案,每个方案包含3种命名风格:
-   - camelCase:驼峰命名(首字母小写),如:userName
-   - snake_case:下划线命名(全小写),如:user_name
-   - PascalCase:帕斯卡命名(首字母大写),如:UserName
-
-3. 语义清晰、简洁、符合英语习惯
-
-4. 严格按照JSON格式输出,不要有其他解释
-
-输出格式(JSON):
-[
-  {
-    "chinese": "控制台",
-    "variable": [
-      { "camelCase": "console", "snake_case": "console", "PascalCase": "Console" }
-    ],
-    "method": [
-      { "camelCase": "getConsole", "snake_case": "get_console", "PascalCase": "GetConsole" }
-    ],
-    "constant": [
-      { "camelCase": "CONSOLE", "snake_case": "CONSOLE", "PascalCase": "CONSOLE" }
-    ],
-    "class": [
-      { "camelCase": "Console", "snake_case": "console", "PascalCase": "Console" }
-    ]
-  }
-]
-
-请翻译以下内容:
-${chineseInput.value}`;
+  return `编程命名翻译。为每个中文词提供4类(variable/method/constant/class)翻译，每类含camelCase/snake_case/PascalCase。仅输出JSON数组，无解释。
+示例输入:控制台
+输出:[{"chinese":"控制台","variable":[{"camelCase":"console","snake_case":"console","PascalCase":"Console"}],"method":[{"camelCase":"getConsole","snake_case":"get_console","PascalCase":"GetConsole"}],"constant":[{"camelCase":"CONSOLE","snake_case":"CONSOLE","PascalCase":"CONSOLE"}],"class":[{"camelCase":"Console","snake_case":"console","PascalCase":"Console"}]}]
+翻译:${chineseInput.value}`;
 }
 
-// 生成缓存键名（基于输入文本和模型的哈希）
+// 生成缓存键名（仅基于输入文本，与模型无关）
 function getCacheKey() {
-  const input = chineseInput.value.trim();
-  const model = currentPresetConfig.value.model || 'default';
-  // 简单哈希：将输入文本和模型名组合
-  return `translator_cache_${model}_${input}`;
+  return `translator_cache_${chineseInput.value.trim()}`;
 }
 
-// 从缓存加载翻译结果
+// 从缓存加载翻译结果（含 7 天过期检查）
 async function loadFromCache() {
   try {
-    const cacheKey = getCacheKey();
-    const cached = window.utools.db.get(cacheKey);
-    if (cached && cached.data) {
-      console.log('从缓存加载翻译结果:', cacheKey);
+    const cached = window.utools.db.get(getCacheKey());
+    if (cached?.data && (Date.now() - cached.timestamp) < CACHE_TTL) {
+      // 累加缓存命中计数
+      try {
+        const stats = window.utools.db.get('translator_cache_stats');
+        const hits = (stats?.data?.hits || 0) + 1;
+        window.utools.db.put({ _id: 'translator_cache_stats', data: { hits, total: stats?.data?.total || hits } });
+      } catch (_) { /* 统计失败不影响功能 */ }
       return cached.data;
     }
     return null;
   } catch (e) {
-    console.error('读取缓存失败:', e);
     return null;
   }
 }
@@ -443,13 +188,15 @@ async function loadFromCache() {
 // 保存翻译结果到缓存
 async function saveToCache(result) {
   try {
-    const cacheKey = getCacheKey();
     window.utools.db.put({
-      _id: cacheKey,
+      _id: getCacheKey(),
       data: result,
       timestamp: Date.now()
     });
-    console.log('翻译结果已缓存:', cacheKey);
+    // 累加总请求计数
+    const stats = window.utools.db.get('translator_cache_stats');
+    const total = (stats?.data?.total || 0) + 1;
+    window.utools.db.put({ _id: 'translator_cache_stats', data: { hits: stats?.data?.hits || 0, total } });
   } catch (e) {
     console.error('保存缓存失败:', e);
   }
@@ -485,21 +232,19 @@ async function translate() {
     isFromCache.value = false;
 
     // 缓存未命中，调用 API 翻译
-    const response = await fetch(currentPresetConfig.value.endpoint, {
+    const response = await fetch(API_CONFIG.endpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${currentPresetConfig.value.apiKey}`
+        Authorization: `Bearer ${API_CONFIG.apiKey}`
       },
       body: JSON.stringify({
-        model: currentPresetConfig.value.model,
-        messages: [
-          {
-            role: 'user',
-            content: getPrompt()
-          }
-        ],
-        temperature: 0.3
+        model: API_CONFIG.model,
+        messages: [{ role: 'user', content: getPrompt() }],
+        temperature: 0.1,
+        max_tokens: 300,
+        response_format: { type: 'json_object' },
+        thinking: { type: 'disabled' }, // 非思考模式，节省 reasoning token
       })
     });
 
@@ -578,19 +323,9 @@ function handleKeyDown(event) {
     event.preventDefault();
     clearResults();
   }
-
-  // Esc: 关闭配置面板
-  if (event.key === 'Escape' && showApiConfig.value) {
-    event.preventDefault();
-    toggleApiConfig();
-  }
 }
 
 onMounted(() => {
-  // 延迟加载配置，避免与 watch enterAction 冲突
-  setTimeout(() => {
-    loadApiConfig();
-  }, 50);
   // 注册键盘事件监听
   window.addEventListener('keydown', handleKeyDown);
 });
@@ -602,9 +337,6 @@ watch(
     if (!action || !action.payload) {
       return;
     }
-
-    // 每次进入时重新加载配置，确保数据不丢失
-    loadApiConfig();
 
     let text = '';
 
