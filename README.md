@@ -110,7 +110,7 @@ SnTool-VariableTranslator/
 ├── .gitignore
 ├── package.json
 ├── vite.config.js
-└── CLAUDE.md                      # AI 辅助开发规则
+└── AGENTS.md                      # AI 辅助开发规则
 ```
 
 ## 构建与发布

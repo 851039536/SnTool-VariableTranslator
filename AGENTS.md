@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-本文件为 Claude Code (claude.ai/code) 提供项目指导。
+本文件遵循 AGENTS.md 开放规范，为 AI 编码 Agents 提供项目指导。
 
 ## 项目概述
 
