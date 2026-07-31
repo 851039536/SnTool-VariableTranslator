@@ -2,8 +2,12 @@
   <div class="github-dark" :data-theme="isDarkTheme ? 'dark' : 'light'">
     <div class="container">
       <header class="header">
-        <span class="header-desc">{{ isZhToEn ? '中文 → 英文变量名' : '英文变量名 → 中文释义' }}</span>
+        <nav class="tabs">
+          <button class="tab" :class="{ active: activeTab === 'translate' }" @click="switchTab('translate')">翻译</button>
+          <button class="tab" :class="{ active: activeTab === 'history' }" @click="switchTab('history')">历史</button>
+        </nav>
         <div class="header-controls">
+          <span class="header-desc">{{ isZhToEn ? '中文 → 英文变量名' : '英文变量名 → 中文释义' }}</span>
           <button @click="toggleDirection" class="btn-swap" title="切换翻译方向">
             <Icon :icon="COMMON_ICONS.swap" width="16" />
           </button>
@@ -13,12 +17,19 @@
         </div>
       </header>
 
+      <template v-if="activeTab === 'translate'">
+
       <!-- 翻译区域 -->
       <div class="card card-input">
         <div class="input-wrap">
           <textarea ref="inputRef" v-model="chineseInput" class="input textarea"
             @keydown.enter.exact.prevent="onEnterKey"
             :placeholder="isZhToEn ? '输入中文，例如：用户名称' : '输入英文变量名，例如：getUserName'" rows="1"></textarea>
+        </div>
+        <div v-if="isZhToEn" class="context-bar">
+          <span class="ctx-label">生态</span>
+          <button v-for="ctx in CONTEXTS" :key="ctx.value" class="ctx-pill"
+            :class="{ active: context === ctx.value }" @click="setContext(ctx.value)">{{ ctx.label }}</button>
         </div>
         <div class="status-bar">
           <span v-if="isTranslating" class="status-tip status-tip--active">
@@ -69,12 +80,12 @@
               <div class="naming-options">
                 <div v-for="(option, idx) in result[mode.value]" :key="idx" class="naming-option">
                   <div v-for="row in mode.rows" :key="row.tag" class="style-row"
-                    @click="copyToClipboard(option[row.field], getButtonId(index, mode.value, idx, row.tag))"
+                    @click="copyToClipboard(rowValue(option, row), getButtonId(index, mode.value, idx, row.tag))"
                     title="点击复制">
                     <span class="style-tag" :class="'tag-' + row.tag">{{ row.tag }}</span>
-                    <code class="code-text">{{ option[row.field] }}</code>
+                    <code class="code-text">{{ rowValue(option, row) }}</code>
                     <button
-                      @click.stop="copyToClipboard(option[row.field], getButtonId(index, mode.value, idx, row.tag))"
+                      @click.stop="copyToClipboard(rowValue(option, row), getButtonId(index, mode.value, idx, row.tag))"
                       class="copy-btn"
                       :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, row.tag) }">
                       <Icon
@@ -129,6 +140,32 @@
         </h2>
         <p>{{ error }}</p>
       </div>
+
+      </template>
+
+      <!-- 历史记录 -->
+      <div v-else class="card history-panel">
+        <div class="history-head">
+          <span v-if="cacheStats" class="history-stats">缓存命中 {{ cacheStats.hits }}/{{ cacheStats.total }}</span>
+          <span v-else class="history-stats">最近 7 天</span>
+          <button v-if="historyList.length" class="btn-clear-history" @click="clearHistory">
+            <Icon :icon="TI.delete" width="13" /> 清空
+          </button>
+        </div>
+        <div v-if="historyList.length === 0" class="history-empty">
+          <Icon :icon="TI.history" width="15" /> 暂无历史记录（保留 7 天）
+        </div>
+        <div v-for="item in historyList" :key="item._id" class="history-item" @click="useHistory(item)"
+          title="点击重新查询">
+          <span class="history-dir">{{ item.meta.direction === 'zh-en' ? '中→英' : '英→中' }}</span>
+          <span class="history-input">{{ item.meta.input }}</span>
+          <span v-if="item.meta.context !== 'general'" class="history-ctx">{{ ctxLabel(item.meta.context) }}</span>
+          <span class="history-time">{{ formatTime(item.timestamp) }}</span>
+          <button class="history-del" @click.stop="removeHistory(item)" title="删除">
+            <Icon :icon="TI.delete" width="13" />
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -155,18 +192,23 @@ const props = defineProps({
 const emit = defineEmits(['toggle-theme']);
 
 // 数据
-const copiedButton = ref(null);  // 记录当前复制的按钮
-const isFromUtools = ref(false); // 标记是否来自 uTools 的自动填充
+const copiedButton = ref(null); // 记录当前复制的按钮
+let isFromUtools = false;       // 标记输入是否来自 uTools 的自动填充（非模板状态，无需响应式）
 
-// 风格行定义：tag 为展示标签，field 为结果字段名
+// 风格行定义：tag 为展示标签，field 为结果字段名，map 为可选的本地派生变换
 const FULL_ROWS = [
   { tag: 'camel', field: 'camelCase' },
   { tag: 'snake', field: 'snake_case' },
   { tag: 'Pascal', field: 'PascalCase' }
 ];
+// variable 额外提供 kebab-case（由 snake_case 本地派生，不消耗 token）
+const VAR_ROWS = [
+  ...FULL_ROWS,
+  { tag: 'kebab', field: 'snake_case', map: (v) => String(v).replace(/_/g, '-') }
+];
 
 const modes = [
-  { value: 'variable', label: 'Variable', icon: TI.variable, desc: '名词或名词短语', rows: FULL_ROWS },
+  { value: 'variable', label: 'Variable', icon: TI.variable, desc: '名词或名词短语', rows: VAR_ROWS },
   { value: 'method', label: 'Method', icon: TI.method, desc: '动词开头', rows: FULL_ROWS },
   // constant 三种风格均为全大写，仅展示单行；class 仅 PascalCase 有意义
   { value: 'constant', label: 'Constant', icon: TI.constant, desc: '全大写下划线', rows: [{ tag: 'UPPER', field: 'snake_case' }] },
@@ -174,6 +216,23 @@ const modes = [
 ];
 const direction = ref('zh-en'); // 'zh-en' | 'en-zh'
 const isZhToEn = computed(() => direction.value === 'zh-en');
+
+// 上下文生态（仅中→英生效）：影响提示词命名习惯与缓存 key
+const CONTEXTS = [
+  { value: 'general', label: '通用', hint: '' },
+  { value: 'js', label: 'JS/TS', hint: 'JavaScript/TypeScript,变量camelCase为主' },
+  { value: 'python', label: 'Python', hint: 'Python,变量/方法snake_case为主' },
+  { value: 'java', label: 'Java', hint: 'Java,camelCase,类PascalCase' },
+  { value: 'go', label: 'Go', hint: 'Go,简短驼峰,可导出名PascalCase' },
+  { value: 'css', label: 'CSS', hint: 'CSS/前端样式,类名kebab风格,简短' }
+];
+const context = ref(localStorage.getItem('translator_context') || 'general');
+
+// Tab 与历史记录
+const activeTab = ref('translate'); // 'translate' | 'history'
+const historyList = ref([]);
+const cacheStats = ref(null);
+
 const chineseInput = ref('');
 const translationResult = ref(null);
 const error = ref('');
@@ -205,9 +264,11 @@ function getPrompt() {
 }
 
 function getPromptZhToEn() {
-  return `编程命名翻译。为每个中文词提供4类(variable/method/constant/class)翻译，每类含camelCase/snake_case/PascalCase。仅输出JSON数组，无解释。
+  const ctx = CONTEXTS.find((c) => c.value === context.value);
+  const ctxHint = ctx?.hint ? `目标生态:${ctx.hint}。` : '';
+  return `编程命名翻译。为每个中文词提供4类(variable/method/constant/class)翻译,variable/method各给2个候选(常用优先),constant/class各1个,每候选含camelCase/snake_case/PascalCase。${ctxHint}仅输出JSON数组,无解释。
 示例输入:控制台
-输出:[{"chinese":"控制台","variable":[{"camelCase":"console","snake_case":"console","PascalCase":"Console"}],"method":[{"camelCase":"getConsole","snake_case":"get_console","PascalCase":"GetConsole"}],"constant":[{"camelCase":"CONSOLE","snake_case":"CONSOLE","PascalCase":"CONSOLE"}],"class":[{"camelCase":"Console","snake_case":"console","PascalCase":"Console"}]}]
+输出:[{"chinese":"控制台","variable":[{"camelCase":"console","snake_case":"console","PascalCase":"Console"},{"camelCase":"terminal","snake_case":"terminal","PascalCase":"Terminal"}],"method":[{"camelCase":"getConsole","snake_case":"get_console","PascalCase":"GetConsole"},{"camelCase":"openConsole","snake_case":"open_console","PascalCase":"OpenConsole"}],"constant":[{"camelCase":"CONSOLE","snake_case":"CONSOLE","PascalCase":"CONSOLE"}],"class":[{"camelCase":"Console","snake_case":"console","PascalCase":"Console"}]}]
 翻译:${chineseInput.value}`;
 }
 
@@ -218,9 +279,10 @@ function getPromptEnToZh() {
 分析:${chineseInput.value}`;
 }
 
-// 生成缓存键名（基于翻译方向 + 输入文本）
+// 生成缓存键名（基于翻译方向 + 生态上下文 + 输入文本）
 function getCacheKey() {
-  return `translator_cache_${direction.value}_${chineseInput.value.trim()}`;
+  const ctx = isZhToEn.value ? context.value : 'general';
+  return `translator_cache_${direction.value}_${ctx}_${chineseInput.value.trim()}`;
 }
 
 // 写入/覆盖 db 文档（自动携带 _rev，uTools put 失败不抛异常，需检查返回值）
@@ -246,12 +308,11 @@ function bumpStats(isHit) {
   } catch (_) { /* 统计失败不影响功能 */ }
 }
 
-// 从缓存加载翻译结果（含 7 天过期检查 + 精确匹配）
+// 从缓存加载翻译结果（含 7 天过期检查）
 function loadFromCache() {
   try {
-    const key = getCacheKey();
-    const cached = window.utools.db.get(key);
-    if (cached?._id === key && cached?.data) {
+    const cached = window.utools.db.get(getCacheKey());
+    if (cached?.data) {
       if ((Date.now() - cached.timestamp) < CACHE_TTL) {
         bumpStats(true);
         return cached.data;
@@ -265,13 +326,18 @@ function loadFromCache() {
   }
 }
 
-// 保存翻译结果到缓存
+// 保存翻译结果到缓存（meta 供历史记录列表使用）
 function saveToCache(result) {
   try {
     dbUpsert({
       _id: getCacheKey(),
       data: result,
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      meta: {
+        direction: direction.value,
+        context: isZhToEn.value ? context.value : 'general',
+        input: chineseInput.value.trim()
+      }
     });
     bumpStats(false);
   } catch (e) {
@@ -279,13 +345,14 @@ function saveToCache(result) {
   }
 }
 
-// 启动时扫描并清理所有过期缓存条目，防止 db 膨胀
+// 启动时扫描缓存条目：过期或非当前格式（无 meta）的一律删除，防止 db 膨胀
 function cleanExpiredCache() {
   try {
     const docs = window.utools.db.allDocs('translator_cache_');
     const now = Date.now();
     docs.forEach((doc) => {
-      if (doc._id !== 'translator_cache_stats' && (now - (doc.timestamp || 0)) >= CACHE_TTL) {
+      if (doc._id === 'translator_cache_stats') return;
+      if (!doc.meta || (now - (doc.timestamp || 0)) >= CACHE_TTL) {
         window.utools.db.remove(doc);
       }
     });
@@ -347,10 +414,8 @@ async function translate() {
       return;
     }
 
-    // 缓存未命中，标记为 API 翻译
-    isFromCache.value = false;
-
     // 缓存未命中，调用 API 翻译
+    isFromCache.value = false;
     const response = await fetch(API_CONFIG.endpoint, {
       method: 'POST',
       headers: {
@@ -362,7 +427,7 @@ async function translate() {
         model: API_CONFIG.model,
         messages: [{ role: 'user', content: getPrompt() }],
         temperature: 0.1,
-        max_tokens: 800,
+        max_tokens: 1000,
         response_format: { type: 'json_object' },
         thinking: { type: 'disabled' }, // 非思考模式，节省 reasoning token
       })
@@ -425,6 +490,12 @@ async function copyToClipboard(text, buttonId) {
   }
 }
 
+// 取命名行展示值（支持 kebab 等本地派生）
+function rowValue(option, row) {
+  const v = option?.[row.field] ?? '';
+  return row.map ? row.map(v) : v;
+}
+
 // 生成唯一按钮ID
 function getButtonId(resultIndex, modeValue, optionIndex, styleType) {
   return `${resultIndex}-${modeValue}-${optionIndex}-${styleType}`;
@@ -449,21 +520,98 @@ function onEnterKey() {
   }
 }
 
+// 切换上下文生态：持久化并对当前输入立即重译（命中对应生态缓存则瞬时返回）
+function setContext(value) {
+  if (context.value === value) return;
+  context.value = value;
+  localStorage.setItem('translator_context', value);
+  if (debounceTimer) clearTimeout(debounceTimer);
+  if (isApiConfigured.value && chineseInput.value.trim()) {
+    translate();
+  }
+}
+
+function ctxLabel(value) {
+  return CONTEXTS.find((c) => c.value === value)?.label || value;
+}
+
+// ── 历史记录 ────────────────────────────────────────
+
+function switchTab(tab) {
+  activeTab.value = tab;
+  if (tab === 'history') {
+    loadHistory();
+  } else {
+    nextTick(() => inputRef.value?.focus());
+  }
+}
+
+function loadHistory() {
+  try {
+    const docs = window.utools.db.allDocs('translator_cache_');
+    // 当前格式的缓存条目均带 meta（stats 文档无 meta，随之排除）
+    historyList.value = docs
+      .filter((d) => d.meta)
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .slice(0, 50);
+    cacheStats.value = window.utools.db.get('translator_cache_stats')?.data || null;
+  } catch (_) {
+    historyList.value = [];
+    cacheStats.value = null;
+  }
+}
+
+// 点击历史条目：回填方向/生态/输入并立即翻译（命中缓存瞬时返回）
+function useHistory(item) {
+  direction.value = item.meta.direction;
+  if (item.meta.direction === 'zh-en') {
+    context.value = item.meta.context;
+  }
+  activeTab.value = 'translate';
+  chineseInput.value = item.meta.input;
+  nextTick(() => {
+    // 取消输入 watch 设置的防抖，直接翻译
+    if (debounceTimer) clearTimeout(debounceTimer);
+    if (isApiConfigured.value) translate();
+    inputRef.value?.focus();
+  });
+}
+
+function removeHistory(item) {
+  try {
+    window.utools.db.remove(item);
+  } catch (_) { /* 删除失败忽略 */ }
+  loadHistory();
+}
+
+function clearHistory() {
+  try {
+    const docs = window.utools.db.allDocs('translator_cache_');
+    docs.forEach((doc) => {
+      if (doc._id !== 'translator_cache_stats') {
+        window.utools.db.remove(doc);
+      }
+    });
+  } catch (_) { /* 清空失败忽略 */ }
+  loadHistory();
+}
+
+// 相对时间展示
+function formatTime(ts) {
+  const min = Math.floor((Date.now() - ts) / 60000);
+  if (min < 1) return '刚刚';
+  if (min < 60) return `${min}分钟前`;
+  const h = Math.floor(min / 60);
+  if (h < 24) return `${h}小时前`;
+  return `${Math.floor(h / 24)}天前`;
+}
+
 // 键盘快捷键处理
 function handleKeyDown(event) {
-  // Ctrl+Enter 或 Cmd+Enter: 立即翻译
+  // Ctrl+Enter 或 Cmd+Enter: 立即翻译（与 Enter 行为一致）
   if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
     event.preventDefault();
-    if (isApiConfigured.value && chineseInput.value.trim()) {
-      // 清除待触发的自动翻译定时器，立即翻译
-      if (debounceTimer) {
-        clearTimeout(debounceTimer);
-      }
-      if (utoolsTimer) {
-        clearTimeout(utoolsTimer);
-      }
-      translate();
-    }
+    onEnterKey();
   }
 
   // Ctrl+K 或 Cmd+K: 清空输入框
@@ -515,7 +663,7 @@ watch(
         return;
       }
       // 先设置标记
-      isFromUtools.value = true;
+      isFromUtools = true;
       // 使用 nextTick 确保在下一个 tick 设置值，这样 watch 能正确触发
       nextTick(() => {
         chineseInput.value = text;
@@ -542,16 +690,10 @@ onUnmounted(() => {
 // 监听输入变化，自动翻译
 watch(chineseInput, (newValue) => {
   // 如果是来自 uTools 的输入，立即翻译
-  if (isFromUtools.value) {
-    isFromUtools.value = false; // 重置标记
-
-    // 清除之前的定时器
-    if (debounceTimer) {
-      clearTimeout(debounceTimer);
-    }
-    if (utoolsTimer) {
-      clearTimeout(utoolsTimer);
-    }
+  if (isFromUtools) {
+    isFromUtools = false; // 重置标记
+    if (debounceTimer) clearTimeout(debounceTimer);
+    if (utoolsTimer) clearTimeout(utoolsTimer);
 
     // 短暂延迟后立即翻译，确保 API 配置已加载；回调内取当前输入值，避免清空后仍用旧文本翻译
     utoolsTimer = setTimeout(() => {
@@ -563,9 +705,7 @@ watch(chineseInput, (newValue) => {
   }
 
   // 清除之前的定时器
-  if (debounceTimer) {
-    clearTimeout(debounceTimer);
-  }
+  if (debounceTimer) clearTimeout(debounceTimer);
 
   // 如果输入为空，清空结果
   if (!newValue.trim()) {

@@ -52,9 +52,10 @@ npm run build
 | 存储方式           | 键名                         | 用途                                           |
 | ------------------ | ---------------------------- | ---------------------------------------------- |
 | `window.utools.db` | `translator_api_key`         | DeepSeek API Key                               |
-| `window.utools.db` | `translator_cache_*`         | 翻译结果缓存（key 含方向与输入文本，7天过期）   |
+| `window.utools.db` | `translator_cache_*`         | 翻译结果缓存（key 含方向/生态/输入，含 meta，7天过期） |
 | `window.utools.db` | `translator_cache_stats`     | 缓存命中统计（hits/total）                     |
 | `localStorage`     | `translator_theme`           | 主题偏好（亮色/暗色）                          |
+| `localStorage`     | `translator_context`         | 上下文生态偏好（general/js/python/java/go/css） |
 
 重要提示： API Key 加载在 `onMounted` 中延迟 50ms 执行，`watch(() => props.enterAction)` 使用 `immediate: true`，两者之间可能产生竞态。
 
@@ -72,16 +73,18 @@ npm run build
 
 ### 翻译提示词结构
 
-`getPrompt()` 函数（[VariableTranslator/index.vue](src/VariableTranslator/index.vue)）定义了极简 AI 提示词，约 120 token。输出格式为 JSON 数组，每个中文词汇包含 4 种命名类型：
+`getPrompt()` 函数（[VariableTranslator/index.vue](src/VariableTranslator/index.vue)）定义了极简 AI 提示词。输出格式为 JSON 数组，每个中文词汇包含 4 种命名类型：
 
-- `variable`：名词短语（camelCase、snake_case、PascalCase）
-- `method`：动词开头（camelCase、snake_case、PascalCase）
-- `constant`：全大写下划线（UPPER_SNAKE_CASE）
-- `class`：PascalCase 名词
+- `variable`：名词短语（camelCase、snake_case、PascalCase），2 个候选
+- `method`：动词开头（camelCase、snake_case、PascalCase），2 个候选
+- `constant`：全大写下划线（UPPER_SNAKE_CASE），1 个候选
+- `class`：PascalCase 名词，1 个候选
+
+kebab-case 不经 API 返回，由 snake_case 在本地派生（`VAR_ROWS` 的 `map` 变换），仅在 variable 类型展示。选中非“通用”生态时，提示词中注入 `目标生态:{hint}` 引导命名习惯。
 
 API 调用参数优化：
 - `temperature: 0.1`（降低随机性，提高命名一致性）
-- `max_tokens: 800`（限制输出长度，兼顾多词输入不被截断）
+- `max_tokens: 1000`（限制输出长度，兼顾多候选/多词输入不被截断）
 - `response_format: { type: 'json_object' }`（强制 JSON 输出）
 - `thinking: { type: 'disabled' }`（非思考模式，节省 reasoning token）
 
@@ -91,9 +94,17 @@ API 调用参数优化：
 
 ### 结果展示与复制交互
 
-- 结果行由 `modes` 数组的 `rows` 字段数据驱动：variable/method 展示 camel/snake/Pascal 三行；constant 仅展示单行 UPPER（三字段均为全大写，取 snake_case）；class 仅展示单行 PascalCase
+- 结果行由 `modes` 数组的 `rows` 字段数据驱动：variable 展示 camel/snake/Pascal/kebab 四行（kebab 本地派生）；method 展示三行；constant 仅展示单行 UPPER（三字段均为全大写，取 snake_case）；class 仅展示单行 PascalCase
+- variable/method 返回 2 个候选词，候选之间用虚线分隔（`.naming-option + .naming-option`）
 - 命名行整行可点击复制（行内复制按钮 `@click.stop` 避免双触发），复制后窗口保持打开，支持连续复制
 - 重新翻译时旧结果保留并加 `.is-stale`（半透明），避免内容闪空；进入插件时输入框自动聚焦
+
+### 上下文生态与 Tab 历史记录
+
+- 生态选择（仅中→英）：输入卡片内胶囊 pills（通用/JS・TS/Python/Java/Go/CSS），影响提示词与缓存 key，切换后对当前输入立即重译，选择持久化到 `localStorage.translator_context`
+- Tab 切换（header 左侧）：“翻译”/“历史”两个视图；历史列表读取带 `meta` 的 `translator_cache_*` 文档（最多 50 条，按时间倒序），展示方向/输入/生态/相对时间
+- 点击历史条目回填方向+生态+输入并立即重查（命中缓存瞬时返回）；支持单条删除与清空；头部展示缓存命中统计（hits/total）
+- 历史与缓存共用存储，随 7 天 TTL 自然淘汰
 
 ### 键盘快捷键
 
@@ -114,8 +125,9 @@ API 调用参数优化：
 
 ### 缓存机制
 
-- 缓存 key：`translator_cache_${direction}_${input}`（基于翻译方向 + 输入文本，与模型无关）
-- 缓存有效期：7 天（`CACHE_TTL`），读取时发现过期即删除，组件挂载时扫描清理全部过期条目
+- 缓存 key：`translator_cache_${direction}_${context}_${input}`（基于方向 + 生态 + 输入，英→中方向 context 固定为 general）
+- 缓存文档含 `meta`（direction/context/input）供历史记录列表使用
+- 缓存有效期：7 天（`CACHE_TTL`），读取时发现过期即删除；组件挂载时扫描清理过期条目及所有非当前格式（无 `meta`）的旧条目，不做向后兼容
 - 缓存统计：`translator_cache_stats` 记录命中次数（hits）和总翻译请求数（total，含命中与未命中）
 
 ### 组件通信

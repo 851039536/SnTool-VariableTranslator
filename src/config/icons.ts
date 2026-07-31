@@ -24,6 +24,8 @@ import {
   mdiFormatText,
   mdiCubeOutline,
   mdiSwapHorizontal,
+  mdiHistory,
+  mdiTrashCanOutline,
 } from '@mdi/js';
 
 /** 将 SVG path d 属性转为 Iconify icon data */
@@ -56,5 +58,8 @@ export const FEATURE_ICONS = {
     method: icon(mdiFunctionVariant),
     constant: icon(mdiFormatText),
     class: icon(mdiCubeOutline),
+    // 历史记录
+    history: icon(mdiHistory),
+    delete: icon(mdiTrashCanOutline),
   },
 } as const;
