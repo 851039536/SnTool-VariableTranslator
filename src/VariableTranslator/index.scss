@@ -618,29 +618,6 @@
   to { transform: rotate(360deg); }
 }
 
-// ── 底部操作区 ────────────────────────────────────────────────
-
-.result-actions {
-  margin-top: $spacing-md;
-  text-align: center;
-}
-
-.btn-copy {
-  padding: $spacing-xs $spacing-sm;
-  font-size: 12px;
-  border: 1px solid var(--b3-border-color);
-  background: transparent;
-  color: var(--b3-theme-on-surface-secondary);
-  border-radius: $radius-sm;
-  cursor: pointer;
-  transition: $vp-transition;
-
-  &:hover {
-    border-color: var(--b3-theme-primary);
-    color: var(--b3-theme-primary);
-  }
-}
-
 // ── 错误卡片 ──────────────────────────────────────────────────
 
 .error-card {
@@ -657,12 +634,6 @@
     margin: $spacing-xs 0 0;
     color: var(--b3-theme-on-surface-secondary);
   }
-}
-
-.result-source {
-  display: flex;
-  justify-content: center;
-  margin-bottom: $spacing-sm;
 }
 
 // ── 历史记录面板 ──────────────────────────────────────
