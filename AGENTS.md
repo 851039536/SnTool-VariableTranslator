@@ -39,23 +39,20 @@ npm run build
 
 预加载脚本： [public/preload/services.js](public/preload/services.js)
 
-- 通过 `window.services` 注入 Node.js 能力（文件 I/O、压缩、复制）
-- 通过 `window.exports` 设置 uTools 功能处理器
-- 通过 `window.translatorPayload` 将搜索输入传递给 Vue
+- 通过 `window.exports` 设置 uTools 功能处理器（`enter` 为空实现，输入由 `onPluginEnter` 获取）
 
 数据流：
 
 1. 用户通过 uTools 搜索或文本选择调用插件
-2. `preload/services.js` 在 `window.translatorPayload` 中捕获载荷
-3. `App.vue` 通过 `window.utools.onPluginEnter()` 接收，设置 `enterAction` prop
-4. `VariableTranslator/index.vue` 监听 `enterAction`，触发翻译
+2. `App.vue` 通过 `window.utools.onPluginEnter()` 接收载荷，设置 `enterAction` prop
+3. `VariableTranslator/index.vue` 监听 `enterAction`，触发翻译
 
 ### 数据持久化
 
 | 存储方式           | 键名                         | 用途                                           |
 | ------------------ | ---------------------------- | ---------------------------------------------- |
 | `window.utools.db` | `translator_api_key`         | DeepSeek API Key                               |
-| `window.utools.db` | `translator_cache_*`         | 翻译结果缓存（key 为输入文本，7天过期）         |
+| `window.utools.db` | `translator_cache_*`         | 翻译结果缓存（key 含方向与输入文本，7天过期）   |
 | `window.utools.db` | `translator_cache_stats`     | 缓存命中统计（hits/total）                     |
 | `localStorage`     | `translator_theme`           | 主题偏好（亮色/暗色）                          |
 
@@ -84,13 +81,13 @@ npm run build
 
 API 调用参数优化：
 - `temperature: 0.1`（降低随机性，提高命名一致性）
-- `max_tokens: 300`（限制输出长度）
+- `max_tokens: 800`（限制输出长度，兼顾多词输入不被截断）
 - `response_format: { type: 'json_object' }`（强制 JSON 输出）
 - `thinking: { type: 'disabled' }`（非思考模式，节省 reasoning token）
 
 ### 防抖自动翻译
 
-输入使用 1.5 秒防抖进行监听（[VariableTranslator/index.vue:579-616](src/VariableTranslator/index.vue#L579-L616)）。当文本来自 uTools（`isFromUtools` 标志）时，会在 100ms 后立即翻译，以确保 API 配置已加载。
+输入使用 2.5 秒防抖进行监听（[VariableTranslator/index.vue](src/VariableTranslator/index.vue)）。当文本来自 uTools（`isFromUtools` 标志）时，会在 100ms 后立即翻译，以确保 API 配置已加载。
 
 ### 键盘快捷键
 
@@ -110,9 +107,9 @@ API 调用参数优化：
 
 ### 缓存机制
 
-- 缓存 key：`translator_cache_${input}`（仅基于输入文本，与模型无关）
-- 缓存有效期：7 天（`CACHE_TTL`）
-- 缓存统计：`translator_cache_stats` 记录命中次数和总请求数
+- 缓存 key：`translator_cache_${direction}_${input}`（基于翻译方向 + 输入文本，与模型无关）
+- 缓存有效期：7 天（`CACHE_TTL`），读取时发现过期即删除，组件挂载时扫描清理全部过期条目
+- 缓存统计：`translator_cache_stats` 记录命中次数（hits）和总翻译请求数（total，含命中与未命中）
 
 ### 组件通信
 

@@ -188,6 +188,11 @@ const error = ref('');
 const isTranslating = ref(false);
 const isFromCache = ref(false);
 let debounceTimer = null;
+let utoolsTimer = null;   // uTools 输入的 100ms 延迟翻译定时器
+let copyTimer = null;     // 复制反馈定时器
+let errorTimer = null;    // 错误自动清除定时器
+let abortController = null; // 当前翻译请求的中止控制器
+let requestSeq = 0;         // 请求序号，防止旧响应覆盖新结果
 
 const isApiConfigured = computed(() => !!API_CONFIG.apiKey);
 const maxLen = computed(() => isZhToEn.value ? 15 : 30);
@@ -220,24 +225,46 @@ function getPromptEnToZh() {
 分析:${chineseInput.value}`;
 }
 
-// 生成缓存键名（仅基于输入文本，与模型无关）
+// 生成缓存键名（基于翻译方向 + 输入文本）
 function getCacheKey() {
   return `translator_cache_${direction.value}_${chineseInput.value.trim()}`;
 }
 
+// 写入/覆盖 db 文档（自动携带 _rev，uTools put 失败不抛异常，需检查返回值）
+function dbUpsert(doc) {
+  const existing = window.utools.db.get(doc._id);
+  if (existing?._rev) {
+    doc._rev = existing._rev;
+  }
+  const result = window.utools.db.put(doc);
+  if (result?.error) {
+    console.error('db 写入失败:', doc._id, result.message || result.name);
+  }
+  return result;
+}
+
+// 累加缓存统计：total = 总翻译请求数（命中+未命中），hits = 缓存命中数
+function bumpStats(isHit) {
+  try {
+    const stats = window.utools.db.get('translator_cache_stats');
+    const hits = (stats?.data?.hits || 0) + (isHit ? 1 : 0);
+    const total = (stats?.data?.total || 0) + 1;
+    dbUpsert({ _id: 'translator_cache_stats', data: { hits, total } });
+  } catch (_) { /* 统计失败不影响功能 */ }
+}
+
 // 从缓存加载翻译结果（含 7 天过期检查 + 精确匹配）
-async function loadFromCache() {
+function loadFromCache() {
   try {
     const key = getCacheKey();
     const cached = window.utools.db.get(key);
-    if (cached?._id === key && cached?.data && (Date.now() - cached.timestamp) < CACHE_TTL) {
-      // 累加缓存命中计数
-      try {
-        const stats = window.utools.db.get('translator_cache_stats');
-        const hits = (stats?.data?.hits || 0) + 1;
-        window.utools.db.put({ _id: 'translator_cache_stats', data: { hits, total: stats?.data?.total || hits } });
-      } catch (_) { /* 统计失败不影响功能 */ }
-      return cached.data;
+    if (cached?._id === key && cached?.data) {
+      if ((Date.now() - cached.timestamp) < CACHE_TTL) {
+        bumpStats(true);
+        return cached.data;
+      }
+      // 过期立即删除，避免残留
+      window.utools.db.remove(cached);
     }
     return null;
   } catch (e) {
@@ -246,32 +273,73 @@ async function loadFromCache() {
 }
 
 // 保存翻译结果到缓存
-async function saveToCache(result) {
+function saveToCache(result) {
   try {
-    window.utools.db.put({
+    dbUpsert({
       _id: getCacheKey(),
       data: result,
       timestamp: Date.now()
     });
-    // 累加总请求计数
-    const stats = window.utools.db.get('translator_cache_stats');
-    const total = (stats?.data?.total || 0) + 1;
-    window.utools.db.put({ _id: 'translator_cache_stats', data: { hits: stats?.data?.hits || 0, total } });
+    bumpStats(false);
   } catch (e) {
     console.error('保存缓存失败:', e);
   }
+}
+
+// 启动时扫描并清理所有过期缓存条目，防止 db 膨胀
+function cleanExpiredCache() {
+  try {
+    const docs = window.utools.db.allDocs('translator_cache_');
+    const now = Date.now();
+    docs.forEach((doc) => {
+      if (doc._id !== 'translator_cache_stats' && (now - (doc.timestamp || 0)) >= CACHE_TTL) {
+        window.utools.db.remove(doc);
+      }
+    });
+  } catch (_) { /* 清理失败不影响功能 */ }
+}
+
+// 校验解析后的翻译结果结构是否符合当前方向的渲染要求
+function isValidResult(list) {
+  if (!Array.isArray(list) || list.length === 0) return false;
+  if (isZhToEn.value) {
+    return list.every((item) =>
+      item && typeof item.chinese === 'string' &&
+      modes.every((m) => Array.isArray(item[m.value]))
+    );
+  }
+  return list.every((item) =>
+    item && typeof item.input === 'string' && typeof item.meaning === 'string'
+  );
+}
+
+// 兼容 json_object 模式的三种输出形态：顶层数组 / 单对象 / 被包裹的数组
+function normalizeParsed(parsed) {
+  if (Array.isArray(parsed)) return parsed;
+  if (parsed && typeof parsed === 'object') {
+    // 模型可能包一层对象，如 {"result": [...]}，取第一个数组属性
+    const wrapped = Object.values(parsed).find((v) => Array.isArray(v));
+    if (wrapped) return wrapped;
+    return [parsed];
+  }
+  return [];
 }
 
 async function translate() {
   if (!chineseInput.value.trim() || !isApiConfigured.value) return;
 
   // 长度限制：中文≤15字，英文≤30字符
-  const maxLen = isZhToEn.value ? 15 : 30;
-  if (chineseInput.value.trim().length > maxLen) {
-    error.value = `输入过长，请控制在${maxLen}个字符以内`;
-    setTimeout(() => { error.value = ''; }, 2000);
+  if (chineseInput.value.trim().length > maxLen.value) {
+    error.value = `输入过长，请控制在${maxLen.value}个字符以内`;
+    if (errorTimer) clearTimeout(errorTimer);
+    errorTimer = setTimeout(() => { error.value = ''; }, 2000);
     return;
   }
+
+  // 中止上一个未完成的请求，并用序号防止旧响应覆盖新结果
+  abortController?.abort();
+  abortController = new AbortController();
+  const seq = ++requestSeq;
 
   isTranslating.value = true;
   error.value = '';
@@ -279,7 +347,7 @@ async function translate() {
 
   try {
     // 先尝试从缓存加载
-    const cachedResult = await loadFromCache();
+    const cachedResult = loadFromCache();
     if (cachedResult) {
       translationResult.value = cachedResult;
       isFromCache.value = true;
@@ -297,21 +365,26 @@ async function translate() {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${API_CONFIG.apiKey}`
       },
+      signal: abortController.signal,
       body: JSON.stringify({
         model: API_CONFIG.model,
         messages: [{ role: 'user', content: getPrompt() }],
         temperature: 0.1,
-        max_tokens: 300,
+        max_tokens: 800,
         response_format: { type: 'json_object' },
         thinking: { type: 'disabled' }, // 非思考模式，节省 reasoning token
       })
     });
+
+    // 已有更新的请求，丢弃本次响应
+    if (seq !== requestSeq) return;
 
     if (!response.ok) {
       throw new Error(`API 请求失败: ${response.status} ${response.statusText}`);
     }
 
     const data = await response.json();
+    if (seq !== requestSeq) return;
     const resultText = data.choices?.[0]?.message?.content || '';
 
     // 解析JSON结果
@@ -322,29 +395,37 @@ async function translate() {
         jsonText = jsonText.replace(/```json\n?/g, '').replace(/```\n?/g, '');
       }
 
-      const parsed = JSON.parse(jsonText);
-      const result = Array.isArray(parsed) ? parsed : [parsed];
+      const result = normalizeParsed(JSON.parse(jsonText));
+      if (!isValidResult(result)) {
+        throw new Error('结果结构不符合预期');
+      }
       translationResult.value = result;
 
       // 保存到缓存
-      await saveToCache(result);
+      saveToCache(result);
     } catch (parseError) {
       console.error('JSON解析错误:', parseError, '\n原始内容:', resultText);
       throw new Error('翻译结果格式错误，请重试');
     }
   } catch (e) {
+    // 被主动中止的请求不展示错误
+    if (e.name === 'AbortError') return;
+    if (seq !== requestSeq) return;
     error.value = e.message || '翻译失败，请检查 API 配置';
   } finally {
-    isTranslating.value = false;
+    if (seq === requestSeq) {
+      isTranslating.value = false;
+    }
   }
 }
 
 async function copyToClipboard(text, buttonId) {
   try {
     await navigator.clipboard.writeText(text);
-    // 显示复制成功反馈
+    // 显示复制成功反馈（先清除旧定时器，避免连续复制时反馈被提前清除）
+    if (copyTimer) clearTimeout(copyTimer);
     copiedButton.value = buttonId;
-    setTimeout(() => {
+    copyTimer = setTimeout(() => {
       copiedButton.value = null;
     }, 2000);
   } catch (err) {
@@ -361,6 +442,10 @@ function clearResults() {
   translationResult.value = null;
   chineseInput.value = '';
   error.value = '';
+  isFromCache.value = false;
+  // 取消待触发的自动翻译
+  if (debounceTimer) clearTimeout(debounceTimer);
+  if (utoolsTimer) clearTimeout(utoolsTimer);
 }
 
 // 键盘快捷键处理
@@ -369,9 +454,12 @@ function handleKeyDown(event) {
   if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
     event.preventDefault();
     if (isApiConfigured.value && chineseInput.value.trim()) {
-      // 清除防抖定时器，立即翻译
+      // 清除待触发的自动翻译定时器，立即翻译
       if (debounceTimer) {
         clearTimeout(debounceTimer);
+      }
+      if (utoolsTimer) {
+        clearTimeout(utoolsTimer);
       }
       translate();
     }
@@ -387,6 +475,8 @@ function handleKeyDown(event) {
 onMounted(() => {
   // 注册键盘事件监听
   window.addEventListener('keydown', handleKeyDown);
+  // 清理过期缓存
+  cleanExpiredCache();
 });
 
 // 监听 enterAction 变化，处理 uTools 输入
@@ -399,44 +489,44 @@ watch(
 
     let text = '';
 
-    // 处理 over 类型（从搜索框过来的文本）
-    if (action.type === 'over') {
-      if (typeof action.payload === 'string') {
-        text = action.payload;
-      } else if (action.payload.text) {
-        text = action.payload.text;
-      }
-    }
-    // 处理直接输入的情况
-    else if (typeof action.payload === 'string') {
+    // 提取文本（over 类型与直接输入的 payload 结构相同）
+    if (typeof action.payload === 'string') {
       text = action.payload;
     } else if (action.payload.text) {
       text = action.payload.text;
     }
 
     // 如果获取到文本，填充并翻译
-    if (text.trim()) {
+    text = text.trim();
+    if (text) {
+      // 与当前输入相同时 watch 不会触发，直接翻译，避免 isFromUtools 标记残留
+      if (text === chineseInput.value.trim()) {
+        if (isApiConfigured.value) translate();
+        return;
+      }
       // 先设置标记
       isFromUtools.value = true;
       // 使用 nextTick 确保在下一个 tick 设置值，这样 watch 能正确触发
       nextTick(() => {
-        chineseInput.value = text.trim();
+        chineseInput.value = text;
       });
     }
   },
   {
-    immediate: true,
-    deep: true
+    immediate: true
   }
 );
 
 onUnmounted(() => {
   // 清理键盘事件监听
   window.removeEventListener('keydown', handleKeyDown);
-  // 清理定时器
-  if (debounceTimer) {
-    clearTimeout(debounceTimer);
-  }
+  // 清理全部定时器
+  if (debounceTimer) clearTimeout(debounceTimer);
+  if (utoolsTimer) clearTimeout(utoolsTimer);
+  if (copyTimer) clearTimeout(copyTimer);
+  if (errorTimer) clearTimeout(errorTimer);
+  // 中止未完成的请求
+  abortController?.abort();
 });
 
 // 监听输入变化，自动翻译
@@ -449,10 +539,13 @@ watch(chineseInput, (newValue) => {
     if (debounceTimer) {
       clearTimeout(debounceTimer);
     }
+    if (utoolsTimer) {
+      clearTimeout(utoolsTimer);
+    }
 
-    // 短暂延迟后立即翻译，确保 API 配置已加载
-    setTimeout(() => {
-      if (isApiConfigured.value && newValue.trim()) {
+    // 短暂延迟后立即翻译，确保 API 配置已加载；回调内取当前输入值，避免清空后仍用旧文本翻译
+    utoolsTimer = setTimeout(() => {
+      if (isApiConfigured.value && chineseInput.value.trim()) {
         translate();
       }
     }, 100);
