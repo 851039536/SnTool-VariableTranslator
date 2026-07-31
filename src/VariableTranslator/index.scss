@@ -136,6 +136,11 @@
 
 .card-input {
   padding: $spacing-sm $spacing-md;
+
+  // 输入时鼠标常悬停在卡片上，不做边框高亮，避免聚焦时出现蓝边
+  &:hover {
+    border-color: var(--b3-border-color);
+  }
 }
 
 .input-wrap {
@@ -147,10 +152,6 @@
     padding: $spacing-xs 0;
     font-size: 15px;
     line-height: 1.5;
-
-    &:focus {
-      box-shadow: none;
-    }
   }
 }
 
@@ -253,10 +254,9 @@
   box-sizing: border-box;
   transition: $vp-transition-border;
 
+  // 聚焦时不显示边框高亮与发光
   &:focus {
     outline: none;
-    border-color: var(--b3-theme-primary);
-    box-shadow: 0 0 0 2px var(--b3-theme-primary-lightest);
   }
 }
 
