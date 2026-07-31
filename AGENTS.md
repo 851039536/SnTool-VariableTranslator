@@ -89,10 +89,17 @@ API 调用参数优化：
 
 输入使用 2.5 秒防抖进行监听（[VariableTranslator/index.vue](src/VariableTranslator/index.vue)）。当文本来自 uTools（`isFromUtools` 标志）时，会在 100ms 后立即翻译，以确保 API 配置已加载。
 
+### 结果展示与复制交互
+
+- 结果行由 `modes` 数组的 `rows` 字段数据驱动：variable/method 展示 camel/snake/Pascal 三行；constant 仅展示单行 UPPER（三字段均为全大写，取 snake_case）；class 仅展示单行 PascalCase
+- 命名行整行可点击复制（行内复制按钮 `@click.stop` 避免双触发），复制后窗口保持打开，支持连续复制
+- 重新翻译时旧结果保留并加 `.is-stale`（半透明），避免内容闪空；进入插件时输入框自动聚焦
+
 ### 键盘快捷键
 
 | 快捷键                     | 操作              |
 | -------------------------- | ----------------- |
+| `Enter`                    | 立即翻译（`Shift+Enter` 换行） |
 | `Ctrl+Enter` / `Cmd+Enter` | 立即翻译          |
 | `Ctrl+K` / `Cmd+K`         | 清空输入和结果    |
 

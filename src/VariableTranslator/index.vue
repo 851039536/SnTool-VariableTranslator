@@ -16,7 +16,8 @@
       <!-- 翻译区域 -->
       <div class="card card-input">
         <div class="input-wrap">
-          <textarea v-model="chineseInput" class="input textarea"
+          <textarea ref="inputRef" v-model="chineseInput" class="input textarea"
+            @keydown.enter.exact.prevent="onEnterKey"
             :placeholder="isZhToEn ? '输入中文，例如：用户名称' : '输入英文变量名，例如：getUserName'" rows="1"></textarea>
         </div>
         <div class="status-bar">
@@ -34,13 +35,14 @@
           </span>
           <span class="keyboard-hints">
             <span :class="{ 'len-over': inputLen > maxLen }">{{ inputLen }}/{{ maxLen }}</span>
-            · Ctrl+Enter 翻译 · Ctrl+K 清空
+            · Enter 翻译 · Ctrl+K 清空
           </span>
         </div>
       </div>
 
       <!-- 中→英 翻译结果 -->
-      <div v-if="isZhToEn && translationResult && translationResult.length > 0" class="result-card">
+      <div v-if="isZhToEn && translationResult && translationResult.length > 0" class="result-card"
+        :class="{ 'is-stale': isTranslating }">
         <div v-for="(result, index) in translationResult" :key="index" class="result-group">
           <div class="result-title">
             <span class="result-chinese">{{ result.chinese }}</span>
@@ -66,36 +68,17 @@
 
               <div class="naming-options">
                 <div v-for="(option, idx) in result[mode.value]" :key="idx" class="naming-option">
-                  <div class="style-row">
-                    <span class="style-tag tag-camel">camel</span>
-                    <code class="code-text">{{ option.camelCase }}</code>
-                    <button @click="copyToClipboard(option.camelCase, getButtonId(index, mode.value, idx, 'camel'))"
+                  <div v-for="row in mode.rows" :key="row.tag" class="style-row"
+                    @click="copyToClipboard(option[row.field], getButtonId(index, mode.value, idx, row.tag))"
+                    title="点击复制">
+                    <span class="style-tag" :class="'tag-' + row.tag">{{ row.tag }}</span>
+                    <code class="code-text">{{ option[row.field] }}</code>
+                    <button
+                      @click.stop="copyToClipboard(option[row.field], getButtonId(index, mode.value, idx, row.tag))"
                       class="copy-btn"
-                      :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'camel') }">
+                      :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, row.tag) }">
                       <Icon
-                        :icon="copiedButton === getButtonId(index, mode.value, idx, 'camel') ? COMMON_ICONS.copied : COMMON_ICONS.copy"
-                        width="14" />
-                    </button>
-                  </div>
-                  <div class="style-row">
-                    <span class="style-tag tag-snake">snake</span>
-                    <code class="code-text">{{ option.snake_case }}</code>
-                    <button @click="copyToClipboard(option.snake_case, getButtonId(index, mode.value, idx, 'snake'))"
-                      class="copy-btn"
-                      :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'snake') }">
-                      <Icon
-                        :icon="copiedButton === getButtonId(index, mode.value, idx, 'snake') ? COMMON_ICONS.copied : COMMON_ICONS.copy"
-                        width="14" />
-                    </button>
-                  </div>
-                  <div class="style-row">
-                    <span class="style-tag tag-pascal">Pascal</span>
-                    <code class="code-text">{{ option.PascalCase }}</code>
-                    <button @click="copyToClipboard(option.PascalCase, getButtonId(index, mode.value, idx, 'pascal'))"
-                      class="copy-btn"
-                      :class="{ copied: copiedButton === getButtonId(index, mode.value, idx, 'pascal') }">
-                      <Icon
-                        :icon="copiedButton === getButtonId(index, mode.value, idx, 'pascal') ? COMMON_ICONS.copied : COMMON_ICONS.copy"
+                        :icon="copiedButton === getButtonId(index, mode.value, idx, row.tag) ? COMMON_ICONS.copied : COMMON_ICONS.copy"
                         width="14" />
                     </button>
                   </div>
@@ -107,7 +90,8 @@
       </div>
 
       <!-- 英→中 翻译结果 -->
-      <div v-if="!isZhToEn && translationResult && translationResult.length > 0" class="result-card">
+      <div v-if="!isZhToEn && translationResult && translationResult.length > 0" class="result-card"
+        :class="{ 'is-stale': isTranslating }">
         <div v-for="(result, index) in translationResult" :key="index" class="result-group">
           <div class="result-title">
             <code class="result-english">{{ result.input }}</code>
@@ -174,11 +158,19 @@ const emit = defineEmits(['toggle-theme']);
 const copiedButton = ref(null);  // 记录当前复制的按钮
 const isFromUtools = ref(false); // 标记是否来自 uTools 的自动填充
 
+// 风格行定义：tag 为展示标签，field 为结果字段名
+const FULL_ROWS = [
+  { tag: 'camel', field: 'camelCase' },
+  { tag: 'snake', field: 'snake_case' },
+  { tag: 'Pascal', field: 'PascalCase' }
+];
+
 const modes = [
-  { value: 'variable', label: 'Variable', icon: TI.variable, desc: '名词或名词短语' },
-  { value: 'method', label: 'Method', icon: TI.method, desc: '动词开头' },
-  { value: 'constant', label: 'Constant', icon: TI.constant, desc: '全大写下划线' },
-  { value: 'class', label: 'Class', icon: TI.class, desc: 'PascalCase' }
+  { value: 'variable', label: 'Variable', icon: TI.variable, desc: '名词或名词短语', rows: FULL_ROWS },
+  { value: 'method', label: 'Method', icon: TI.method, desc: '动词开头', rows: FULL_ROWS },
+  // constant 三种风格均为全大写，仅展示单行；class 仅 PascalCase 有意义
+  { value: 'constant', label: 'Constant', icon: TI.constant, desc: '全大写下划线', rows: [{ tag: 'UPPER', field: 'snake_case' }] },
+  { value: 'class', label: 'Class', icon: TI.class, desc: 'PascalCase', rows: [{ tag: 'Pascal', field: 'PascalCase' }] }
 ];
 const direction = ref('zh-en'); // 'zh-en' | 'en-zh'
 const isZhToEn = computed(() => direction.value === 'zh-en');
@@ -187,6 +179,7 @@ const translationResult = ref(null);
 const error = ref('');
 const isTranslating = ref(false);
 const isFromCache = ref(false);
+const inputRef = ref(null);
 let debounceTimer = null;
 let utoolsTimer = null;   // uTools 输入的 100ms 延迟翻译定时器
 let copyTimer = null;     // 复制反馈定时器
@@ -343,7 +336,6 @@ async function translate() {
 
   isTranslating.value = true;
   error.value = '';
-  translationResult.value = null;
 
   try {
     // 先尝试从缓存加载
@@ -448,6 +440,15 @@ function clearResults() {
   if (utoolsTimer) clearTimeout(utoolsTimer);
 }
 
+// Enter 立即翻译（Shift+Enter 换行）
+function onEnterKey() {
+  if (debounceTimer) clearTimeout(debounceTimer);
+  if (utoolsTimer) clearTimeout(utoolsTimer);
+  if (isApiConfigured.value && chineseInput.value.trim()) {
+    translate();
+  }
+}
+
 // 键盘快捷键处理
 function handleKeyDown(event) {
   // Ctrl+Enter 或 Cmd+Enter: 立即翻译
@@ -477,13 +478,22 @@ onMounted(() => {
   window.addEventListener('keydown', handleKeyDown);
   // 清理过期缓存
   cleanExpiredCache();
+  // 自动聚焦输入框
+  inputRef.value?.focus();
 });
 
 // 监听 enterAction 变化，处理 uTools 输入
 watch(
   () => props.enterAction,
   (action) => {
-    if (!action || !action.payload) {
+    if (!action) {
+      return;
+    }
+
+    // 每次进入插件自动聚焦输入框（含无 payload 的纯进入场景）
+    nextTick(() => inputRef.value?.focus());
+
+    if (!action.payload) {
       return;
     }
 

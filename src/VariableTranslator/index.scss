@@ -185,7 +185,7 @@
 
 .textarea {
   font-family: $vp-mono;
-  resize: vertical;
+  resize: none;
   line-height: 1.5;
 }
 
@@ -193,6 +193,13 @@
 
 .result-card {
   margin-top: $spacing-sm;
+  transition: $vp-transition;
+
+  // 重新翻译时保留旧结果并降透明度，避免内容闪空
+  &.is-stale {
+    opacity: 0.45;
+    pointer-events: none;
+  }
 }
 
 .result-group {
@@ -382,7 +389,7 @@
   display: flex;
   align-items: center;
   gap: $spacing-sm;
-  margin-bottom: $spacing-sm;
+  margin-bottom: $spacing-xs;
   padding-bottom: $spacing-xs;
   border-bottom: 1px solid var(--b3-border-color);
 }
@@ -398,8 +405,8 @@
 
 .type-info {
   display: flex;
-  flex-direction: column;
-  gap: 1px;
+  align-items: baseline;
+  gap: $spacing-xs;
   flex: 1;
 }
 
@@ -435,6 +442,7 @@
   gap: $spacing-sm;
   padding: $spacing-xs $spacing-sm;
   border-radius: $radius-sm;
+  cursor: pointer;
   transition: $vp-transition;
 
   &:hover {
