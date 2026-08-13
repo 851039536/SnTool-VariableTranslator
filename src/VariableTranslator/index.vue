@@ -475,7 +475,9 @@ async function translate() {
         temperature: 0.1,
         max_tokens: 1000,
         response_format: { type: 'json_object' },
-        thinking: { type: 'disabled' }, // 非思考模式，节省 reasoning token
+        // 关闭思考模式（参考 https://api-docs.deepseek.com/zh-cn/guides/thinking_mode）
+        thinking: { type: 'disabled' },
+        reasoning_effort: 'none',
       })
     });
 
