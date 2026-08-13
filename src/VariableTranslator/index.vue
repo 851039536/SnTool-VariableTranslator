@@ -268,14 +268,14 @@ function toggleDirection() {
   clearResults();
 }
 
-function getPrompt() {
-  return isZhToEn.value ? getPromptZhToEn() : getPromptEnToZh();
+function getPrompt(strict = false) {
+  return isZhToEn.value ? getPromptZhToEn(strict) : getPromptEnToZh();
 }
 
-function getPromptZhToEn() {
+function getPromptZhToEn(strict = false) {
   const ctx = CONTEXTS.find((c) => c.value === context.value);
   const ctxHint = ctx?.hint ? `目标生态:${ctx.hint}。` : '';
-  return `编程命名翻译。为每个中文词提供4类(variable/method/constant/class)翻译,variable/method各给2个候选(常用优先),constant/class各1个,每候选含camelCase/snake_case/PascalCase。${ctxHint}遇网络用语/语气词等无直译词,给出合理音译或意译;某类确无合适命名时该字段返回空数组[],禁止null。仅输出JSON数组,无解释。
+  return `编程命名翻译。为每个中文词提供4类(variable/method/constant/class)翻译,variable/method各给2个候选(常用优先),constant/class各1个,每候选含camelCase/snake_case/PascalCase。${ctxHint}只要中文输入就必有可翻译命名:每类字段必须至少返回1个候选,禁止空数组[],禁止null。遇无直译词(语气词/网络语等)给出合理音译或意译;某类看似不适用时,取该类最接近的表达(动词名词化为variable/class,动词原形为method,全大写为constant),确保4类齐全。${strict ? '上次输出全部为空,本次务必为每个字段返回至少1个候选,严禁空数组[]。' : ''}仅输出JSON数组,无解释。
 示例输入:控制台
 输出:[{"chinese":"控制台","variable":[{"camelCase":"console","snake_case":"console","PascalCase":"Console"},{"camelCase":"terminal","snake_case":"terminal","PascalCase":"Terminal"}],"method":[{"camelCase":"getConsole","snake_case":"get_console","PascalCase":"GetConsole"},{"camelCase":"openConsole","snake_case":"open_console","PascalCase":"OpenConsole"}],"constant":[{"camelCase":"CONSOLE","snake_case":"CONSOLE","PascalCase":"CONSOLE"}],"class":[{"camelCase":"Console","snake_case":"console","PascalCase":"Console"}]}]
 翻译:${chineseInput.value}`;
@@ -430,6 +430,58 @@ function isResultEmpty(list) {
   return list.every((item) => !item.meaning || !item.meaning.trim());
 }
 
+// 发起 API 调用并解析结果；strict=true 时提示词强制非空（用于空结果重试）
+async function callTranslateApi(strict, seq) {
+  const response = await fetch(API_CONFIG.endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${API_CONFIG.apiKey}`
+    },
+    signal: abortController.signal,
+    body: JSON.stringify({
+      model: API_CONFIG.model,
+      messages: [{ role: 'user', content: getPrompt(strict) }],
+      temperature: 0.1,
+      max_tokens: 1000,
+      response_format: { type: 'json_object' },
+      // 关闭思考模式（参考 https://api-docs.deepseek.com/zh-cn/guides/thinking_mode）
+      thinking: { type: 'disabled' },
+      reasoning_effort: 'none',
+    })
+  });
+
+  // 已有更新的请求，丢弃本次响应
+  if (seq !== requestSeq) return null;
+
+  if (!response.ok) {
+    throw new Error(`API 请求失败: ${response.status} ${response.statusText}`);
+  }
+
+  const data = await response.json();
+  if (seq !== requestSeq) return null;
+  const resultText = data.choices?.[0]?.message?.content || '';
+
+  // 解析JSON结果
+  try {
+    // 提取JSON部分（移除可能的代码块）
+    let jsonText = resultText.trim();
+    if (jsonText.startsWith('```')) {
+      jsonText = jsonText.replace(/```json\n?/g, '').replace(/```\n?/g, '');
+    }
+
+    const parsed = normalizeParsed(JSON.parse(jsonText));
+    const result = normalizeResult(parsed);
+    if (!isValidResult(result)) {
+      throw new Error('结果结构不符合预期');
+    }
+    return result;
+  } catch (parseError) {
+    console.error('JSON解析错误:', parseError, '\n原始内容:', resultText);
+    throw new Error('翻译结果格式错误，请重试');
+  }
+}
+
 async function translate() {
   if (!chineseInput.value.trim() || !isApiConfigured.value) return;
 
@@ -462,63 +514,23 @@ async function translate() {
 
     // 缓存未命中，调用 API 翻译
     isFromCache.value = false;
-    const response = await fetch(API_CONFIG.endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${API_CONFIG.apiKey}`
-      },
-      signal: abortController.signal,
-      body: JSON.stringify({
-        model: API_CONFIG.model,
-        messages: [{ role: 'user', content: getPrompt() }],
-        temperature: 0.1,
-        max_tokens: 1000,
-        response_format: { type: 'json_object' },
-        // 关闭思考模式（参考 https://api-docs.deepseek.com/zh-cn/guides/thinking_mode）
-        thinking: { type: 'disabled' },
-        reasoning_effort: 'none',
-      })
-    });
-
-    // 已有更新的请求，丢弃本次响应
+    // 先正常调用；若结果全空（模型违规返回空数组）则用强制非空提示重试一次，保证中文输入必可翻译
+    let result = await callTranslateApi(false, seq);
     if (seq !== requestSeq) return;
-
-    if (!response.ok) {
-      throw new Error(`API 请求失败: ${response.status} ${response.statusText}`);
+    if (result && isResultEmpty(result)) {
+      result = await callTranslateApi(true, seq);
+      if (seq !== requestSeq) return;
     }
-
-    const data = await response.json();
-    if (seq !== requestSeq) return;
-    const resultText = data.choices?.[0]?.message?.content || '';
-
-    // 解析JSON结果
-    try {
-      // 提取JSON部分（移除可能的代码块）
-      let jsonText = resultText.trim();
-      if (jsonText.startsWith('```')) {
-        jsonText = jsonText.replace(/```json\n?/g, '').replace(/```\n?/g, '');
-      }
-
-      const parsed = normalizeParsed(JSON.parse(jsonText));
-      const result = normalizeResult(parsed);
-      if (!isValidResult(result)) {
-        throw new Error('结果结构不符合预期');
-      }
-      // 能解析但确无合适命名 → 友好空状态提示，不写入缓存避免历史出现无效条目
-      if (isResultEmpty(result)) {
-        isEmptyResult.value = true;
-        translationResult.value = null;
-        return;
-      }
-      translationResult.value = result;
-
-      // 保存到缓存
-      saveToCache(result);
-    } catch (parseError) {
-      console.error('JSON解析错误:', parseError, '\n原始内容:', resultText);
-      throw new Error('翻译结果格式错误，请重试');
+    // 重试后仍为空 → 友好空状态提示，不写入缓存避免历史出现无效条目
+    if (isResultEmpty(result)) {
+      isEmptyResult.value = true;
+      translationResult.value = null;
+      return;
     }
+    translationResult.value = result;
+
+    // 保存到缓存
+    saveToCache(result);
   } catch (e) {
     // 被主动中止的请求不展示错误
     if (e.name === 'AbortError') return;
