@@ -636,6 +636,24 @@
   }
 }
 
+// ── 空状态卡片（无法翻译提示）────────────────────────────────
+
+.empty-card {
+  border-color: var(--b3-theme-primary);
+  background: var(--b3-theme-primary-lightest);
+
+  h2 {
+    font-size: 13px;
+    color: var(--b3-theme-primary);
+  }
+
+  p {
+    font-size: 12px;
+    margin: $spacing-xs 0 0;
+    color: var(--b3-theme-on-surface-secondary);
+  }
+}
+
 // ── 历史记录面板 ──────────────────────────────────────
 
 .history-panel {

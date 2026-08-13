@@ -133,6 +133,14 @@
         </div>
       </div>
 
+      <!-- 无法翻译提示（能解析但确无可用命名） -->
+      <div v-if="isEmptyResult && !error" class="card empty-card">
+        <h2>
+          <Icon :icon="TI.warning" width="16" /> 无法翻译
+        </h2>
+        <p>{{ isZhToEn ? '该内容无法翻译为编程命名，请尝试更具体的词语' : '该内容无法解析为编程命名，请检查输入' }}</p>
+      </div>
+
       <!-- 错误提示 -->
       <div v-if="error" class="card error-card">
         <h2>
@@ -235,6 +243,7 @@ const cacheStats = ref(null);
 
 const chineseInput = ref('');
 const translationResult = ref(null);
+const isEmptyResult = ref(false); // 能解析但确无可用命名时的友好空状态
 const error = ref('');
 const isTranslating = ref(false);
 const isFromCache = ref(false);
@@ -266,14 +275,14 @@ function getPrompt() {
 function getPromptZhToEn() {
   const ctx = CONTEXTS.find((c) => c.value === context.value);
   const ctxHint = ctx?.hint ? `目标生态:${ctx.hint}。` : '';
-  return `编程命名翻译。为每个中文词提供4类(variable/method/constant/class)翻译,variable/method各给2个候选(常用优先),constant/class各1个,每候选含camelCase/snake_case/PascalCase。${ctxHint}仅输出JSON数组,无解释。
+  return `编程命名翻译。为每个中文词提供4类(variable/method/constant/class)翻译,variable/method各给2个候选(常用优先),constant/class各1个,每候选含camelCase/snake_case/PascalCase。${ctxHint}遇网络用语/语气词等无直译词,给出合理音译或意译;某类确无合适命名时该字段返回空数组[],禁止null。仅输出JSON数组,无解释。
 示例输入:控制台
 输出:[{"chinese":"控制台","variable":[{"camelCase":"console","snake_case":"console","PascalCase":"Console"},{"camelCase":"terminal","snake_case":"terminal","PascalCase":"Terminal"}],"method":[{"camelCase":"getConsole","snake_case":"get_console","PascalCase":"GetConsole"},{"camelCase":"openConsole","snake_case":"open_console","PascalCase":"OpenConsole"}],"constant":[{"camelCase":"CONSOLE","snake_case":"CONSOLE","PascalCase":"CONSOLE"}],"class":[{"camelCase":"Console","snake_case":"console","PascalCase":"Console"}]}]
 翻译:${chineseInput.value}`;
 }
 
 function getPromptEnToZh() {
-  return `分析编程命名。返回JSON数组，无解释。
+  return `分析编程命名。返回JSON数组，无解释。若输入无法解析为编程命名,meaning返回空字符串,breakdown返回空数组,禁止null。
 示例输入:getUserName
 输出:[{"input":"getUserName","style":"camelCase","breakdown":[{"en":"get","zh":"获取"},{"en":"user","zh":"用户"},{"en":"name","zh":"名称"}],"meaning":"获取用户名称"}]
 分析:${chineseInput.value}`;
@@ -385,6 +394,42 @@ function normalizeParsed(parsed) {
   return [];
 }
 
+// 字段级归一化：兜底模型返回的残缺结构（null/缺失字段→空串/空数组），
+// 避免把"能解析但字段缺失"误判为格式错误；非对象项补为标准空结构
+function normalizeResult(list) {
+  if (!Array.isArray(list)) return list;
+  return list.map((item) => {
+    const base = isZhToEn.value
+      ? { chinese: '', variable: [], method: [], constant: [], class: [] }
+      : { input: '', style: '', meaning: '', breakdown: [] };
+    if (!item || typeof item !== 'object') return base;
+    const normalized = { ...base, ...item };
+    if (isZhToEn.value) {
+      if (typeof normalized.chinese !== 'string') normalized.chinese = '';
+      modes.forEach((m) => {
+        if (!Array.isArray(normalized[m.value])) normalized[m.value] = [];
+      });
+    } else {
+      if (typeof normalized.input !== 'string') normalized.input = '';
+      if (typeof normalized.style !== 'string') normalized.style = '';
+      if (typeof normalized.meaning !== 'string') normalized.meaning = '';
+      if (!Array.isArray(normalized.breakdown)) normalized.breakdown = [];
+    }
+    return normalized;
+  });
+}
+
+// 判定翻译结果是否"确无可用命名"（能解析但各字段均为空）
+function isResultEmpty(list) {
+  if (!Array.isArray(list) || list.length === 0) return false;
+  if (isZhToEn.value) {
+    return list.every((item) =>
+      modes.every((m) => (item[m.value] || []).length === 0)
+    );
+  }
+  return list.every((item) => !item.meaning || !item.meaning.trim());
+}
+
 async function translate() {
   if (!chineseInput.value.trim() || !isApiConfigured.value) return;
 
@@ -403,6 +448,7 @@ async function translate() {
 
   isTranslating.value = true;
   error.value = '';
+  isEmptyResult.value = false;
 
   try {
     // 先尝试从缓存加载
@@ -452,9 +498,16 @@ async function translate() {
         jsonText = jsonText.replace(/```json\n?/g, '').replace(/```\n?/g, '');
       }
 
-      const result = normalizeParsed(JSON.parse(jsonText));
+      const parsed = normalizeParsed(JSON.parse(jsonText));
+      const result = normalizeResult(parsed);
       if (!isValidResult(result)) {
         throw new Error('结果结构不符合预期');
+      }
+      // 能解析但确无合适命名 → 友好空状态提示，不写入缓存避免历史出现无效条目
+      if (isResultEmpty(result)) {
+        isEmptyResult.value = true;
+        translationResult.value = null;
+        return;
       }
       translationResult.value = result;
 
@@ -503,6 +556,7 @@ function getButtonId(resultIndex, modeValue, optionIndex, styleType) {
 
 function clearResults() {
   translationResult.value = null;
+  isEmptyResult.value = false;
   chineseInput.value = '';
   error.value = '';
   isFromCache.value = false;
@@ -710,6 +764,7 @@ watch(chineseInput, (newValue) => {
   // 如果输入为空，清空结果
   if (!newValue.trim()) {
     translationResult.value = null;
+    isEmptyResult.value = false;
     error.value = '';
     return;
   }
