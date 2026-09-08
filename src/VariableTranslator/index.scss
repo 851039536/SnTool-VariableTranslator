@@ -784,3 +784,174 @@
     border-color: var(--b3-theme-error);
   }
 }
+
+// ── API Key 设置按钮（header ghost 同款）────────────────────────
+
+.btn-key {
+  @extend %btn-ghost-icon;
+
+  &.active {
+    color: var(--b3-theme-primary);
+    border-color: var(--b3-theme-primary);
+    background: var(--b3-theme-primary-lightest);
+  }
+}
+
+// ── API Key 设置卡片 ──────────────────────────────────────────
+
+.card-key-settings {
+  margin-bottom: $spacing-sm;
+}
+
+.key-settings-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-sm;
+}
+
+.key-settings-title {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--b3-theme-on-surface);
+}
+
+.key-settings-hint {
+  font-size: 10px;
+  color: var(--b3-theme-on-surface-secondary);
+  opacity: 0.6;
+}
+
+.key-input-row {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.key-input {
+  flex: 1;
+  min-width: 0;
+  font-family: $vp-mono;
+  font-size: 12px;
+}
+
+.btn-eye {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  flex-shrink: 0;
+  border: 1px solid var(--b3-border-color);
+  border-radius: $vp-radius;
+  background: transparent;
+  color: var(--b3-theme-on-surface-secondary);
+  cursor: pointer;
+  transition: $vp-transition;
+
+  &:hover {
+    border-color: var(--b3-theme-primary);
+    color: var(--b3-theme-on-surface);
+  }
+}
+
+.key-settings-actions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-top: $spacing-sm;
+}
+
+.btn-key-save {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-md;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--b3-theme-primary);
+  border: 1px solid var(--b3-theme-primary);
+  border-radius: $vp-radius;
+  cursor: pointer;
+  transition: $vp-transition;
+
+  &:hover:not(:disabled) {
+    background: var(--b3-theme-primary-dark);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+  }
+}
+
+.btn-key-clear {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-md;
+  font-size: 12px;
+  color: var(--b3-theme-on-surface-secondary);
+  background: transparent;
+  border: 1px solid var(--b3-border-color);
+  border-radius: $vp-radius;
+  cursor: pointer;
+  transition: $vp-transition;
+
+  &:hover {
+    color: var(--b3-theme-error);
+    border-color: var(--b3-theme-error);
+  }
+}
+
+.key-link {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--b3-theme-primary);
+  text-decoration: none;
+  opacity: 0.85;
+  transition: $vp-transition;
+
+  &:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+}
+
+// ── 状态栏可点击引导 ──────────────────────────────────────────
+
+.status-tip--btn {
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// ── API Key 设置卡片底部说明 ──────────────────────────────────
+
+.key-settings-note {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-xs;
+  margin-top: $spacing-sm;
+  padding-top: $spacing-sm;
+  border-top: 1px dashed var(--b3-border-color);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--b3-theme-on-surface-secondary);
+  opacity: 0.8;
+
+  svg {
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+}

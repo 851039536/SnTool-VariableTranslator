@@ -1,3 +1,4 @@
+<!-- 变量翻译主组件：方向/生态切换、BYOK Key 设置、翻译与历史 -->
 <template>
   <div class="github-dark" :data-theme="isDarkTheme ? 'dark' : 'light'">
     <div class="container">
@@ -14,8 +15,49 @@
           <button @click="toggleTheme" class="btn-theme" :title="isDarkTheme ? '切换到亮色' : '切换到暗色'">
             <Icon :icon="isDarkTheme ? COMMON_ICONS.sun : COMMON_ICONS.moon" width="16" />
           </button>
+          <button @click="toggleSettings" class="btn-key" :class="{ active: showSettings }" title="API Key 设置">
+            <Icon :icon="TI.key" width="16" />
+          </button>
         </div>
       </header>
+
+      <!-- API Key 设置卡片（BYOK：Key 仅存本机 uTools db，不随插件分发） -->
+      <div v-if="showSettings" class="card card-key-settings">
+        <div class="key-settings-head">
+          <span class="key-settings-title"><Icon :icon="TI.key" width="14" /> DeepSeek API Key</span>
+          <span class="key-settings-hint">仅保存在本机，不会写入插件包</span>
+        </div>
+        <div class="key-input-row">
+          <input
+            ref="keyInputRef"
+            v-model="apiKeyDraft"
+            :type="showKey ? 'text' : 'password'"
+            class="input key-input"
+            :placeholder="isApiConfigured ? '已配置，输入新 Key 可替换' : '粘贴你的 DeepSeek API Key（sk- 开头）'"
+            spellcheck="false"
+            autocomplete="off"
+            @keydown.enter.prevent="saveApiKey"
+          />
+          <button class="btn-eye" :title="showKey ? '隐藏' : '显示'" @click="showKey = !showKey">
+            <Icon :icon="showKey ? TI.eyeOff : TI.eye" width="15" />
+          </button>
+        </div>
+        <div class="key-settings-actions">
+          <button class="btn-key-save" :disabled="!apiKeyDraft.trim()" @click="saveApiKey">
+            <Icon :icon="COMMON_ICONS.check" width="13" /> 保存
+          </button>
+          <button v-if="isApiConfigured" class="btn-key-clear" @click="clearApiKey">
+            <Icon :icon="TI.delete" width="13" /> 清除
+          </button>
+          <a class="key-link" href="https://platform.deepseek.com/api_keys" @click.prevent="openExternal('https://platform.deepseek.com/api_keys')">
+            前往 DeepSeek 平台获取 Key
+          </a>
+        </div>
+        <div class="key-settings-note">
+          <Icon :icon="TI.info" width="13" />
+          <span>使用自己的 Key 按量计费、翻译成本很低；结果自动缓存 7 天，重复翻译直接命中缓存，不重复扣费。</span>
+        </div>
+      </div>
 
       <template v-if="activeTab === 'translate'">
 
@@ -35,9 +77,9 @@
           <span v-if="isTranslating" class="status-tip status-tip--active">
             <Icon :icon="TI.loading" width="14" class="icon-spin" /> 翻译中...
           </span>
-          <span v-else-if="!isApiConfigured" class="status-tip status-tip--warn">
-            <Icon :icon="TI.warning" width="14" /> 请在 src/config/api.ts 中配置 API Key
-          </span>
+          <button v-else-if="!isApiConfigured" class="status-tip status-tip--warn status-tip--btn" @click="openSettings">
+            <Icon :icon="TI.warning" width="14" /> 请先设置 DeepSeek API Key
+          </button>
           <span v-else-if="chineseInput.trim()" class="status-tip status-tip--ready">
             <Icon :icon="TI.ready" width="14" /> 就绪 · {{ isZhToEn ? '中→英' : '英→中' }}
           </span>
@@ -255,7 +297,15 @@ let errorTimer = null;    // 错误自动清除定时器
 let abortController = null; // 当前翻译请求的中止控制器
 let requestSeq = 0;         // 请求序号，防止旧响应覆盖新结果
 
-const isApiConfigured = computed(() => !!API_CONFIG.apiKey);
+// ── API Key（BYOK：用户自带，运行期从 uTools db 加载，不打包进产物）─
+const DB_KEY_API = 'translator_api_key';
+const apiKey = ref('');
+const apiKeyDraft = ref('');
+const showKey = ref(false);       // Key 输入框明文/掩码切换
+const showSettings = ref(false);  // 设置卡片展开状态
+const keyInputRef = ref(null);
+
+const isApiConfigured = computed(() => !!apiKey.value.trim());
 const maxLen = computed(() => isZhToEn.value ? 15 : 30);
 const inputLen = computed(() => chineseInput.value.trim().length);
 
@@ -266,6 +316,66 @@ function toggleTheme() {
 function toggleDirection() {
   direction.value = direction.value === 'zh-en' ? 'en-zh' : 'zh-en';
   clearResults();
+}
+
+// ── API Key 读写（存于 uTools db）────────────────────────────────
+
+function loadApiKey() {
+  try {
+    const doc = window.utools.db.get(DB_KEY_API);
+    const stored = doc?.data?.apiKey || doc?.data || '';
+    apiKey.value = typeof stored === 'string' ? stored.trim() : '';
+  } catch (_) {
+    apiKey.value = '';
+  }
+}
+
+function saveApiKey() {
+  const key = apiKeyDraft.value.trim();
+  if (!key) return;
+  apiKey.value = key;
+  dbUpsert({ _id: DB_KEY_API, data: { apiKey: key } });
+  apiKeyDraft.value = '';
+  showKey.value = false;
+  showSettings.value = false;
+}
+
+function clearApiKey() {
+  try {
+    const doc = window.utools.db.get(DB_KEY_API);
+    if (doc) window.utools.db.remove(doc);
+  } catch (_) { /* 清除失败不影响功能 */ }
+  apiKey.value = '';
+  apiKeyDraft.value = '';
+  showKey.value = false;
+  showSettings.value = false;
+}
+
+// 打开外部链接：uTools webview 内 a[target=_blank] 不生效，需走系统浏览器
+function openExternal(url) {
+  try {
+    if (window.utools && typeof window.utools.shellOpenExternal === 'function') {
+      window.utools.shellOpenExternal(url);
+      return;
+    }
+    // 浏览器开发环境兜底
+    window.open(url, '_blank', 'noopener,noreferrer');
+  } catch (_) { /* 打开失败静默处理 */ }
+}
+
+function toggleSettings() {
+  if (showSettings.value) {
+    showSettings.value = false;
+  } else {
+    openSettings();
+  }
+}
+
+function openSettings() {
+  showSettings.value = true;
+  apiKeyDraft.value = '';
+  showKey.value = false;
+  nextTick(() => keyInputRef.value?.focus());
 }
 
 function getPrompt(strict = false) {
@@ -436,7 +546,7 @@ async function callTranslateApi(strict, seq) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${API_CONFIG.apiKey}`
+      Authorization: `Bearer ${apiKey.value.trim()}`
     },
     signal: abortController.signal,
     body: JSON.stringify({
@@ -455,6 +565,10 @@ async function callTranslateApi(strict, seq) {
   if (seq !== requestSeq) return null;
 
   if (!response.ok) {
+    // BYOK 场景细化错误，便于用户排查自己的 Key
+    if (response.status === 401) throw new Error('API Key 无效或已过期，请在设置中重新填写');
+    if (response.status === 402) throw new Error('DeepSeek 账户余额不足，请前往平台充值');
+    if (response.status === 429) throw new Error('请求过于频繁，请稍后重试');
     throw new Error(`API 请求失败: ${response.status} ${response.statusText}`);
   }
 
@@ -690,6 +804,7 @@ function handleKeyDown(event) {
 }
 
 onMounted(() => {
+  loadApiKey();
   // 注册键盘事件监听
   window.addEventListener('keydown', handleKeyDown);
   // 清理过期缓存

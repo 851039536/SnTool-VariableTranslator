@@ -26,6 +26,7 @@
 - Iconify 图标系统：按需加载 MDI 图标，禁止 emoji
 - 单文件构建：JS/CSS 全部内联到 index.html
 - 构建后自动清理调试文件（.map / .d.ts 等）
+- API Key 安全：用户自带 Key（BYOK），仅存本机 uTools db，打包产物零密钥
 
 ## 安装方法
 
@@ -40,23 +41,22 @@
 
 1. 克隆本仓库
 2. 安装依赖：`npm install`
-3. 复制 `src/config/api.example.ts` → `src/config/api.ts`，填入你的 DeepSeek API Key
-4. 开发模式启动：`npm run dev`
-5. 在 uTools 中添加本地插件，指向 `public` 目录
+3. 开发模式启动：`npm run dev`
+4. 在 uTools 中添加本地插件，指向 `public` 目录
+5. 打开插件后，点击右上角钥匙按钮，填入**你自己的** DeepSeek API Key（详见下方「API 配置」）
 
 ## 使用指南
 
-### API 配置
+### API 配置（用户自带 Key / BYOK）
 
-在 `src/config/api.ts` 中填入 API Key：
+插件**不再内置任何 API Key**（打包产物中不含密钥），请配置你自己的 DeepSeek API Key：
 
-```ts
-export const API_CONFIG = {
-  endpoint: 'https://api.deepseek.com/v1/chat/completions',
-  model: 'deepseek-chat',
-  apiKey: 'sk-your-api-key-here', // ← 填入你的 Key
-} as const;
-```
+1. 打开插件，点击右上角**钥匙按钮**，展开「DeepSeek API Key」设置面板
+2. 前往 [DeepSeek 开放平台](https://platform.deepseek.com/api_keys) 创建并复制 `sk-` 开头的 Key
+3. 粘贴后点击**保存**——Key 仅保存在本机 uTools 数据库，不会写入插件包或上传
+4. 需要更换或移除时，再次打开设置面板操作即可
+
+> 未配置 Key 时，输入卡片底部会显示提示，点击即可直达设置面板。
 
 ### 基本使用
 
@@ -97,8 +97,7 @@ SnTool-VariableTranslator/
 │   └── clean-dist.mjs            # 构建后清理脚本
 ├── src/
 │   ├── config/
-│   │   ├── api.ts                 # API 配置（已 .gitignore，不提交）
-│   │   ├── api.example.ts         # API 配置模板（可提交）
+│   │   ├── api.ts                 # API 端点/模型常量（不含密钥，可提交）
 │   │   └── icons.ts               # Iconify 图标注册表
 │   ├── VariableTranslator/
 │   │   ├── index.vue              # 核心组件

@@ -26,6 +26,10 @@ import {
   mdiSwapHorizontal,
   mdiHistory,
   mdiTrashCanOutline,
+  mdiKeyVariant,
+  mdiEyeOutline,
+  mdiEyeOffOutline,
+  mdiInformationOutline,
 } from '@mdi/js';
 
 /** 将 SVG path d 属性转为 Iconify icon data */
@@ -61,5 +65,10 @@ export const FEATURE_ICONS = {
     // 历史记录
     history: icon(mdiHistory),
     delete: icon(mdiTrashCanOutline),
+    // API Key 设置
+    key: icon(mdiKeyVariant),
+    eye: icon(mdiEyeOutline),
+    eyeOff: icon(mdiEyeOffOutline),
+    info: icon(mdiInformationOutline),
   },
 } as const;

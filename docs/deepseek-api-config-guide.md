@@ -2,55 +2,43 @@
 
 > 通用文档，适用于任何需要接入 DeepSeek API 的前端 / Node.js 项目。
 
+> **本项目现状（BYOK）**：SnTool-VariableTranslator 已改为「用户自带 Key」——不再提供 `api.example.ts` 模板，`src/config/api.ts` 只含 endpoint/model 常量，不含任何密钥。用户 Key 通过插件设置面板写入本机 uTools db（键 `translator_api_key`），请求时读取并置于 `Authorization` 头。下文示例中的 `apiKey` 均指**运行期变量**，请勿硬编码。
+
 ---
 
 ## 1. 配置文件结构
 
-### 1.1 创建配置模板 `api.example.ts`
+> ⚠️ 在**随客户端分发**的代码（uTools/浏览器插件、桌面应用前端）中，任何形式的硬编码 Key（含 `api.example.ts` 模板、混淆、加密产物）都会被提取。密钥只能存在于：用户本机存储（BYOK）或持有密钥的服务端（代理）。
 
-此文件**提交到 Git**，供团队成员参考格式：
+### 1.1 方式 A：用户自带 Key（BYOK，本项目采用）
 
-```ts
-/**
- * API 配置示例文件
- * 复制此文件为 api.ts 并填入你的 API Key
- *
- * 操作步骤：
- * 1. 复制本文件 → 重命名为 api.ts
- * 2. 将 apiKey 字段填入你的 DeepSeek API Key
- * 3. api.ts 已加入 .gitignore，不会被提交
- */
-
-export const API_CONFIG = {
-  endpoint: 'https://api.deepseek.com/v1/chat/completions',
-  model: 'deepseek-chat',             // 模型标识符，见下方模型列表
-  apiKey: 'sk-xxxxxxxxxxxx',          // ← 替换为你的 API Key
-} as const;
-
-/** 缓存有效期：7 天（按需调整） */
-export const CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
-```
-
-### 1.2 创建本地配置 `api.ts`
-
-此文件**禁止提交到 Git**，每位开发者在本地维护自己的 Key：
+`src/config/api.ts` 仅声明非敏感常量，可正常提交仓库：
 
 ```ts
 export const API_CONFIG = {
   endpoint: 'https://api.deepseek.com/v1/chat/completions',
-  model: 'deepseek-chat',
-  apiKey: 'sk-your-real-api-key-here', // ← 填入你的真实 Key
+  model: 'deepseek-v4-flash',  // 当前模型（非思考模式）
 } as const;
 
 export const CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
 ```
 
-### 1.3 `.gitignore` 配置
+Key 由用户在插件设置面板填写，写入本机 uTools db 并读回运行期状态：
 
-```gitignore
-# API 密钥配置（含敏感信息）
-src/config/api.ts
+```ts
+// 保存：window.utools.db.put({ _id: 'translator_api_key', data: { apiKey: 'sk-xxx' } })
+// 加载：const doc = window.utools.db.get('translator_api_key')
+//       const apiKey = doc?.data?.apiKey || ''   // 运行期 ref，非源码常量
+// 请求：Authorization: `Bearer ${apiKey}`
 ```
+
+### 1.2 方式 B：后端代理（作者代付 / 免配置分发必选）
+
+需要“用户零配置、作者代付”的体验时，Key 只能放在你的后端服务器/云函数，前端把文本发给你的服务，由服务端转发 DeepSeek。纯客户端方案不具备此安全前提。
+
+### 1.3 反模式：把 Key 写进源码 / 配置文件
+
+将密钥写入任何客户端文件（含 `api.example.ts`、`.env`、本地常量、混淆/加密产物）都会被提取并滥用。BYOK 之后本项目已移除该类流程与 `.gitignore` 排除项。
 
 ---
 
@@ -76,7 +64,7 @@ const response = await fetch(API_CONFIG.endpoint, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${API_CONFIG.apiKey}`,
+    Authorization: `Bearer ${apiKey}`, // apiKey 为运行期变量（BYOK 存本机 / 后端下发），勿硬编码
   },
   body: JSON.stringify({
     model: API_CONFIG.model,
@@ -106,7 +94,7 @@ const response = await fetch(API_CONFIG.endpoint, {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${API_CONFIG.apiKey}`,
+    Authorization: `Bearer ${apiKey}`, // apiKey 为运行期变量（BYOK 存本机 / 后端下发），勿硬编码
   },
   body: JSON.stringify({
     model: API_CONFIG.model,
@@ -246,7 +234,7 @@ async function callDeepSeek(prompt: string) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${API_CONFIG.apiKey}`,
+        Authorization: `Bearer ${apiKey}`, // apiKey 为运行期变量（BYOK 存本机 / 后端下发），勿硬编码
       },
       body: JSON.stringify({
         model: API_CONFIG.model,
@@ -280,9 +268,8 @@ async function callDeepSeek(prompt: string) {
 
 ## 7. 快速接入 Checklist
 
-- [ ] 复制 `api.example.ts` → `api.ts`，填入 API Key
-- [ ] 将 `src/config/api.ts` 加入 `.gitignore`
-- [ ] 实现 `fetch` 调用，设置 `Authorization: Bearer ${apiKey}`
+- [ ] 确认客户端代码**不含**任何 API Key（BYOK：Key 存本机 uTools db，或由后端代理持有）
+- [ ] 实现 `fetch` 调用，设置 `Authorization: Bearer ${apiKey}`（运行期变量）
 - [ ] 根据任务决定是否启用 `response_format` 和 `thinking`
 - [ ] 实现缓存层，减少重复调用
 - [ ] 处理常见错误码（401 / 402 / 429）

@@ -4,7 +4,7 @@
 
 ## 项目概述
 
-这是一个基于 Vue 3 构建的 uTools 插件，用于将中文变量名翻译为符合编程规范的英文命名。内置固定使用 DeepSeek-V3 模型（非思考模式），用户仅需配置 API Key。
+这是一个基于 Vue 3 构建的 uTools 插件，用于将中文变量名翻译为符合编程规范的英文命名。调用 DeepSeek API（非思考模式）完成翻译，API Key 采用**用户自带（BYOK）**模式：由使用者在插件设置面板中填写，仅保存在本机 uTools db，绝不打包进分发产物。
 
 ### 构建与开发
 
@@ -57,7 +57,7 @@ npm run build
 | `localStorage`     | `translator_theme`           | 主题偏好（亮色/暗色）                          |
 | `localStorage`     | `translator_context`         | 上下文生态偏好（general/js/python/java/go/css） |
 
-重要提示： API Key 加载在 `onMounted` 中延迟 50ms 执行，`watch(() => props.enterAction)` 使用 `immediate: true`，两者之间可能产生竞态。
+Key 安全说明： `api.ts` 仅含 endpoint/model 等非敏感常量，**不含任何密钥**。用户填写的 API Key 存于本机 uTools db（键 `translator_api_key`），`onMounted` 中同步读入 `apiKey` ref；uTools 输入走 100ms 延迟翻译，可保证 Key 已就绪，不存在旧版「延迟 50ms 加载 Key」的竞态。
 
 ### CSS 架构
 
@@ -114,14 +114,16 @@ API 调用参数优化：
 | `Ctrl+Enter` / `Cmd+Enter` | 立即翻译          |
 | `Ctrl+K` / `Cmd+K`         | 清空输入和结果    |
 
-### 模型配置
+### 模型配置与 API Key（BYOK）
 
-配置文件：[src/config/api.ts](src/config/api.ts)（已加入 `.gitignore`，禁止提交）
+端点与模型常量在 [src/config/api.ts](src/config/api.ts)，**不含密钥**，可正常提交版本库：
 
 - 端点：`https://api.deepseek.com/v1/chat/completions`
-- 模型：`deepseek-chat`（DeepSeek-V3）
-- API Key 直接写在 `api.ts` 的 `apiKey` 字段，无需 UI 配置
-- 参考模板：[src/config/api.example.ts](src/config/api.example.ts)（可提交，供参考）
+- 模型：`deepseek-v4-flash`（非思考模式）
+- API Key 由每个用户在**插件设置面板**填写（header 右侧钥匙按钮），保存后写入 uTools db（键 `translator_api_key`），组件挂载时读入 `apiKey` ref，翻译请求实时取该值作为 `Authorization: Bearer`
+- Key 输入框 `type="password"` 掩码 + 显示/隐藏切换；「清除」按钮可移除本机 Key
+- 未配置 Key 时状态栏显示「请先设置 DeepSeek API Key」，点击可直接展开设置面板
+- 安全约束：Key 永不写入源码/日志/打包产物；401（Key 无效）、402（余额不足）、429（限流）均做中文错误提示
 
 ### 缓存机制
 
@@ -143,8 +145,7 @@ API 调用参数优化：
 - [src/main.scss](src/main.scss)：全局样式、主题变量、`--b3-*` 语义别名
 - [src/VariableTranslator/index.scss](src/VariableTranslator/index.scss)：翻译器组件专用样式
 - [src/config/icons.ts](src/config/icons.ts)：Iconify 图标注册表
-- [src/config/api.ts](src/config/api.ts)：API 配置（含 Key，.gitignore 排除）
-- [src/config/api.example.ts](src/config/api.example.ts)：API 配置模板（可提交）
+- [src/config/api.ts](src/config/api.ts)：API 配置（仅 endpoint/model/CACHE_TTL，不含密钥）
 
 ### 依赖说明
 
@@ -188,6 +189,11 @@ API 调用参数优化：
 - 新增图标步骤：在 `icons.ts` 中从 `@mdi/js` 导入对应 path → 注册到 `COMMON_ICONS` 或 `FEATURE_ICONS` → 组件中引用
 - 浏览可用图标：https://icon-sets.iconify.design/mdi/
 - 图标渲染：通过全局注册的 `<Icon>` 组件，`:icon` 属性传入 icon data 对象
+
+### 安全红线
+
+- **禁止**在任何客户端代码、配置文件或文档中写入真实 API Key
+- 新增涉及外部服务的 Key 一律采用 BYOK（用户本机存储）或后端代理，不得硬编码进前端
 
 ### 文档参考
 
