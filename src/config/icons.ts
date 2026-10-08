@@ -30,6 +30,7 @@ import {
   mdiEyeOutline,
   mdiEyeOffOutline,
   mdiInformationOutline,
+  mdiBookOpenVariant,
 } from '@mdi/js';
 
 /** 将 SVG path d 属性转为 Iconify icon data */
@@ -56,6 +57,8 @@ export const FEATURE_ICONS = {
     edit: icon(mdiPencilOutline),
     cache: icon(mdiContentSaveOutline),
     api: icon(mdiEarth),
+    // 内置词典命中（本地直译，未调用 API）
+    dictionary: icon(mdiBookOpenVariant),
     error: icon(mdiCloseCircle),
     // 命名类型
     variable: icon(mdiVariable),

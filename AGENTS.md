@@ -52,10 +52,9 @@ npm run build
 | 存储方式           | 键名                         | 用途                                           |
 | ------------------ | ---------------------------- | ---------------------------------------------- |
 | `window.utools.db` | `translator_api_key`         | DeepSeek API Key                               |
-| `window.utools.db` | `translator_cache_*`         | 翻译结果缓存（key 含方向/生态/输入，含 meta，7天过期） |
+| `window.utools.db` | `translator_cache_*`         | 翻译结果缓存（key 含方向/输入，含 meta，7天过期） |
 | `window.utools.db` | `translator_cache_stats`     | 缓存命中统计（hits/total）                     |
 | `localStorage`     | `translator_theme`           | 主题偏好（亮色/暗色）                          |
-| `localStorage`     | `translator_context`         | 上下文生态偏好（general/js/python/java/go/css） |
 
 Key 安全说明： `api.ts` 仅含 endpoint/model 等非敏感常量，**不含任何密钥**。用户填写的 API Key 存于本机 uTools db（键 `translator_api_key`），`onMounted` 中同步读入 `apiKey` ref；uTools 输入走 100ms 延迟翻译，可保证 Key 已就绪，不存在旧版「延迟 50ms 加载 Key」的竞态。
 
@@ -80,7 +79,7 @@ Key 安全说明： `api.ts` 仅含 endpoint/model 等非敏感常量，**不含
 - `constant`：全大写下划线（UPPER_SNAKE_CASE），1 个候选
 - `class`：PascalCase 名词，1 个候选
 
-kebab-case 不经 API 返回，由 snake_case 在本地派生（`VAR_ROWS` 的 `map` 变换），仅在 variable 类型展示。选中非“通用”生态时，提示词中注入 `目标生态:{hint}` 引导命名习惯。
+kebab-case 不经 API 返回，由 snake_case 在本地派生（`VAR_ROWS` 的 `map` 变换），仅在 variable 类型展示。
 
 API 调用参数优化：
 - `temperature: 0.1`（降低随机性，提高命名一致性）
@@ -99,11 +98,10 @@ API 调用参数优化：
 - 命名行整行可点击复制（行内复制按钮 `@click.stop` 避免双触发），复制后窗口保持打开，支持连续复制
 - 重新翻译时旧结果保留并加 `.is-stale`（半透明），避免内容闪空；进入插件时输入框自动聚焦
 
-### 上下文生态与 Tab 历史记录
+### Tab 历史记录
 
-- 生态选择（仅中→英）：输入卡片内胶囊 pills（通用/JS・TS/Python/Java/Go/CSS），影响提示词与缓存 key，切换后对当前输入立即重译，选择持久化到 `localStorage.translator_context`
-- Tab 切换（header 左侧）：“翻译”/“历史”两个视图；历史列表读取带 `meta` 的 `translator_cache_*` 文档（最多 50 条，按时间倒序），展示方向/输入/生态/相对时间
-- 点击历史条目回填方向+生态+输入并立即重查（命中缓存瞬时返回）；支持单条删除与清空；头部展示缓存命中统计（hits/total）
+- Tab 切换（header 左侧）：“翻译”/“历史”两个视图；历史列表读取带 `meta` 的 `translator_cache_*` 文档（最多 50 条，按时间倒序），展示方向/输入/相对时间
+- 点击历史条目回填方向+输入并立即重查（命中缓存瞬时返回）；支持单条删除与清空；头部展示缓存命中统计（hits/total）
 - 历史与缓存共用存储，随 7 天 TTL 自然淘汰
 
 ### 键盘快捷键
@@ -125,11 +123,24 @@ API 调用参数优化：
 - 未配置 Key 时状态栏显示「请先设置 DeepSeek API Key」，点击可直接展开设置面板
 - 安全约束：Key 永不写入源码/日志/打包产物；401（Key 无效）、402（余额不足）、429（限流）均做中文错误提示
 
+### 内置词典（本地直译）
+
+模块：[src/dictionaries/](src/dictionaries/)（`index.js` 为唯一查询入口，`words.json` 为扁平词表）
+
+- **命中即跳过 API**：`translate()` 中词典查询前置于缓存与 Key 校验，命中直接返回结果，**不调用 API、不写缓存、不计缓存统计**
+- **零外部依赖**：`lookupDictionary(text)` 是纯函数，不接受生态/语言/场景等任何选项，同样输入永远同样结果
+- **不按语言分类**：词表扁平。绝大多数编程词汇跨语言通用，按语言分桶会造成同一词条「有时命中有时不命中」
+- **不做生态适配**：只给出基础拼写（「接口」→ `Service`），不自动加 `I` 前缀 / `Async` 后缀，语言惯例由用户自行调整
+- **结果同构**：返回与 LLM 输出一致的 `[{ chinese, variable, method, constant, class }]`，直接复用现有模板与校验
+- **非法词条**：字段缺失/空数组会被 `isValidEntry` 判定非法并跳过（`console.warn`），不影响翻译
+- 结果来源由 `resultSource`（`'dictionary' | 'cache' | 'api'`）驱动徽标显示
+- 词条贡献规范见 [src/dictionaries/README.md](src/dictionaries/README.md)
+
 ### 缓存机制
 
-- 缓存 key：`translator_cache_${direction}_${context}_${input}`（基于方向 + 生态 + 输入，英→中方向 context 固定为 general）
-- 缓存文档含 `meta`（direction/context/input）供历史记录列表使用
-- 缓存有效期：7 天（`CACHE_TTL`），读取时发现过期即删除；组件挂载时扫描清理过期条目及所有非当前格式（无 `meta`）的旧条目，不做向后兼容
+- 缓存 key：`translator_cache_${direction}_${input}`（基于方向 + 输入）
+- 缓存文档含 `meta`（direction/input）供历史记录列表使用
+- 缓存有效期：7 天（`CACHE_TTL`），读取时发现过期即删除；组件挂载时扫描清理过期条目及所有非当前格式的旧条目（无 `meta`、或 `meta` 含已废弃的 `context` 字段），不做向后兼容
 - 缓存统计：`translator_cache_stats` 记录命中次数（hits）和总翻译请求数（total，含命中与未命中）
 
 ### 组件通信
@@ -146,6 +157,8 @@ API 调用参数优化：
 - [src/VariableTranslator/index.scss](src/VariableTranslator/index.scss)：翻译器组件专用样式
 - [src/config/icons.ts](src/config/icons.ts)：Iconify 图标注册表
 - [src/config/api.ts](src/config/api.ts)：API 配置（仅 endpoint/model/CACHE_TTL，不含密钥）
+- [src/dictionaries/index.js](src/dictionaries/index.js)：内置词典查询入口 + 命名约定表
+- [src/dictionaries/words.json](src/dictionaries/words.json)：扁平词表数据（无语言维度，可提交）
 
 ### 依赖说明
 

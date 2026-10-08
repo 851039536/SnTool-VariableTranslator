@@ -72,11 +72,6 @@
             @keydown.enter.exact.prevent="onEnterKey"
             :placeholder="isZhToEn ? '输入中文，例如：用户名称' : '输入英文变量名，例如：getUserName'" rows="1"></textarea>
         </div>
-        <div v-if="isZhToEn" class="context-bar">
-          <span class="ctx-label">生态</span>
-          <button v-for="ctx in CONTEXTS" :key="ctx.value" class="ctx-pill"
-            :class="{ active: context === ctx.value }" @click="setContext(ctx.value)">{{ ctx.label }}</button>
-        </div>
         <div class="status-bar">
           <span v-if="isTranslating" class="status-tip status-tip--active">
             <Icon :icon="TI.loading" width="14" class="icon-spin" /> 翻译中...
@@ -103,7 +98,10 @@
         <div v-for="(result, index) in translationResult" :key="index" class="result-group">
           <div class="result-title">
             <span class="result-chinese">{{ result.chinese }}</span>
-            <span v-if="isFromCache" class="cache-badge">
+            <span v-if="resultSource === 'dictionary'" class="dictionary-badge">
+              <Icon :icon="TI.dictionary" width="12" /> 内置词典
+            </span>
+            <span v-else-if="resultSource === 'cache'" class="cache-badge">
               <Icon :icon="TI.cache" width="12" /> 来自缓存
             </span>
             <span v-else class="api-badge">
@@ -154,7 +152,7 @@
             <code class="result-english">{{ result.input }}</code>
             <span class="style-badge" :class="'badge-' + (result.style || 'unknown')">{{ result.style || 'unknown'
             }}</span>
-            <span v-if="isFromCache" class="cache-badge">
+            <span v-if="resultSource === 'cache'" class="cache-badge">
               <Icon :icon="TI.cache" width="12" /> 缓存
             </span>
             <span v-else class="api-badge">
@@ -213,7 +211,6 @@
           title="点击重新查询">
           <span class="history-dir">{{ item.meta.direction === 'zh-en' ? '中→英' : '英→中' }}</span>
           <span class="history-input">{{ item.meta.input }}</span>
-          <span v-if="item.meta.context !== 'general'" class="history-ctx">{{ ctxLabel(item.meta.context) }}</span>
           <span class="history-time">{{ formatTime(item.timestamp) }}</span>
           <button class="history-del" @click.stop="removeHistory(item)" title="删除">
             <Icon :icon="TI.delete" width="13" />
@@ -228,6 +225,7 @@
 import { ref, computed, onMounted, watch, onUnmounted, nextTick } from 'vue';
 import { COMMON_ICONS, FEATURE_ICONS } from '@/config/icons';
 import { API_CONFIG, CACHE_TTL } from '@/config/api';
+import { lookupDictionary } from '@/dictionaries';
 
 const TI = FEATURE_ICONS.translator;
 
@@ -271,17 +269,6 @@ const modes = [
 const direction = ref('zh-en'); // 'zh-en' | 'en-zh'
 const isZhToEn = computed(() => direction.value === 'zh-en');
 
-// 上下文生态（仅中→英生效）：影响提示词命名习惯与缓存 key
-const CONTEXTS = [
-  { value: 'general', label: '通用', hint: '' },
-  { value: 'js', label: 'JS/TS', hint: 'JavaScript/TypeScript,变量camelCase为主' },
-  { value: 'python', label: 'Python', hint: 'Python,变量/方法snake_case为主' },
-  { value: 'java', label: 'Java', hint: 'Java,camelCase,类PascalCase' },
-  { value: 'go', label: 'Go', hint: 'Go,简短驼峰,可导出名PascalCase' },
-  { value: 'css', label: 'CSS', hint: 'CSS/前端样式,类名kebab风格,简短' }
-];
-const context = ref(localStorage.getItem('translator_context') || 'general');
-
 // Tab 与历史记录
 const activeTab = ref('translate'); // 'translate' | 'history'
 const historyList = ref([]);
@@ -292,7 +279,8 @@ const translationResult = ref(null);
 const isEmptyResult = ref(false); // 能解析但确无可用命名时的友好空状态
 const error = ref('');
 const isTranslating = ref(false);
-const isFromCache = ref(false);
+// 结果来源：'dictionary'（内置词典，未调用 API）| 'cache'（uTools db 缓存）| 'api'
+const resultSource = ref('api');
 const inputRef = ref(null);
 let debounceTimer = null;
 let utoolsTimer = null;   // uTools 输入的 100ms 延迟翻译定时器
@@ -396,9 +384,7 @@ function getPrompt(strict = false) {
 }
 
 function getPromptZhToEn(strict = false) {
-  const ctx = CONTEXTS.find((c) => c.value === context.value);
-  const ctxHint = ctx?.hint ? `目标生态:${ctx.hint}。` : '';
-  return `编程命名翻译。为每个中文词提供4类(variable/method/constant/class)翻译,variable/method各给2个候选(常用优先),constant/class各1个,每候选含camelCase/snake_case/PascalCase。${ctxHint}只要中文输入就必有可翻译命名:每类字段必须至少返回1个候选,禁止空数组[],禁止null。遇无直译词(语气词/网络语等)给出合理音译或意译;某类看似不适用时,取该类最接近的表达(动词名词化为variable/class,动词原形为method,全大写为constant),确保4类齐全。${strict ? '上次输出全部为空,本次务必为每个字段返回至少1个候选,严禁空数组[]。' : ''}仅输出JSON数组,无解释。
+  return `编程命名翻译。为每个中文词提供4类(variable/method/constant/class)翻译,variable/method各给2个候选(常用优先),constant/class各1个,每候选含camelCase/snake_case/PascalCase。只要中文输入就必有可翻译命名:每类字段必须至少返回1个候选,禁止空数组[],禁止null。遇无直译词(语气词/网络语等)给出合理音译或意译;某类看似不适用时,取该类最接近的表达(动词名词化为variable/class,动词原形为method,全大写为constant),确保4类齐全。${strict ? '上次输出全部为空,本次务必为每个字段返回至少1个候选,严禁空数组[]。' : ''}仅输出JSON数组,无解释。
 示例输入:控制台
 输出:[{"chinese":"控制台","variable":[{"camelCase":"console","snake_case":"console","PascalCase":"Console"},{"camelCase":"terminal","snake_case":"terminal","PascalCase":"Terminal"}],"method":[{"camelCase":"getConsole","snake_case":"get_console","PascalCase":"GetConsole"},{"camelCase":"openConsole","snake_case":"open_console","PascalCase":"OpenConsole"}],"constant":[{"camelCase":"CONSOLE","snake_case":"CONSOLE","PascalCase":"CONSOLE"}],"class":[{"camelCase":"Console","snake_case":"console","PascalCase":"Console"}]}]
 翻译:${chineseInput.value}`;
@@ -411,10 +397,9 @@ function getPromptEnToZh() {
 分析:${chineseInput.value}`;
 }
 
-// 生成缓存键名（基于翻译方向 + 生态上下文 + 输入文本）
+// 生成缓存键名（基于翻译方向 + 输入文本）
 function getCacheKey() {
-  const ctx = isZhToEn.value ? context.value : 'general';
-  return `translator_cache_${direction.value}_${ctx}_${chineseInput.value.trim()}`;
+  return `translator_cache_${direction.value}_${chineseInput.value.trim()}`;
 }
 
 // 写入/覆盖 db 文档（自动携带 _rev，uTools put 失败不抛异常，需检查返回值）
@@ -467,7 +452,6 @@ function saveToCache(result) {
       timestamp: Date.now(),
       meta: {
         direction: direction.value,
-        context: isZhToEn.value ? context.value : 'general',
         input: chineseInput.value.trim()
       }
     });
@@ -477,14 +461,17 @@ function saveToCache(result) {
   }
 }
 
-// 启动时扫描缓存条目：过期或非当前格式（无 meta）的一律删除，防止 db 膨胀
+// 启动时扫描缓存条目：过期、或非当前格式的一律删除，防止 db 膨胀
+// 「非当前格式」包括：无 meta 的旧条目、以及带生态字段的旧缓存
+// （缓存 key 曾含生态，移除生态功能后这些 key 永远无法命中，属垃圾数据）
 function cleanExpiredCache() {
   try {
     const docs = window.utools.db.allDocs('translator_cache_');
     const now = Date.now();
     docs.forEach((doc) => {
       if (doc._id === 'translator_cache_stats') return;
-      if (!doc.meta || (now - (doc.timestamp || 0)) >= CACHE_TTL) {
+      const staleFormat = !doc.meta || 'context' in doc.meta;
+      if (staleFormat || (now - (doc.timestamp || 0)) >= CACHE_TTL) {
         window.utools.db.remove(doc);
       }
     });
@@ -610,7 +597,13 @@ async function callTranslateApi(strict, seq) {
 }
 
 async function translate() {
-  if (!chineseInput.value.trim() || !isApiConfigured.value) return;
+  if (!chineseInput.value.trim()) return;
+
+  // 词典为纯本地数据，命中的判定与任何外部选项无关；未配置 Key 时也能直译，
+  // 故先于 Key 校验查询
+  const dictResult = isZhToEn.value ? lookupDictionary(chineseInput.value) : null;
+
+  if (!dictResult && !isApiConfigured.value) return;
 
   // 长度限制：中文≤15字，英文≤30字符
   if (chineseInput.value.trim().length > maxLen.value) {
@@ -629,18 +622,27 @@ async function translate() {
   error.value = '';
   isEmptyResult.value = false;
 
+  // 词典命中：直接返回，不调用 API、不写缓存、不计统计
+  // （词典是本地常量，落库只会占用空间并在 7 天后过期，还会稀释缓存命中率）
+  if (dictResult) {
+    translationResult.value = dictResult;
+    resultSource.value = 'dictionary';
+    isTranslating.value = false;
+    return;
+  }
+
   try {
     // 先尝试从缓存加载
     const cachedResult = loadFromCache();
     if (cachedResult) {
       translationResult.value = cachedResult;
-      isFromCache.value = true;
+      resultSource.value = 'cache';
       isTranslating.value = false;
       return;
     }
 
     // 缓存未命中，调用 API 翻译
-    isFromCache.value = false;
+    resultSource.value = 'api';
     // 先正常调用；若结果全空（模型违规返回空数组）则用强制非空提示重试一次，保证中文输入必可翻译
     let result = await callTranslateApi(false, seq);
     if (seq !== requestSeq) return;
@@ -700,7 +702,7 @@ function clearResults() {
   isEmptyResult.value = false;
   chineseInput.value = '';
   error.value = '';
-  isFromCache.value = false;
+  resultSource.value = 'api';
   // 取消待触发的自动翻译
   if (debounceTimer) clearTimeout(debounceTimer);
   if (utoolsTimer) clearTimeout(utoolsTimer);
@@ -713,21 +715,6 @@ function onEnterKey() {
   if (isApiConfigured.value && chineseInput.value.trim()) {
     translate();
   }
-}
-
-// 切换上下文生态：持久化并对当前输入立即重译（命中对应生态缓存则瞬时返回）
-function setContext(value) {
-  if (context.value === value) return;
-  context.value = value;
-  localStorage.setItem('translator_context', value);
-  if (debounceTimer) clearTimeout(debounceTimer);
-  if (isApiConfigured.value && chineseInput.value.trim()) {
-    translate();
-  }
-}
-
-function ctxLabel(value) {
-  return CONTEXTS.find((c) => c.value === value)?.label || value;
 }
 
 // ── 历史记录 ────────────────────────────────────────
@@ -756,12 +743,9 @@ function loadHistory() {
   }
 }
 
-// 点击历史条目：回填方向/生态/输入并立即翻译（命中缓存瞬时返回）
+// 点击历史条目：回填方向与输入并立即翻译（命中缓存瞬时返回）
 function useHistory(item) {
   direction.value = item.meta.direction;
-  if (item.meta.direction === 'zh-en') {
-    context.value = item.meta.context;
-  }
   activeTab.value = 'translate';
   chineseInput.value = item.meta.input;
   nextTick(() => {

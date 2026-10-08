@@ -7,6 +7,8 @@ const enterAction = ref({});
 const isDarkTheme = ref(false);
 
 function initTheme() {
+  // 清理已废弃的生态偏好（该功能已移除，避免残留垃圾键）
+  localStorage.removeItem('translator_context');
   // 从本地存储读取主题设置
   const savedTheme = localStorage.getItem('translator_theme');
   if (savedTheme) {
