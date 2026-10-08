@@ -1025,8 +1025,10 @@ watch(chineseInput, (newValue) => {
     if (debounceTimer) clearTimeout(debounceTimer);
     if (utoolsTimer) clearTimeout(utoolsTimer);
 
-    // 短暂延迟后立即翻译，确保 API 配置已加载；回调内取当前输入值，避免清空后仍用旧文本翻译
-    // 注意：不校验 isApiConfigured —— 词典命中无需 Key（translate 内部会自行判断）
+    // 短暂延迟后翻译，让 uTools 的 set 值先落到 chineseInput 再读取。
+    // 注意：这**不是**为了「等 API Key 就绪」——loadApiKey() 在 onMounted 中已同步完成，
+    // 本就不存在旧版「延迟加载 Key」的竞态；且词典命中无需 Key，
+    // 故此处不校验 isApiConfigured（translate 内部自行判断）。
     utoolsTimer = setTimeout(() => {
       if (chineseInput.value.trim()) {
         translate();

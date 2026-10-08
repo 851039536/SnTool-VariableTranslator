@@ -63,7 +63,9 @@ npm test
 | `window.utools.db` | `translator_cache_stats`     | 缓存命中统计（hits/total）                     |
 | `localStorage`     | `translator_theme`           | 主题偏好（亮色/暗色）                          |
 
-Key 安全说明： `api.ts` 仅含 endpoint/model 等非敏感常量，**不含任何密钥**。用户填写的 API Key 存于本机 uTools db（键 `translator_api_key`），`onMounted` 中同步读入 `apiKey` ref；uTools 输入走 100ms 延迟翻译，可保证 Key 已就绪，不存在旧版「延迟 50ms 加载 Key」的竞态。
+Key 安全说明： `api.ts` 仅含 endpoint/model 等非敏感常量，**不含任何密钥**。用户填写的 API Key 存于本机 uTools db（键 `translator_api_key`），`onMounted` 中**同步**读入 `apiKey` ref。
+
+> 关于 uTools 输入的 100ms 延迟：它**不是**为了「等 Key 就绪」——`loadApiKey()` 是同步的，`onMounted` 时即已完成，本就不存在旧版「延迟 50ms 加载 Key」的竞态。该延迟的作用见 `index.vue` 中对应注释：让输入状态稳定后再触发翻译。**且翻译流程已不依赖 Key 就绪**（词典命中无需 Key，见下文「内置词典」）。修改该延迟时不要以「保护 Key 时序」为由保留它。
 
 ### CSS 架构
 
@@ -107,7 +109,7 @@ API 调用参数优化：
 
 ### Tab 历史记录
 
-- Tab 切换（header 左侧）：“翻译”/“历史”两个视图；历史列表读取带 `meta` 的 `translator_cache_*` 文档（最多 50 条，按时间倒序），展示方向/输入/相对时间
+- Tab 切换（header 左侧）：“翻译”/“历史”两个视图；历史列表用 `allDocs('translator_cache_')` **全量读取**后，在内存中按 `timestamp` 倒序并 `.slice(0, 50)` 截断（非数据库层限制），展示方向/输入/相对时间
 - 点击历史条目回填方向+输入并立即重查（命中缓存瞬时返回）；支持单条删除与清空；头部展示缓存命中统计（hits/total）
 - 历史与缓存共用存储，随 7 天 TTL 自然淘汰
 
@@ -137,7 +139,8 @@ API 调用参数优化：
 - **命中即跳过 API**：`translate()` 中词典查询前置于缓存与 Key 校验，命中直接返回结果，**不调用 API、不写缓存、不计缓存统计**
 - **懒加载（异步）**：`lookupDictionary(text)` / `dictionarySize()` 均返回 **Promise**，内部用动态 `import('./words.json')` 加载并缓存，整个会话只加载一次
   - ⚠️ **调用方必须 `await`**，否则拿到的是 Promise（恒为真值），会导致所有词条被误判为命中
-  - ⚠️ **构建产物必须保持多文件**：`vite-plugin-singlefile` 会把动态 `import()` 一并内联，使懒加载彻底失效，故 `vite.config.js` 中已移除该插件（详见该文件注释与 [README](README.md) 的「构建与体积」）
+  - ⚠️ **构建产物必须保持多文件**：`vite-plugin-singlefile` 会把动态 `import()` 一并内联，使懒加载彻底失效，故 `vite.config.js` 中**已不再引用该插件**（详见该文件注释与 [README](README.md) 的「构建与体积」）
+    - 注意：该依赖**仍在 `package.json` 的 devDependencies 中**（只是不再被 import）。若看到它出现在依赖列表，属预期，不代表构建会内联
   - 加载失败时捕获并 `console.warn`，返回 `null` 降级为「未命中」，**绝不阻断翻译**（由 API 兜底）
 - **异步竞态防护**：`pendingSource` 与 `translate()` 在 `await` 后都要比对输入快照，输入已变则丢弃过期结果
 - **零外部依赖**：不接受生态/语言/场景等任何选项，同样输入永远同样结果
@@ -157,6 +160,7 @@ API 调用参数优化：
   uTools 窗口通常 ~800px，若并排会把结果区（四类命名）压到 ~450px，明显变窄
 - 遮罩 `.help-backdrop` 与 `Esc` 均可关闭；与 Key 设置面板**互斥**（`toggleHelp` / `openSettings` 互相关闭）
 - 词条总数由 `dictionarySize()` **运行时**计算后展示，新增词条无需改文案
+  - ⚠️ **已知缺陷**：词表加载失败时 `dictionarySize()` 返回 `0`，而调用处 `.catch(() => {})` 会吞掉错误，帮助面板将显示「命中共 **0** 条本地词表」——这是一个会误导用户的静默降级。未修复前请勿在文档中宣称该处总能正确显示条目数
 
 ### 缓存机制
 
@@ -212,7 +216,7 @@ API 调用参数优化：
 | 卡片 hover | `border-color: var(--b3-theme-primary)` |
 | 大写标签 | `font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase` |
 | 等宽字段 | 路径/版本号/日期/密码使用 `$vp-mono` |
-| focus 发光 | `box-shadow: 0 0 0 2px var(--b3-theme-primary-lightest)` |
+| focus 发光 | `box-shadow: 0 0 0 2px var(--b3-theme-primary-lightest)` —— **约定，当前代码中尚无实现**（现有 `.input:focus` 仅去除 outline）。新增输入控件可遵循此项 |
 | 按钮 | 主按钮实底 `var(--b3-theme-primary)` / 次按钮描边 ghost |
 | 动画 | 统一 `0.12s` 过渡 |
 
@@ -232,4 +236,4 @@ API 调用参数优化：
 
 ### 文档参考
 
-- [SRC/vue_uToolsAPI.md](SRC/vue_uToolsAPI.md)：uTools API 文档
+- [src/vue_uToolsAPI.md](src/vue_uToolsAPI.md)：uTools API 文档
