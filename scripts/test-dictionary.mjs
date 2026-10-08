@@ -248,31 +248,33 @@ check('中文 key 无首尾/内部空白', badKeys.length === 0, badKeys.slice(0
 
 // ── 4. 查询行为 ──────────────────────────────────────────────
 //
-// index.js 直接 import 了 words.json，Node 原生 ESM 要求 import 属性
-// （`with { type: 'json' }`）而 Vite 不需要。为了不改动业务代码，这里先用
-// esbuild（Vite 的既有依赖）把模块打成临时文件再加载——顺带也验证了该模块
-// 能被真实打包。
+// index.js 通过动态 import() 懒加载 words.json，Node 原生 ESM 要求 JSON 的
+// import 属性而 Vite 不需要。为不改动业务代码，这里用 esbuild（Vite 既有依赖）
+// 把模块打成临时文件再加载——注意必须保留动态 import 的拆分形态，
+// 否则测的就不是真实的懒加载行为。
 
 section('4. 查询行为');
 
 let lookupDictionary, dictionarySize;
-const bundledPath = path.join(ROOT, '.test-dictionary.bundle.mjs');
+const bundleDir = path.join(ROOT, '.test-dict-bundle');
 try {
   const { build } = await import('esbuild');
   await build({
     entryPoints: [path.join(ROOT, 'src/dictionaries/index.js')],
     bundle: true,
     format: 'esm',
-    outfile: bundledPath,
+    splitting: true,
+    outdir: bundleDir,
     logLevel: 'silent',
   });
-  ({ lookupDictionary, dictionarySize } = await import(pathToFileURL(bundledPath).href));
+  const entry = fs.readdirSync(bundleDir).find((f) => f.startsWith('index') && f.endsWith('.js'));
+  ({ lookupDictionary, dictionarySize } = await import(pathToFileURL(path.join(bundleDir, entry)).href));
 } catch (e) {
   console.log(`  ${C.red}✗${C.reset} 无法加载词典模块: ${e.message}`);
   failures.push('加载词典模块');
-} finally {
-  if (fs.existsSync(bundledPath)) fs.unlinkSync(bundledPath);
 }
+// ⚠️ 不能在 finally 里删目录：词表是懒加载的，首次查询时才会去取 words-*.js，
+// 提前删除会导致查询静默降级为「未命中」。改为在全部测试结束后清理（见文件末尾）。
 
 if (!lookupDictionary) {
   console.log(`\n${C.red}${C.bold}模块加载失败，跳过查询行为测试${C.reset}`);
@@ -280,28 +282,40 @@ if (!lookupDictionary) {
   process.exit(1);
 }
 
-check('dictionarySize() 与词表 key 数一致', dictionarySize() === keys.length, `${dictionarySize()} vs ${keys.length}`);
-check('lookupDictionary 为纯函数（无第二参数）', lookupDictionary.length === 1, `实际 ${lookupDictionary.length}`);
+check('dictionarySize() 与词表 key 数一致', (await dictionarySize()) === keys.length, `${await dictionarySize()} vs ${keys.length}`);
+check('lookupDictionary 只接受一个参数', lookupDictionary.length === 1, `实际 ${lookupDictionary.length}`);
+check('lookupDictionary 为异步函数（懒加载）', lookupDictionary.constructor.name === 'AsyncFunction');
 
 // 4.1 全部词条可命中且结构同构
-const missAll = keys.filter((k) => lookupDictionary(k) === null);
+const missAll = [];
+for (const k of keys) {
+  if ((await lookupDictionary(k)) === null) missAll.push(k);
+}
 check('所有词条均可命中', missAll.length === 0, missAll.slice(0, 5).join(','));
 
 const EXPECTED_SHAPE = 'chinese,class,constant,method,variable';
-const badShape = keys.filter((k) => {
-  const r = lookupDictionary(k);
-  return !r || Object.keys(r[0]).sort().join(',') !== EXPECTED_SHAPE;
-});
+const badShape = [];
+for (const k of keys) {
+  const r = await lookupDictionary(k);
+  if (!r || Object.keys(r[0]).sort().join(',') !== EXPECTED_SHAPE) badShape.push(k);
+}
 check('返回结构仅含 chinese + 四类字段', badShape.length === 0, badShape.slice(0, 5).join(','));
 
 // 4.2 chinese 字段与 key 一致
-const badChinese = keys.filter((k) => lookupDictionary(k)?.[0]?.chinese !== k);
+const badChinese = [];
+for (const k of keys) {
+  const r = await lookupDictionary(k);
+  if (r?.[0]?.chinese !== k) badChinese.push(k);
+}
 check('返回的 chinese 与查询 key 一致', badChinese.length === 0, badChinese.slice(0, 5).join(','));
 
 // 4.3 纯函数确定性
-const nondet = keys.filter(
-  (k) => JSON.stringify(lookupDictionary(k)) !== JSON.stringify(lookupDictionary(k))
-);
+const nondet = [];
+for (const k of keys) {
+  const a = JSON.stringify(await lookupDictionary(k));
+  const b = JSON.stringify(await lookupDictionary(k));
+  if (a !== b) nondet.push(k);
+}
 check('重复查询结果一致（确定性）', nondet.length === 0, nondet.slice(0, 5).join(','));
 
 // 4.4 边界输入
@@ -317,13 +331,32 @@ const edgeCases = [
   ['未收录词', '一个绝对不存在于词表的词组xyz', null],
 ];
 for (const [name, input, expect] of edgeCases) {
-  const r = lookupDictionary(input);
+  const r = await lookupDictionary(input);
   check(`边界：${name} → ${expect === null ? 'null' : '命中'}`, r === expect, `实际 ${r === null ? 'null' : '命中'}`);
 }
 
 // 4.5 首尾空白应被 trim 后命中（取第一条词）
 const firstKey = keys[0];
-check(`首尾空白可命中（" ${firstKey} "）`, lookupDictionary(`  ${firstKey}  `)?.[0]?.chinese === firstKey);
+check(`首尾空白可命中（" ${firstKey} "）`, (await lookupDictionary(`  ${firstKey}  `))?.[0]?.chinese === firstKey);
+
+// 4.6 懒加载：词表必须独立于主包
+section('4b. 懒加载产物');
+const assetsDir = path.join(ROOT, 'dist/assets');
+if (fs.existsSync(assetsDir)) {
+  const files = fs.readdirSync(assetsDir);
+  const mainFile = files.find((f) => f.startsWith('index-') && f.endsWith('.js'));
+  const dictFile = files.find((f) => f.startsWith('dict-') && f.endsWith('.js'));
+  check('产物存在独立 dict chunk', !!dictFile, dictFile || '未找到');
+  check('产物存在主包', !!mainFile, mainFile || '未找到');
+  if (mainFile && dictFile) {
+    const mainSrc = fs.readFileSync(path.join(assetsDir, mainFile), 'utf8');
+    check('主包用动态 import 引用词典', /import\(["'][^"']*dict-[^"']*["']\)/.test(mainSrc));
+    check('主包未静态引入词典数据', !mainSrc.includes('userName'));
+    check('词典 chunk 含词表数据', fs.readFileSync(path.join(assetsDir, dictFile), 'utf8').includes('userName'));
+  }
+} else {
+  check('产物目录存在（需先 npm run build）', false, assetsDir);
+}
 
 // ── 5. 来源提示一致性 ────────────────────────────────────────
 //
@@ -336,8 +369,11 @@ section('5. 来源提示一致性');
 const vuePath = path.join(ROOT, 'src/VariableTranslator/index.vue');
 const vue = fs.readFileSync(vuePath, 'utf8');
 
-const dictCallCount = (vue.match(/lookupDictionary\(chineseInput\.value\)/g) || []).length;
-check('pendingSource 与 translate 共用同一判定', dictCallCount >= 2, `出现 ${dictCallCount} 次`);
+// 词表懒加载后，查询是异步的；两处都必须 await，否则拿到的是 Promise（恒为真值）
+const pendingAwaits = /const hit = await lookupDictionary\(text\)/.test(vue);
+const translateAwaits = /await lookupDictionary\(inputSnapshot\)/.test(vue);
+check('pendingSource 正确 await 词典查询', pendingAwaits);
+check('translate 正确 await 词典查询', translateAwaits);
 
 // 词典查询必须早于 API Key 校验，否则未配置 Key 的用户会被挡在词典之外，
 // 与「命中词典无需 Key」的提示矛盾
@@ -350,16 +386,26 @@ check(
 );
 
 // 提示与真实路径逐条比对（中→英）
-const hinted = keys.filter((k) => lookupDictionary(k) !== null);
+const hinted = [];
+for (const k of keys) {
+  if ((await lookupDictionary(k)) !== null) hinted.push(k);
+}
 check('全部词条都会被提示为「内置词典」', hinted.length === keys.length, `${hinted.length}/${keys.length}`);
 
 // 未收录词必须提示走 API
-check('未收录词提示走 API', lookupDictionary('绝不存在于词表的词组zzz') === null);
+check('未收录词提示走 API', (await lookupDictionary('绝不存在于词表的词组zzz')) === null);
 
 // 英→中方向不启用词典，提示应为 API
-check('英→中方向固定走 API', vue.includes("if (!isZhToEn.value) return 'api'"));
+check('英→中方向固定走 API', vue.includes("pendingSource.value = 'api'"));
+
+// 异步竞态防护：查词返回时若输入已变，必须丢弃过期结果
+check('pendingSource 丢弃过期异步结果', /chineseInput\.value\.trim\(\) !== text\) return/.test(vue));
+check('translate 丢弃过期异步结果', /chineseInput\.value\.trim\(\) !== inputSnapshot\) return/.test(vue));
 
 // ── 汇总 ────────────────────────────────────────────────────
+
+// 测试全部跑完（词表已加载完毕）再清理临时打包目录
+if (fs.existsSync(bundleDir)) fs.rmSync(bundleDir, { recursive: true, force: true });
 
 console.log('');
 console.log('─'.repeat(52));

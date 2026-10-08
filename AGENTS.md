@@ -15,9 +15,13 @@ npm run dev
 # 生产构建（输出到 dist/ 目录）
 npm run build
 
-# 内置词典测试（结构/重复/命名规范/查询行为）
+# 内置词典测试（结构/重复/命名规范/查询行为/懒加载产物）
 npm test
 ```
+
+构建产物为**多文件**（`index.html` + `assets/`），词典独立成 chunk 按需加载。
+⚠️ 发布时需复制整个 `dist/` 目录，不能只拷 `index.html`。
+⚠️ 不要重新引入 `vite-plugin-singlefile`——它会把动态 import 内联，使词典懒加载失效。
 
 开发模式说明： 在 uTools 中，`plugin.json` 的 `development.main` 指向 `http://localhost:5173`。构建后，需要将 `dist/` 目录内容连同 `plugin.json`、`logo.png` 和 `preload/` 一起复制到 uTools 插件目录。
 
@@ -131,14 +135,19 @@ API 调用参数优化：
 模块：[src/dictionaries/](src/dictionaries/)（`index.js` 为唯一查询入口，`words.json` 为扁平词表）
 
 - **命中即跳过 API**：`translate()` 中词典查询前置于缓存与 Key 校验，命中直接返回结果，**不调用 API、不写缓存、不计缓存统计**
-- **零外部依赖**：`lookupDictionary(text)` 是纯函数，不接受生态/语言/场景等任何选项，同样输入永远同样结果
+- **懒加载（异步）**：`lookupDictionary(text)` / `dictionarySize()` 均返回 **Promise**，内部用动态 `import('./words.json')` 加载并缓存，整个会话只加载一次
+  - ⚠️ **调用方必须 `await`**，否则拿到的是 Promise（恒为真值），会导致所有词条被误判为命中
+  - ⚠️ **构建产物必须保持多文件**：`vite-plugin-singlefile` 会把动态 `import()` 一并内联，使懒加载彻底失效，故 `vite.config.js` 中已移除该插件（详见该文件注释与 [README](README.md) 的「构建与体积」）
+  - 加载失败时捕获并 `console.warn`，返回 `null` 降级为「未命中」，**绝不阻断翻译**（由 API 兜底）
+- **异步竞态防护**：`pendingSource` 与 `translate()` 在 `await` 后都要比对输入快照，输入已变则丢弃过期结果
+- **零外部依赖**：不接受生态/语言/场景等任何选项，同样输入永远同样结果
 - **不按语言分类**：词表扁平。绝大多数编程词汇跨语言通用，按语言分桶会造成同一词条「有时命中有时不命中」
 - **不做生态适配**：只给出基础拼写（「接口」→ `Service`），不自动加 `I` 前缀 / `Async` 后缀，语言惯例由用户自行调整
 - **结果同构**：返回与 LLM 输出一致的 `[{ chinese, variable, method, constant, class }]`，直接复用现有模板与校验
 - **非法词条**：字段缺失/空数组会被 `isValidEntry` 判定非法并跳过（`console.warn`），不影响翻译
-- **来源提示**：`pendingSource` computed 预判本次输入的路径，状态栏实时显示「内置词典直译 · 不消耗 API」或「将调用 API 翻译」；`resultSource`（`'dictionary' | 'cache' | 'api'`）驱动结果徽标与 tooltip
-  - ⚠️ `pendingSource` 与 `translate()` **必须使用同一个判定表达式**，且词典查询须早于 API Key 校验，否则提示会说谎（`npm test` 第 5 组专门校验这一点）
-- **词表改动后必须运行 `npm test`**（[scripts/test-dictionary.mjs](scripts/test-dictionary.mjs)）：校验结构完整性、重复、命名规范、查询行为与来源提示一致性，失败时非 0 退出
+- **来源提示**：`pendingSource`（ref，异步更新）预判本次输入的路径，状态栏实时显示「内置词典直译 · 不消耗 API」或「将调用 API 翻译」；`resultSource`（`'dictionary' | 'cache' | 'api'`）驱动结果徽标与 tooltip
+  - ⚠️ 词典查询须早于 API Key 校验，否则未配 Key 的用户会被挡在词典之外，与提示矛盾（`npm test` 第 5 组专门校验）
+- **词表改动后必须运行 `npm test`**（[scripts/test-dictionary.mjs](scripts/test-dictionary.mjs)）：校验结构完整性、重复、命名规范、查询行为、懒加载产物与来源提示一致性，失败时非 0 退出
 - 词条贡献规范见 [src/dictionaries/README.md](src/dictionaries/README.md)
 
 ### 帮助面板

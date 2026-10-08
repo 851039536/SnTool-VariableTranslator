@@ -142,6 +142,13 @@ npm test
 **为什么词典先于 API Key 校验？**
 词典是纯本地数据，未配置 Key 的用户也应能享受词典直译。
 
-**体积影响**
-词表以 JSON 模块 `import`，经 `vite-plugin-singlefile` 内联进 `dist/index.html`。
-当前 685 条约带来 240KB 未压缩增量（gzip 后约 42KB）。若词条增至数千条，应改为 `import()` 懒加载。
+**体积与懒加载**
+词表通过动态 `import('./words.json')` **懒加载**：独立成 `assets/dict-*.js` chunk，
+仅首次查词时才加载，之后整个会话复用缓存。**加词只会增大词典 chunk，不影响启动体积**
+（当前主包 ~128 KB 恒定，词典 ~277 KB / 782 条）。
+
+> ⚠️ 该机制依赖**多文件产物**。`vite-plugin-singlefile` 会把动态 `import()` 一并内联，
+> 导致懒加载完全失效（实测产物仍是单个大 HTML），因此 `vite.config.js` 中已移除该插件。
+
+因此 `lookupDictionary()` 与 `dictionarySize()` 都是**异步**的，调用方必须 `await`。
+若词条继续增长到数千条，可进一步按类别拆成多个 chunk（如 `words-db.json`、`words-ui.json`）。

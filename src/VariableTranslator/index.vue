@@ -389,8 +389,8 @@ const showHelp = ref(false);      // 帮助面板展开状态
 const settingsError = ref('');    // 设置卡片内的保存失败提示
 const keyInputRef = ref(null);
 
-/** 内置词表条目数（帮助面板展示用） */
-const dictionaryTotal = dictionarySize();
+/** 内置词表条目数（帮助面板展示用，词表懒加载，就绪后填充） */
+const dictionaryTotal = ref(0);
 
 const isApiConfigured = computed(() => !!apiKey.value.trim());
 const maxLen = computed(() => isZhToEn.value ? 15 : 30);
@@ -399,13 +399,27 @@ const inputLen = computed(() => chineseInput.value.trim().length);
 /**
  * 预判当前输入的翻译来源，用于状态栏提前告知用户走哪条路径：
  * 'dictionary'（内置词典直译，不消耗 API）| 'api'（需调用 API）| ''（无输入）
- * 仅中→英方向有词典；英→中固定走 API。
+ *
+ * 词表为懒加载（异步），无法用同步 computed，故由 watch 异步更新。
  */
-const pendingSource = computed(() => {
-  if (!chineseInput.value.trim()) return '';
-  if (!isZhToEn.value) return 'api';
-  return lookupDictionary(chineseInput.value) ? 'dictionary' : 'api';
-});
+const pendingSource = ref('');
+
+async function refreshPendingSource() {
+  const text = chineseInput.value.trim();
+  if (!text) {
+    pendingSource.value = '';
+    return;
+  }
+  // 英→中方向不启用词典
+  if (!isZhToEn.value) {
+    pendingSource.value = 'api';
+    return;
+  }
+  const hit = await lookupDictionary(text);
+  // 异步返回时输入可能已变，丢弃过期结果
+  if (chineseInput.value.trim() !== text) return;
+  pendingSource.value = hit ? 'dictionary' : 'api';
+}
 
 function toggleTheme() {
   emit('toggle-theme');
@@ -716,9 +730,12 @@ async function callTranslateApi(strict, seq) {
 async function translate() {
   if (!chineseInput.value.trim()) return;
 
-  // 词典为纯本地数据，命中的判定与任何外部选项无关；未配置 Key 时也能直译，
-  // 故先于 Key 校验查询
-  const dictResult = isZhToEn.value ? lookupDictionary(chineseInput.value) : null;
+  // 词典为纯本地数据（懒加载），命中的判定与任何外部选项无关；
+  // 未配置 Key 时也能直译，故先于 Key 校验查询。
+  // 注意：await 期间输入可能变化，取出文本快照用于后续比对。
+  const inputSnapshot = chineseInput.value.trim();
+  const dictResult = isZhToEn.value ? await lookupDictionary(inputSnapshot) : null;
+  if (chineseInput.value.trim() !== inputSnapshot) return;
 
   if (!dictResult && !isApiConfigured.value) return;
 
@@ -829,7 +846,8 @@ function clearResults() {
 function onEnterKey() {
   if (debounceTimer) clearTimeout(debounceTimer);
   if (utoolsTimer) clearTimeout(utoolsTimer);
-  if (isApiConfigured.value && chineseInput.value.trim()) {
+  // 不校验 Key：词典命中无需 Key，由 translate 内部判断
+  if (chineseInput.value.trim()) {
     translate();
   }
 }
@@ -868,7 +886,8 @@ function useHistory(item) {
   nextTick(() => {
     // 取消输入 watch 设置的防抖，直接翻译
     if (debounceTimer) clearTimeout(debounceTimer);
-    if (isApiConfigured.value) translate();
+    // 不校验 Key：词典命中无需 Key
+    translate();
     inputRef.value?.focus();
   });
 }
@@ -934,6 +953,8 @@ onMounted(() => {
   cleanExpiredCache();
   // 自动聚焦输入框
   inputRef.value?.focus();
+  // 词表懒加载：帮助面板需要展示条目数，就绪后回填（失败则保持 0，不影响使用）
+  dictionarySize().then((n) => { dictionaryTotal.value = n; }).catch(() => {});
 });
 
 // 监听 enterAction 变化，处理 uTools 输入
@@ -965,7 +986,7 @@ watch(
     if (text) {
       // 与当前输入相同时 watch 不会触发，直接翻译，避免 isFromUtools 标记残留
       if (text === chineseInput.value.trim()) {
-        if (isApiConfigured.value) translate();
+        translate();
         return;
       }
       // 先设置标记
@@ -995,6 +1016,9 @@ onUnmounted(() => {
 
 // 监听输入变化，自动翻译
 watch(chineseInput, (newValue) => {
+  // 状态栏来源提示（异步查询词典）
+  refreshPendingSource();
+
   // 如果是来自 uTools 的输入，立即翻译
   if (isFromUtools) {
     isFromUtools = false; // 重置标记
@@ -1002,8 +1026,9 @@ watch(chineseInput, (newValue) => {
     if (utoolsTimer) clearTimeout(utoolsTimer);
 
     // 短暂延迟后立即翻译，确保 API 配置已加载；回调内取当前输入值，避免清空后仍用旧文本翻译
+    // 注意：不校验 isApiConfigured —— 词典命中无需 Key（translate 内部会自行判断）
     utoolsTimer = setTimeout(() => {
-      if (isApiConfigured.value && chineseInput.value.trim()) {
+      if (chineseInput.value.trim()) {
         translate();
       }
     }, 100);
@@ -1021,9 +1046,9 @@ watch(chineseInput, (newValue) => {
     return;
   }
 
-  // 延迟2.5秒后自动翻译（手动输入的情况）
+  // 延迟2.5秒后自动翻译（手动输入的情况）；同样不校验 Key，交由 translate 判断
   debounceTimer = setTimeout(() => {
-    if (isApiConfigured.value && newValue.trim()) {
+    if (newValue.trim()) {
       translate();
     }
   }, 2500);

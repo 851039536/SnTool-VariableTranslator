@@ -7,7 +7,7 @@
 ### 核心功能
 
 - **双向翻译**：中→英生成编程命名，英→中解析变量含义
-- **内置词典直译**：常见词本地命中即返回，**零延迟、零费用、离线可用**，未命中自动回落 AI；词表扁平、不分语言，命中结果稳定可预期（当前收录 680+ 条编程词汇）
+- **内置词典直译**：常见词本地命中即返回，**零延迟、零费用、离线可用**，未命中自动回落 AI；词表扁平、不分语言，命中结果稳定可预期（当前收录 780+ 条编程词汇）
 - **多种命名风格**：支持 camelCase、snake_case、PascalCase 三种命名规范
 - **多种命名类型**：提供变量（Variable）、方法（Method）、常量（Constant）、类（Class）四种类型
 - **AI 驱动**：内置 DeepSeek 模型，翻译精准
@@ -26,7 +26,7 @@
 
 - Codex 设计体系：全局 SCSS Token，禁止硬编码
 - Iconify 图标系统：按需加载 MDI 图标，禁止 emoji
-- 单文件构建：JS/CSS 全部内联到 index.html
+- 代码分包：主包与内置词典分离，词典**按需懒加载**（启动仅解析主包，见下方「构建与体积」）
 - 构建后自动清理调试文件（.map / .d.ts 等）
 - API Key 安全：用户自带 Key（BYOK），仅存本机 uTools db，打包产物零密钥
 
@@ -110,7 +110,7 @@
 | Sass (SCSS) | ^1.101.0 | CSS 预处理 + Codex Token |
 | @iconify/vue | ^5.0.1 | 图标组件 |
 | @mdi/js | ^7.4.47 | MDI 图标 SVG path（tree-shakeable） |
-| vite-plugin-singlefile | ^2.3.3 | 单文件构建（JS/CSS 内联） |
+| vite-plugin-singlefile | ^2.3.3 | 单文件构建（已**停用**，见下方说明） |
 | uTools API | - | 插件平台集成 |
 
 ## 开发命令
@@ -160,6 +160,25 @@ SnTool-VariableTranslator/
 npm run build
 ```
 
-构建产物输出到 `dist/` 目录，JS/CSS 内联到单个 `index.html`，并自动清理 `.map`、`.d.ts`、`LICENSE`、`README` 等调试/文档文件。
+构建产物输出到 `dist/` 目录，并自动清理 `.map`、`.d.ts`、`LICENSE`、`README` 等调试/文档文件。
+
+### 构建与体积
+
+产物为**多文件**（`index.html` + `assets/`），不再是单文件内联：
+
+| 产物 | 体积 | 加载时机 |
+| ---- | ---- | -------- |
+| `assets/index-*.js` | ~128 KB | 插件启动 |
+| `assets/style-*.css` | ~22 KB | 插件启动 |
+| `assets/dict-*.js` | ~277 KB | **首次翻译时按需加载** |
+
+**加词不影响启动**：词典独立成 chunk，词条增长只增大该 chunk（首次查词时加载），主包体积恒定。
+
+**为什么放弃单文件构建**：内置词典已达数百条。单文件方案要求全部内联，插件每次启动都要解析整包；
+而实测发现 `vite-plugin-singlefile` 会把**动态 `import()` 也一并内联**，使词典懒加载完全失效。
+因此移除该插件，让词典独立成 chunk——启动只需解析 ~146 KB 而非 ~374 KB。
+
+> ⚠️ 发布时需复制**整个 `dist/` 目录**（含 `assets/`），不能只拷 `index.html`。
+> 相对路径由 `vite.config.js` 的 `base: './'` 保证，uTools 下可正常加载。
 
 发布前检查 `dist/` 目录不应包含：`.git/`、`.gitignore`、`.github/`、`.vscode/`、`*.map`、`*.gz`。
