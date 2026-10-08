@@ -40,7 +40,9 @@
   max-width: 88vw;
   padding: $spacing-lg;
   overflow-y: auto;
-  background: var(--b3-theme-background);
+  // 注意：必须用已定义的主题变量。曾误写 --b3-theme-background（不存在），
+  // 导致背景解析失败、面板整体透明。
+  background: var(--bg-secondary);
   border-left: 1px solid var(--b3-border-color);
   box-shadow: -8px 0 24px rgba(0, 0, 0, 0.12);
   animation: help-slide-in 0.2s ease-out;

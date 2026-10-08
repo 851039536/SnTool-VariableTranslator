@@ -9,7 +9,7 @@
           <button class="tab" :class="{ active: activeTab === 'history' }" @click="switchTab('history')">历史</button>
         </nav>
         <div class="header-controls">
-          <span class="header-desc">{{ isZhToEn ? '中文 → 英文变量名' : '英文变量名 → 中文释义' }}</span>
+          <span class="header-desc">{{ isZhToEn ? '中文 → 英文' : '英文 → 中文' }}</span>
           <button @click="toggleDirection" class="btn-swap" title="切换翻译方向">
             <Icon :icon="COMMON_ICONS.swap" width="16" />
           </button>
