@@ -76,11 +76,15 @@
           <span v-if="isTranslating" class="status-tip status-tip--active">
             <Icon :icon="TI.loading" width="14" class="icon-spin" /> 翻译中...
           </span>
+          <!-- 命中内置词典时无需 API Key，故优先于 Key 未配置提示 -->
+          <span v-else-if="pendingSource === 'dictionary'" class="status-tip status-tip--dict">
+            <Icon :icon="TI.dictionary" width="14" /> 内置词典直译 · 不消耗 API
+          </span>
           <button v-else-if="!isApiConfigured" class="status-tip status-tip--warn status-tip--btn" @click="openSettings">
             <Icon :icon="TI.warning" width="14" /> 请先设置 DeepSeek API Key
           </button>
           <span v-else-if="chineseInput.trim()" class="status-tip status-tip--ready">
-            <Icon :icon="TI.ready" width="14" /> 就绪 · {{ isZhToEn ? '中→英' : '英→中' }}
+            <Icon :icon="TI.ready" width="14" /> 将调用 API 翻译 · {{ isZhToEn ? '中→英' : '英→中' }}
           </span>
           <span v-else class="status-tip">
             <Icon :icon="TI.edit" width="14" /> {{ isZhToEn ? '输入中文开始翻译' : '输入英文变量名开始翻译' }}
@@ -98,13 +102,15 @@
         <div v-for="(result, index) in translationResult" :key="index" class="result-group">
           <div class="result-title">
             <span class="result-chinese">{{ result.chinese }}</span>
-            <span v-if="resultSource === 'dictionary'" class="dictionary-badge">
+            <span v-if="resultSource === 'dictionary'" class="dictionary-badge"
+              title="命中内置词典，本地直译，未调用 API、不产生费用">
               <Icon :icon="TI.dictionary" width="12" /> 内置词典
             </span>
-            <span v-else-if="resultSource === 'cache'" class="cache-badge">
+            <span v-else-if="resultSource === 'cache'" class="cache-badge"
+              title="命中本机缓存（7 天内翻译过），未调用 API">
               <Icon :icon="TI.cache" width="12" /> 来自缓存
             </span>
-            <span v-else class="api-badge">
+            <span v-else class="api-badge" title="由 DeepSeek 模型实时翻译，按量计费">
               <Icon :icon="TI.api" width="12" /> API 翻译
             </span>
           </div>
@@ -301,6 +307,17 @@ const keyInputRef = ref(null);
 const isApiConfigured = computed(() => !!apiKey.value.trim());
 const maxLen = computed(() => isZhToEn.value ? 15 : 30);
 const inputLen = computed(() => chineseInput.value.trim().length);
+
+/**
+ * 预判当前输入的翻译来源，用于状态栏提前告知用户走哪条路径：
+ * 'dictionary'（内置词典直译，不消耗 API）| 'api'（需调用 API）| ''（无输入）
+ * 仅中→英方向有词典；英→中固定走 API。
+ */
+const pendingSource = computed(() => {
+  if (!chineseInput.value.trim()) return '';
+  if (!isZhToEn.value) return 'api';
+  return lookupDictionary(chineseInput.value) ? 'dictionary' : 'api';
+});
 
 function toggleTheme() {
   emit('toggle-theme');

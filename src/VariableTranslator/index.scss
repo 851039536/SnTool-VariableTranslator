@@ -182,6 +182,12 @@
     color: var(--b3-theme-success);
     opacity: 0.8;
   }
+
+  // 命中内置词典：本地直译，不消耗 API
+  &--dict {
+    color: var(--b3-theme-primary);
+    opacity: 0.9;
+  }
 }
 
 .keyboard-hints {

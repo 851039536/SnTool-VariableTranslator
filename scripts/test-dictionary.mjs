@@ -325,6 +325,40 @@ for (const [name, input, expect] of edgeCases) {
 const firstKey = keys[0];
 check(`首尾空白可命中（" ${firstKey} "）`, lookupDictionary(`  ${firstKey}  `)?.[0]?.chinese === firstKey);
 
+// ── 5. 来源提示一致性 ────────────────────────────────────────
+//
+// index.vue 的 pendingSource 会在状态栏提前告诉用户「走内置词典」还是「调用 API」。
+// 提示一旦与实际执行路径不符，就是在骗用户，所以这里做源码级校验：
+// 两处必须使用同一个判定表达式。
+
+section('5. 来源提示一致性');
+
+const vuePath = path.join(ROOT, 'src/VariableTranslator/index.vue');
+const vue = fs.readFileSync(vuePath, 'utf8');
+
+const dictCallCount = (vue.match(/lookupDictionary\(chineseInput\.value\)/g) || []).length;
+check('pendingSource 与 translate 共用同一判定', dictCallCount >= 2, `出现 ${dictCallCount} 次`);
+
+// 词典查询必须早于 API Key 校验，否则未配置 Key 的用户会被挡在词典之外，
+// 与「命中词典无需 Key」的提示矛盾
+const idxDict = vue.indexOf('const dictResult');
+const idxKeyGuard = vue.indexOf('!isApiConfigured.value) return');
+check(
+  '词典查询先于 API Key 校验',
+  idxDict !== -1 && idxKeyGuard !== -1 && idxDict < idxKeyGuard,
+  `dict@${idxDict} keyGuard@${idxKeyGuard}`
+);
+
+// 提示与真实路径逐条比对（中→英）
+const hinted = keys.filter((k) => lookupDictionary(k) !== null);
+check('全部词条都会被提示为「内置词典」', hinted.length === keys.length, `${hinted.length}/${keys.length}`);
+
+// 未收录词必须提示走 API
+check('未收录词提示走 API', lookupDictionary('绝不存在于词表的词组zzz') === null);
+
+// 英→中方向不启用词典，提示应为 API
+check('英→中方向固定走 API', vue.includes("if (!isZhToEn.value) return 'api'"));
+
 // ── 汇总 ────────────────────────────────────────────────────
 
 console.log('');

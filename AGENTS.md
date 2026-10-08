@@ -136,8 +136,9 @@ API 调用参数优化：
 - **不做生态适配**：只给出基础拼写（「接口」→ `Service`），不自动加 `I` 前缀 / `Async` 后缀，语言惯例由用户自行调整
 - **结果同构**：返回与 LLM 输出一致的 `[{ chinese, variable, method, constant, class }]`，直接复用现有模板与校验
 - **非法词条**：字段缺失/空数组会被 `isValidEntry` 判定非法并跳过（`console.warn`），不影响翻译
-- 结果来源由 `resultSource`（`'dictionary' | 'cache' | 'api'`）驱动徽标显示
-- **词表改动后必须运行 `npm test`**（[scripts/test-dictionary.mjs](scripts/test-dictionary.mjs)）：校验结构完整性、重复、命名规范与查询行为，失败时非 0 退出
+- **来源提示**：`pendingSource` computed 预判本次输入的路径，状态栏实时显示「内置词典直译 · 不消耗 API」或「将调用 API 翻译」；`resultSource`（`'dictionary' | 'cache' | 'api'`）驱动结果徽标与 tooltip
+  - ⚠️ `pendingSource` 与 `translate()` **必须使用同一个判定表达式**，且词典查询须早于 API Key 校验，否则提示会说谎（`npm test` 第 5 组专门校验这一点）
+- **词表改动后必须运行 `npm test`**（[scripts/test-dictionary.mjs](scripts/test-dictionary.mjs)）：校验结构完整性、重复、命名规范、查询行为与来源提示一致性，失败时非 0 退出
 - 词条贡献规范见 [src/dictionaries/README.md](src/dictionaries/README.md)
 
 ### 缓存机制
