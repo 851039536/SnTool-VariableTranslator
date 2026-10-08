@@ -141,6 +141,13 @@ API 调用参数优化：
 - **词表改动后必须运行 `npm test`**（[scripts/test-dictionary.mjs](scripts/test-dictionary.mjs)）：校验结构完整性、重复、命名规范、查询行为与来源提示一致性，失败时非 0 退出
 - 词条贡献规范见 [src/dictionaries/README.md](src/dictionaries/README.md)
 
+### 帮助面板
+
+- header 右侧问号按钮（`.btn-key` 复用）切换 `showHelp`，面板以 `<aside class="help-aside">` 渲染在 `.main` **之外**（`.container` 为 flex 容器）
+- 宽屏（>900px）`.container.has-help` 并排显示主内容 + 320px 侧栏；窄屏媒体查询自动堆叠到下方
+- 与 Key 设置面板**互斥**（`toggleHelp` / `openSettings` 互相关闭），`Esc` 关闭任一浮层（见 `handleKeyDown`）
+- 词条总数由 `dictionarySize()` **运行时**计算后展示，新增词条无需改文案
+
 ### 缓存机制
 
 - 缓存 key：`translator_cache_${direction}_${input}`（基于方向 + 输入）

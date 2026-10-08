@@ -1,7 +1,8 @@
 <!-- 变量翻译主组件：方向/生态切换、BYOK Key 设置、翻译与历史 -->
 <template>
   <div class="github-dark" :data-theme="isDarkTheme ? 'dark' : 'light'">
-    <div class="container">
+    <div class="container" :class="{ 'has-help': showHelp }">
+      <div class="main">
       <header class="header">
         <nav class="tabs">
           <button class="tab" :class="{ active: activeTab === 'translate' }" @click="switchTab('translate')">翻译</button>
@@ -14,6 +15,9 @@
           </button>
           <button @click="toggleTheme" class="btn-theme" :title="isDarkTheme ? '切换到亮色' : '切换到暗色'">
             <Icon :icon="isDarkTheme ? COMMON_ICONS.sun : COMMON_ICONS.moon" width="16" />
+          </button>
+          <button @click="toggleHelp" class="btn-key" :class="{ active: showHelp }" title="使用帮助">
+            <Icon :icon="TI.help" width="16" />
           </button>
           <button @click="toggleSettings" class="btn-key" :class="{ active: showSettings }" title="API Key 设置">
             <Icon :icon="TI.key" width="16" />
@@ -224,6 +228,81 @@
         </div>
       </div>
     </div>
+
+      <!-- 侧边帮助栏（宽屏并排，窄屏堆叠到下方） -->
+      <aside v-if="showHelp" class="help-aside">
+        <div class="card card-help">
+          <div class="help-head">
+            <span class="help-title"><Icon :icon="TI.help" width="14" /> 使用帮助</span>
+            <button class="help-close" title="关闭" @click="showHelp = false">
+              <Icon :icon="COMMON_ICONS.close" width="14" />
+            </button>
+          </div>
+  
+          <!-- 翻译来源说明：最常被问到的问题 -->
+          <div class="help-section">
+            <div class="help-section-title">翻译来源</div>
+            <div class="help-row">
+              <span class="help-badge help-badge--dict"><Icon :icon="TI.local" width="12" /> 内置词典</span>
+              <span class="help-desc">命中共 <b>{{ dictionaryTotal }}</b> 条本地词表，<b>不联网、不消耗 API</b>，瞬时返回</span>
+            </div>
+            <div class="help-row">
+              <span class="help-badge help-badge--cache"><Icon :icon="TI.storage" width="12" /> 来自缓存</span>
+              <span class="help-desc">命中本机 7 天内的翻译记录，<b>不消耗 API</b></span>
+            </div>
+            <div class="help-row">
+              <span class="help-badge help-badge--api"><Icon :icon="TI.remote" width="12" /> API 翻译</span>
+              <span class="help-desc">未命中本地，调用 DeepSeek 模型，<b>按量计费</b>（需先配置 Key）</span>
+            </div>
+            <div class="help-note">
+              <Icon :icon="TI.info" width="13" />
+              <span>输入时状态栏会<b>提前告知</b>本次走哪条路径，无需等到出结果。</span>
+            </div>
+          </div>
+  
+          <!-- 快捷键 -->
+          <div class="help-section">
+            <div class="help-section-title">快捷键</div>
+            <div class="help-keys">
+              <div class="help-key-row"><kbd>Enter</kbd><span>立即翻译</span></div>
+              <div class="help-key-row"><kbd>Shift</kbd><kbd>Enter</kbd><span>输入换行</span></div>
+              <div class="help-key-row"><kbd>Ctrl</kbd><kbd>K</kbd><span>清空输入与结果</span></div>
+            </div>
+          </div>
+  
+          <!-- 使用要点 -->
+          <div class="help-section">
+            <div class="help-section-title">使用要点</div>
+            <ul class="help-list">
+              <li>中→英输入<b>中文</b>（≤15 字），英→中输入<b>英文变量名</b>（≤30 字符）</li>
+              <li>每种输入都给出 Variable / Method / Constant / Class 四类命名</li>
+              <li>点击任意命名行即可复制；英→中模式提供词根拆解</li>
+              <li>未配置 API Key 也能使用内置词典翻译常见词</li>
+            </ul>
+          </div>
+  
+          <!-- 配置入口 -->
+          <div class="help-section">
+            <div class="help-section-title">API Key</div>
+            <div class="help-row help-row--plain">
+              <span class="help-desc">
+                采用<b>用户自带 Key（BYOK）</b>：Key 仅保存在本机 uTools 数据库，
+                不会写入插件包、不会上传。
+              </span>
+            </div>
+            <div class="help-actions">
+              <button class="help-btn" @click="openSettingsFromHelp">
+                <Icon :icon="TI.key" width="13" /> 打开 Key 设置
+              </button>
+              <a class="key-link help-link" href="https://platform.deepseek.com/api_keys"
+                @click.prevent="openExternal('https://platform.deepseek.com/api_keys')">
+                前往 DeepSeek 平台获取 Key
+              </a>
+            </div>
+          </div>
+        </div>
+      </aside>
+      </div>
   </div>
 </template>
 
@@ -231,7 +310,7 @@
 import { ref, computed, onMounted, watch, onUnmounted, nextTick } from 'vue';
 import { COMMON_ICONS, FEATURE_ICONS } from '@/config/icons';
 import { API_CONFIG, CACHE_TTL } from '@/config/api';
-import { lookupDictionary } from '@/dictionaries';
+import { lookupDictionary, dictionarySize } from '@/dictionaries';
 
 const TI = FEATURE_ICONS.translator;
 
@@ -301,8 +380,12 @@ const apiKey = ref('');
 const apiKeyDraft = ref('');
 const showKey = ref(false);       // Key 输入框明文/掩码切换
 const showSettings = ref(false);  // 设置卡片展开状态
+const showHelp = ref(false);      // 帮助面板展开状态
 const settingsError = ref('');    // 设置卡片内的保存失败提示
 const keyInputRef = ref(null);
+
+/** 内置词表条目数（帮助面板展示用） */
+const dictionaryTotal = dictionarySize();
 
 const isApiConfigured = computed(() => !!apiKey.value.trim());
 const maxLen = computed(() => isZhToEn.value ? 15 : 30);
@@ -388,12 +471,24 @@ function toggleSettings() {
   }
 }
 
+// 帮助与 Key 设置互斥，避免两个面板同时展开挤占空间
+function toggleHelp() {
+  showHelp.value = !showHelp.value;
+  if (showHelp.value) showSettings.value = false;
+}
+
 function openSettings() {
+  showHelp.value = false;
   showSettings.value = true;
   apiKeyDraft.value = '';
   showKey.value = false;
   settingsError.value = '';
   nextTick(() => keyInputRef.value?.focus());
+}
+
+// 从帮助面板跳到 Key 设置
+function openSettingsFromHelp() {
+  openSettings();
 }
 
 function getPrompt(strict = false) {
@@ -804,6 +899,15 @@ function formatTime(ts) {
 
 // 键盘快捷键处理
 function handleKeyDown(event) {
+  // Esc: 关闭已展开的浮层（帮助 / Key 设置）
+  if (event.key === 'Escape') {
+    if (showHelp.value || showSettings.value) {
+      showHelp.value = false;
+      showSettings.value = false;
+      return;
+    }
+  }
+
   // Ctrl+Enter 或 Cmd+Enter: 立即翻译（与 Enter 行为一致）
   if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
     event.preventDefault();

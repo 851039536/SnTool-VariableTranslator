@@ -31,6 +31,10 @@ import {
   mdiEyeOffOutline,
   mdiInformationOutline,
   mdiBookOpenVariant,
+  mdiHelpCircleOutline,
+  mdiLightningBoltOutline,
+  mdiCloudOutline,
+  mdiDatabaseOutline,
 } from '@mdi/js';
 
 /** 将 SVG path d 属性转为 Iconify icon data */
@@ -73,5 +77,10 @@ export const FEATURE_ICONS = {
     eye: icon(mdiEyeOutline),
     eyeOff: icon(mdiEyeOffOutline),
     info: icon(mdiInformationOutline),
+    // 帮助面板
+    help: icon(mdiHelpCircleOutline),
+    local: icon(mdiLightningBoltOutline),
+    remote: icon(mdiCloudOutline),
+    storage: icon(mdiDatabaseOutline),
   },
 } as const;
