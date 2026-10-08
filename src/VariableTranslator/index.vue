@@ -1,7 +1,7 @@
 <!-- 变量翻译主组件：方向/生态切换、BYOK Key 设置、翻译与历史 -->
 <template>
   <div class="github-dark" :data-theme="isDarkTheme ? 'dark' : 'light'">
-    <div class="container" :class="{ 'has-help': showHelp }">
+    <div class="container">
       <div class="main">
       <header class="header">
         <nav class="tabs">
@@ -229,9 +229,13 @@
       </div>
     </div>
 
-      <!-- 侧边帮助栏（宽屏并排，窄屏堆叠到下方） -->
-      <aside v-if="showHelp" class="help-aside">
-        <div class="card card-help">
+      <!-- 侧边帮助浮层（从右侧滑出，不挤压主内容） -->
+      <transition name="help-fade">
+        <div v-if="showHelp" class="help-backdrop" @click="showHelp = false"></div>
+      </transition>
+      <transition name="help-slide">
+        <aside v-if="showHelp" class="help-aside">
+          <div class="card card-help">
           <div class="help-head">
             <span class="help-title"><Icon :icon="TI.help" width="14" /> 使用帮助</span>
             <button class="help-close" title="关闭" @click="showHelp = false">
@@ -301,7 +305,8 @@
             </div>
           </div>
         </div>
-      </aside>
+        </aside>
+      </transition>
       </div>
   </div>
 </template>

@@ -18,58 +18,65 @@
 .container {
   max-width: 800px;
   margin: 0 auto;
-
-  // 帮助展开时并排布局：主内容 + 侧栏
-  &.has-help {
-    max-width: 1080px;
-    display: flex;
-    align-items: flex-start;
-    gap: $spacing-lg;
-  }
 }
 
 .main {
-  flex: 1;
   min-width: 0;
 }
 
 // ── 侧边帮助栏 ──────────────────────────────────────────────
+//
+// 采用**浮层**而非挤压式并排：uTools 窗口通常 ~800px，
+// 若把主内容挤到 450px 会明显压缩结果区（四类命名并排展示）。
+// 浮层从右侧滑出覆盖在内容之上，主内容宽度保持不变。
 
 .help-aside {
-  width: 320px;
-  flex-shrink: 0;
-  position: sticky;
+  position: fixed;
   top: 0;
-  animation: help-slide-in 0.18s ease-out;
+  right: 0;
+  bottom: 0;
+  z-index: 20;
+  width: 320px;
+  max-width: 88vw;
+  padding: $spacing-lg;
+  overflow-y: auto;
+  background: var(--b3-theme-background);
+  border-left: 1px solid var(--b3-border-color);
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.12);
+  animation: help-slide-in 0.2s ease-out;
+
+  .card-help {
+    border: none;
+    background: transparent;
+    padding: 0;
+  }
+}
+
+// 浮层背后的遮罩，点击即关闭
+.help-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 19;
+  background: rgba(0, 0, 0, 0.28);
+  animation: help-fade-in 0.2s ease-out;
 }
 
 @keyframes help-slide-in {
   from {
-    opacity: 0;
-    transform: translateX(8px);
+    transform: translateX(100%);
   }
   to {
-    opacity: 1;
     transform: translateX(0);
   }
 }
 
-// 窄屏（uTools 窗口可能被拖窄）：侧栏改为堆叠在主内容下方
-@media (max-width: 900px) {
-  .container.has-help {
-    display: block;
-    max-width: 800px;
+@keyframes help-fade-in {
+  from {
+    opacity: 0;
   }
-
-  .help-aside {
-    width: auto;
-    position: static;
-    margin-top: $spacing-md;
+  to {
+    opacity: 1;
   }
-}
-
-.card-help {
-  padding: $spacing-md $spacing-lg;
 }
 
 .help-head {

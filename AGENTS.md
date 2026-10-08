@@ -143,9 +143,10 @@ API 调用参数优化：
 
 ### 帮助面板
 
-- header 右侧问号按钮（`.btn-key` 复用）切换 `showHelp`，面板以 `<aside class="help-aside">` 渲染在 `.main` **之外**（`.container` 为 flex 容器）
-- 宽屏（>900px）`.container.has-help` 并排显示主内容 + 320px 侧栏；窄屏媒体查询自动堆叠到下方
-- 与 Key 设置面板**互斥**（`toggleHelp` / `openSettings` 互相关闭），`Esc` 关闭任一浮层（见 `handleKeyDown`）
+- header 右侧问号按钮（`.btn-key` 复用）切换 `showHelp`，面板以 `<aside class="help-aside">` 渲染
+- **采用右侧滑出浮层**（`position: fixed` + 320px 宽 + 遮罩），**不挤压主内容**：
+  uTools 窗口通常 ~800px，若并排会把结果区（四类命名）压到 ~450px，明显变窄
+- 遮罩 `.help-backdrop` 与 `Esc` 均可关闭；与 Key 设置面板**互斥**（`toggleHelp` / `openSettings` 互相关闭）
 - 词条总数由 `dictionarySize()` **运行时**计算后展示，新增词条无需改文案
 
 ### 缓存机制
