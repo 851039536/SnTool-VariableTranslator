@@ -2,7 +2,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/clean-dist.mjs"
+    "build": "vite build && node scripts/clean-dist.mjs",
+    "test": "node scripts/test-dictionary.mjs"
   },
   "dependencies": {
     "@iconify/vue": "^5.0.1",

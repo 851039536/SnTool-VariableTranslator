@@ -14,6 +14,9 @@ npm run dev
 
 # 生产构建（输出到 dist/ 目录）
 npm run build
+
+# 内置词典测试（结构/重复/命名规范/查询行为）
+npm test
 ```
 
 开发模式说明： 在 uTools 中，`plugin.json` 的 `development.main` 指向 `http://localhost:5173`。构建后，需要将 `dist/` 目录内容连同 `plugin.json`、`logo.png` 和 `preload/` 一起复制到 uTools 插件目录。
@@ -134,6 +137,7 @@ API 调用参数优化：
 - **结果同构**：返回与 LLM 输出一致的 `[{ chinese, variable, method, constant, class }]`，直接复用现有模板与校验
 - **非法词条**：字段缺失/空数组会被 `isValidEntry` 判定非法并跳过（`console.warn`），不影响翻译
 - 结果来源由 `resultSource`（`'dictionary' | 'cache' | 'api'`）驱动徽标显示
+- **词表改动后必须运行 `npm test`**（[scripts/test-dictionary.mjs](scripts/test-dictionary.mjs)）：校验结构完整性、重复、命名规范与查询行为，失败时非 0 退出
 - 词条贡献规范见 [src/dictionaries/README.md](src/dictionaries/README.md)
 
 ### 缓存机制

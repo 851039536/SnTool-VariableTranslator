@@ -99,6 +99,14 @@
 | vite-plugin-singlefile | ^2.3.3 | 单文件构建（JS/CSS 内联） |
 | uTools API | - | 插件平台集成 |
 
+## 开发命令
+
+```bash
+npm run dev     # 开发模式（http://localhost:5173）
+npm run build   # 生产构建，输出到 dist/
+npm test        # 内置词典测试（结构 / 重复 / 命名规范 / 查询行为）
+```
+
 ## 项目结构
 
 ```
@@ -109,7 +117,8 @@ SnTool-VariableTranslator/
 │   ├── logo.png                   # 插件图标 (130×130)
 │   └── plugin.json                # uTools 插件配置
 ├── scripts/
-│   └── clean-dist.mjs            # 构建后清理脚本
+│   ├── clean-dist.mjs            # 构建后清理脚本
+│   └── test-dictionary.mjs       # 内置词典测试（npm test）
 ├── src/
 │   ├── config/
 │   │   ├── api.ts                 # API 端点/模型常量（不含密钥，可提交）
