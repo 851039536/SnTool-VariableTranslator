@@ -15629,36 +15629,6 @@
       }
     ]
   },
-  "归档操作": {
-    "variable": [
-      {
-        "camelCase": "archive",
-        "snake_case": "archive",
-        "PascalCase": "Archive"
-      }
-    ],
-    "method": [
-      {
-        "camelCase": "archive",
-        "snake_case": "archive",
-        "PascalCase": "Archive"
-      }
-    ],
-    "constant": [
-      {
-        "camelCase": "ARCHIVE",
-        "snake_case": "ARCHIVE",
-        "PascalCase": "ARCHIVE"
-      }
-    ],
-    "class": [
-      {
-        "camelCase": "archive",
-        "snake_case": "archive",
-        "PascalCase": "Archive"
-      }
-    ]
-  },
   "同步数据": {
     "variable": [
       {
@@ -17506,6 +17476,4761 @@
         "camelCase": "reminder",
         "snake_case": "reminder",
         "PascalCase": "Reminder"
+      }
+    ]
+  },
+  "网络": {
+    "variable": [
+      {
+        "camelCase": "network",
+        "snake_case": "network",
+        "PascalCase": "Network"
+      },
+      {
+        "camelCase": "net",
+        "snake_case": "net",
+        "PascalCase": "Net"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getNetwork",
+        "snake_case": "get_network",
+        "PascalCase": "GetNetwork"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "NETWORK",
+        "snake_case": "NETWORK",
+        "PascalCase": "NETWORK"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "network",
+        "snake_case": "network",
+        "PascalCase": "Network"
+      }
+    ]
+  },
+  "域名": {
+    "variable": [
+      {
+        "camelCase": "domain",
+        "snake_case": "domain",
+        "PascalCase": "Domain"
+      },
+      {
+        "camelCase": "hostname",
+        "snake_case": "hostname",
+        "PascalCase": "Hostname"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getDomain",
+        "snake_case": "get_domain",
+        "PascalCase": "GetDomain"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DOMAIN",
+        "snake_case": "DOMAIN",
+        "PascalCase": "DOMAIN"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "domain",
+        "snake_case": "domain",
+        "PascalCase": "Domain"
+      }
+    ]
+  },
+  "网关": {
+    "variable": [
+      {
+        "camelCase": "gateway",
+        "snake_case": "gateway",
+        "PascalCase": "Gateway"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getGateway",
+        "snake_case": "get_gateway",
+        "PascalCase": "GetGateway"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "GATEWAY",
+        "snake_case": "GATEWAY",
+        "PascalCase": "GATEWAY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "gateway",
+        "snake_case": "gateway",
+        "PascalCase": "Gateway"
+      }
+    ]
+  },
+  "路由": {
+    "variable": [
+      {
+        "camelCase": "route",
+        "snake_case": "route",
+        "PascalCase": "Route"
+      },
+      {
+        "camelCase": "router",
+        "snake_case": "router",
+        "PascalCase": "Router"
+      },
+      {
+        "camelCase": "routing",
+        "snake_case": "routing",
+        "PascalCase": "Routing"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "route",
+        "snake_case": "route",
+        "PascalCase": "Route"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "ROUTE",
+        "snake_case": "ROUTE",
+        "PascalCase": "ROUTE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "route",
+        "snake_case": "route",
+        "PascalCase": "Route"
+      }
+    ]
+  },
+  "代理": {
+    "variable": [
+      {
+        "camelCase": "proxy",
+        "snake_case": "proxy",
+        "PascalCase": "Proxy"
+      },
+      {
+        "camelCase": "agent",
+        "snake_case": "agent",
+        "PascalCase": "Agent"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getProxy",
+        "snake_case": "get_proxy",
+        "PascalCase": "GetProxy"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "PROXY",
+        "snake_case": "PROXY",
+        "PascalCase": "PROXY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "proxy",
+        "snake_case": "proxy",
+        "PascalCase": "Proxy"
+      }
+    ]
+  },
+  "防火墙": {
+    "variable": [
+      {
+        "camelCase": "firewall",
+        "snake_case": "firewall",
+        "PascalCase": "Firewall"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "checkFirewall",
+        "snake_case": "check_firewall",
+        "PascalCase": "CheckFirewall"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "FIREWALL",
+        "snake_case": "FIREWALL",
+        "PascalCase": "FIREWALL"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "firewall",
+        "snake_case": "firewall",
+        "PascalCase": "Firewall"
+      }
+    ]
+  },
+  "带宽": {
+    "variable": [
+      {
+        "camelCase": "bandwidth",
+        "snake_case": "bandwidth",
+        "PascalCase": "Bandwidth"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getBandwidth",
+        "snake_case": "get_bandwidth",
+        "PascalCase": "GetBandwidth"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "BANDWIDTH",
+        "snake_case": "BANDWIDTH",
+        "PascalCase": "BANDWIDTH"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "bandwidth",
+        "snake_case": "bandwidth",
+        "PascalCase": "Bandwidth"
+      }
+    ]
+  },
+  "丢包": {
+    "variable": [
+      {
+        "camelCase": "packetLoss",
+        "snake_case": "packet_loss",
+        "PascalCase": "PacketLoss"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getPacketLoss",
+        "snake_case": "get_packet_loss",
+        "PascalCase": "GetPacketLoss"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "PACKET_LOSS",
+        "snake_case": "PACKET_LOSS",
+        "PascalCase": "PACKET_LOSS"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "packetLoss",
+        "snake_case": "packet_loss",
+        "PascalCase": "PacketLoss"
+      }
+    ]
+  },
+  "延迟时间": {
+    "variable": [
+      {
+        "camelCase": "latency",
+        "snake_case": "latency",
+        "PascalCase": "Latency"
+      },
+      {
+        "camelCase": "delay",
+        "snake_case": "delay",
+        "PascalCase": "Delay"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getLatency",
+        "snake_case": "get_latency",
+        "PascalCase": "GetLatency"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "LATENCY",
+        "snake_case": "LATENCY",
+        "PascalCase": "LATENCY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "latency",
+        "snake_case": "latency",
+        "PascalCase": "Latency"
+      }
+    ]
+  },
+  "吞吐量": {
+    "variable": [
+      {
+        "camelCase": "throughput",
+        "snake_case": "throughput",
+        "PascalCase": "Throughput"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getThroughput",
+        "snake_case": "get_throughput",
+        "PascalCase": "GetThroughput"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "THROUGHPUT",
+        "snake_case": "THROUGHPUT",
+        "PascalCase": "THROUGHPUT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "throughput",
+        "snake_case": "throughput",
+        "PascalCase": "Throughput"
+      }
+    ]
+  },
+  "握手": {
+    "variable": [
+      {
+        "camelCase": "handshake",
+        "snake_case": "handshake",
+        "PascalCase": "Handshake"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "handshake",
+        "snake_case": "handshake",
+        "PascalCase": "Handshake"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "HANDSHAKE",
+        "snake_case": "HANDSHAKE",
+        "PascalCase": "HANDSHAKE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "handshake",
+        "snake_case": "handshake",
+        "PascalCase": "Handshake"
+      }
+    ]
+  },
+  "重定向": {
+    "variable": [
+      {
+        "camelCase": "redirect",
+        "snake_case": "redirect",
+        "PascalCase": "Redirect"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "redirect",
+        "snake_case": "redirect",
+        "PascalCase": "Redirect"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "REDIRECT",
+        "snake_case": "REDIRECT",
+        "PascalCase": "REDIRECT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "redirect",
+        "snake_case": "redirect",
+        "PascalCase": "Redirect"
+      }
+    ]
+  },
+  "轮询": {
+    "variable": [
+      {
+        "camelCase": "polling",
+        "snake_case": "polling",
+        "PascalCase": "Polling"
+      },
+      {
+        "camelCase": "poll",
+        "snake_case": "poll",
+        "PascalCase": "Poll"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "poll",
+        "snake_case": "poll",
+        "PascalCase": "Poll"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "POLLING",
+        "snake_case": "POLLING",
+        "PascalCase": "POLLING"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "polling",
+        "snake_case": "polling",
+        "PascalCase": "Polling"
+      }
+    ]
+  },
+  "推送": {
+    "variable": [
+      {
+        "camelCase": "push",
+        "snake_case": "push",
+        "PascalCase": "Push"
+      },
+      {
+        "camelCase": "notify",
+        "snake_case": "notify",
+        "PascalCase": "Notify"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "push",
+        "snake_case": "push",
+        "PascalCase": "Push"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "PUSH",
+        "snake_case": "PUSH",
+        "PascalCase": "PUSH"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "push",
+        "snake_case": "push",
+        "PascalCase": "Push"
+      }
+    ]
+  },
+  "心跳": {
+    "variable": [
+      {
+        "camelCase": "heartbeat",
+        "snake_case": "heartbeat",
+        "PascalCase": "Heartbeat"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "sendHeartbeat",
+        "snake_case": "send_heartbeat",
+        "PascalCase": "SendHeartbeat"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "HEARTBEAT",
+        "snake_case": "HEARTBEAT",
+        "PascalCase": "HEARTBEAT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "heartbeat",
+        "snake_case": "heartbeat",
+        "PascalCase": "Heartbeat"
+      }
+    ]
+  },
+  "断线重连": {
+    "variable": [
+      {
+        "camelCase": "reconnect",
+        "snake_case": "reconnect",
+        "PascalCase": "Reconnect"
+      },
+      {
+        "camelCase": "retryConnect",
+        "snake_case": "retry_connect",
+        "PascalCase": "RetryConnect"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "reconnect",
+        "snake_case": "reconnect",
+        "PascalCase": "Reconnect"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "RECONNECT",
+        "snake_case": "RECONNECT",
+        "PascalCase": "RECONNECT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "reconnect",
+        "snake_case": "reconnect",
+        "PascalCase": "Reconnect"
+      }
+    ]
+  },
+  "测试": {
+    "variable": [
+      {
+        "camelCase": "test",
+        "snake_case": "test",
+        "PascalCase": "Test"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "test",
+        "snake_case": "test",
+        "PascalCase": "Test"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TEST",
+        "snake_case": "TEST",
+        "PascalCase": "TEST"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "test",
+        "snake_case": "test",
+        "PascalCase": "Test"
+      }
+    ]
+  },
+  "单元测试": {
+    "variable": [
+      {
+        "camelCase": "unitTest",
+        "snake_case": "unit_test",
+        "PascalCase": "UnitTest"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "runUnitTest",
+        "snake_case": "run_unit_test",
+        "PascalCase": "RunUnitTest"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "UNIT_TEST",
+        "snake_case": "UNIT_TEST",
+        "PascalCase": "UNIT_TEST"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "unitTest",
+        "snake_case": "unit_test",
+        "PascalCase": "UnitTest"
+      }
+    ]
+  },
+  "集成测试": {
+    "variable": [
+      {
+        "camelCase": "integrationTest",
+        "snake_case": "integration_test",
+        "PascalCase": "IntegrationTest"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "runIntegrationTest",
+        "snake_case": "run_integration_test",
+        "PascalCase": "RunIntegrationTest"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "INTEGRATION_TEST",
+        "snake_case": "INTEGRATION_TEST",
+        "PascalCase": "INTEGRATION_TEST"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "integrationTest",
+        "snake_case": "integration_test",
+        "PascalCase": "IntegrationTest"
+      }
+    ]
+  },
+  "测试用例": {
+    "variable": [
+      {
+        "camelCase": "testCase",
+        "snake_case": "test_case",
+        "PascalCase": "TestCase"
+      },
+      {
+        "camelCase": "case",
+        "snake_case": "case",
+        "PascalCase": "Case"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "addTestCase",
+        "snake_case": "add_test_case",
+        "PascalCase": "AddTestCase"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TEST_CASE",
+        "snake_case": "TEST_CASE",
+        "PascalCase": "TEST_CASE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "testCase",
+        "snake_case": "test_case",
+        "PascalCase": "TestCase"
+      }
+    ]
+  },
+  "测试套件": {
+    "variable": [
+      {
+        "camelCase": "testSuite",
+        "snake_case": "test_suite",
+        "PascalCase": "TestSuite"
+      },
+      {
+        "camelCase": "suite",
+        "snake_case": "suite",
+        "PascalCase": "Suite"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "runTestSuite",
+        "snake_case": "run_test_suite",
+        "PascalCase": "RunTestSuite"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TEST_SUITE",
+        "snake_case": "TEST_SUITE",
+        "PascalCase": "TEST_SUITE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "testSuite",
+        "snake_case": "test_suite",
+        "PascalCase": "TestSuite"
+      }
+    ]
+  },
+  "覆盖率": {
+    "variable": [
+      {
+        "camelCase": "coverage",
+        "snake_case": "coverage",
+        "PascalCase": "Coverage"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getCoverage",
+        "snake_case": "get_coverage",
+        "PascalCase": "GetCoverage"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "COVERAGE",
+        "snake_case": "COVERAGE",
+        "PascalCase": "COVERAGE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "coverage",
+        "snake_case": "coverage",
+        "PascalCase": "Coverage"
+      }
+    ]
+  },
+  "回归": {
+    "variable": [
+      {
+        "camelCase": "regression",
+        "snake_case": "regression",
+        "PascalCase": "Regression"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "runRegression",
+        "snake_case": "run_regression",
+        "PascalCase": "RunRegression"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "REGRESSION",
+        "snake_case": "REGRESSION",
+        "PascalCase": "REGRESSION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "regression",
+        "snake_case": "regression",
+        "PascalCase": "Regression"
+      }
+    ]
+  },
+  "冒烟": {
+    "variable": [
+      {
+        "camelCase": "smoke",
+        "snake_case": "smoke",
+        "PascalCase": "Smoke"
+      },
+      {
+        "camelCase": "smokeTest",
+        "snake_case": "smoke_test",
+        "PascalCase": "SmokeTest"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "runSmokeTest",
+        "snake_case": "run_smoke_test",
+        "PascalCase": "RunSmokeTest"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SMOKE",
+        "snake_case": "SMOKE",
+        "PascalCase": "SMOKE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "smoke",
+        "snake_case": "smoke",
+        "PascalCase": "Smoke"
+      }
+    ]
+  },
+  "压测": {
+    "variable": [
+      {
+        "camelCase": "stressTest",
+        "snake_case": "stress_test",
+        "PascalCase": "StressTest"
+      },
+      {
+        "camelCase": "loadTest",
+        "snake_case": "load_test",
+        "PascalCase": "LoadTest"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "runStressTest",
+        "snake_case": "run_stress_test",
+        "PascalCase": "RunStressTest"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "STRESS_TEST",
+        "snake_case": "STRESS_TEST",
+        "PascalCase": "STRESS_TEST"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "stressTest",
+        "snake_case": "stress_test",
+        "PascalCase": "StressTest"
+      }
+    ]
+  },
+  "基准": {
+    "variable": [
+      {
+        "camelCase": "benchmark",
+        "snake_case": "benchmark",
+        "PascalCase": "Benchmark"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "benchmark",
+        "snake_case": "benchmark",
+        "PascalCase": "Benchmark"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "BENCHMARK",
+        "snake_case": "BENCHMARK",
+        "PascalCase": "BENCHMARK"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "benchmark",
+        "snake_case": "benchmark",
+        "PascalCase": "Benchmark"
+      }
+    ]
+  },
+  "模拟": {
+    "variable": [
+      {
+        "camelCase": "mock",
+        "snake_case": "mock",
+        "PascalCase": "Mock"
+      },
+      {
+        "camelCase": "stub",
+        "snake_case": "stub",
+        "PascalCase": "Stub"
+      },
+      {
+        "camelCase": "fake",
+        "snake_case": "fake",
+        "PascalCase": "Fake"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "mock",
+        "snake_case": "mock",
+        "PascalCase": "Mock"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "MOCK",
+        "snake_case": "MOCK",
+        "PascalCase": "MOCK"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "mock",
+        "snake_case": "mock",
+        "PascalCase": "Mock"
+      }
+    ]
+  },
+  "夹具": {
+    "variable": [
+      {
+        "camelCase": "fixture",
+        "snake_case": "fixture",
+        "PascalCase": "Fixture"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getFixture",
+        "snake_case": "get_fixture",
+        "PascalCase": "GetFixture"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "FIXTURE",
+        "snake_case": "FIXTURE",
+        "PascalCase": "FIXTURE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "fixture",
+        "snake_case": "fixture",
+        "PascalCase": "Fixture"
+      }
+    ]
+  },
+  "前置条件": {
+    "variable": [
+      {
+        "camelCase": "precondition",
+        "snake_case": "precondition",
+        "PascalCase": "Precondition"
+      },
+      {
+        "camelCase": "setup",
+        "snake_case": "setup",
+        "PascalCase": "Setup"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "setup",
+        "snake_case": "setup",
+        "PascalCase": "Setup"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "PRECONDITION",
+        "snake_case": "PRECONDITION",
+        "PascalCase": "PRECONDITION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "precondition",
+        "snake_case": "precondition",
+        "PascalCase": "Precondition"
+      }
+    ]
+  },
+  "清理": {
+    "variable": [
+      {
+        "camelCase": "teardown",
+        "snake_case": "teardown",
+        "PascalCase": "Teardown"
+      },
+      {
+        "camelCase": "cleanup",
+        "snake_case": "cleanup",
+        "PascalCase": "Cleanup"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "cleanup",
+        "snake_case": "cleanup",
+        "PascalCase": "Cleanup"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TEARDOWN",
+        "snake_case": "TEARDOWN",
+        "PascalCase": "TEARDOWN"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "teardown",
+        "snake_case": "teardown",
+        "PascalCase": "Teardown"
+      }
+    ]
+  },
+  "期望值": {
+    "variable": [
+      {
+        "camelCase": "expected",
+        "snake_case": "expected",
+        "PascalCase": "Expected"
+      },
+      {
+        "camelCase": "expectation",
+        "snake_case": "expectation",
+        "PascalCase": "Expectation"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getExpected",
+        "snake_case": "get_expected",
+        "PascalCase": "GetExpected"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "EXPECTED",
+        "snake_case": "EXPECTED",
+        "PascalCase": "EXPECTED"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "expected",
+        "snake_case": "expected",
+        "PascalCase": "Expected"
+      }
+    ]
+  },
+  "实际值": {
+    "variable": [
+      {
+        "camelCase": "actual",
+        "snake_case": "actual",
+        "PascalCase": "Actual"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getActual",
+        "snake_case": "get_actual",
+        "PascalCase": "GetActual"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "ACTUAL",
+        "snake_case": "ACTUAL",
+        "PascalCase": "ACTUAL"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "actual",
+        "snake_case": "actual",
+        "PascalCase": "Actual"
+      }
+    ]
+  },
+  "分支": {
+    "variable": [
+      {
+        "camelCase": "branch",
+        "snake_case": "branch",
+        "PascalCase": "Branch"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "createBranch",
+        "snake_case": "create_branch",
+        "PascalCase": "CreateBranch"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "BRANCH",
+        "snake_case": "BRANCH",
+        "PascalCase": "BRANCH"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "branch",
+        "snake_case": "branch",
+        "PascalCase": "Branch"
+      }
+    ]
+  },
+  "主干": {
+    "variable": [
+      {
+        "camelCase": "trunk",
+        "snake_case": "trunk",
+        "PascalCase": "Trunk"
+      },
+      {
+        "camelCase": "main",
+        "snake_case": "main",
+        "PascalCase": "Main"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getTrunk",
+        "snake_case": "get_trunk",
+        "PascalCase": "GetTrunk"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TRUNK",
+        "snake_case": "TRUNK",
+        "PascalCase": "TRUNK"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "trunk",
+        "snake_case": "trunk",
+        "PascalCase": "Trunk"
+      }
+    ]
+  },
+  "提交记录": {
+    "variable": [
+      {
+        "camelCase": "commit",
+        "snake_case": "commit",
+        "PascalCase": "Commit"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "commit",
+        "snake_case": "commit",
+        "PascalCase": "Commit"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "COMMIT",
+        "snake_case": "COMMIT",
+        "PascalCase": "COMMIT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "commit",
+        "snake_case": "commit",
+        "PascalCase": "Commit"
+      }
+    ]
+  },
+  "合并请求": {
+    "variable": [
+      {
+        "camelCase": "mergeRequest",
+        "snake_case": "merge_request",
+        "PascalCase": "MergeRequest"
+      },
+      {
+        "camelCase": "pullRequest",
+        "snake_case": "pull_request",
+        "PascalCase": "PullRequest"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "createMergeRequest",
+        "snake_case": "create_merge_request",
+        "PascalCase": "CreateMergeRequest"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "MERGE_REQUEST",
+        "snake_case": "MERGE_REQUEST",
+        "PascalCase": "MERGE_REQUEST"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "mergeRequest",
+        "snake_case": "merge_request",
+        "PascalCase": "MergeRequest"
+      }
+    ]
+  },
+  "代码评审": {
+    "variable": [
+      {
+        "camelCase": "codeReview",
+        "snake_case": "code_review",
+        "PascalCase": "CodeReview"
+      },
+      {
+        "camelCase": "review",
+        "snake_case": "review",
+        "PascalCase": "Review"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "review",
+        "snake_case": "review",
+        "PascalCase": "Review"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "CODE_REVIEW",
+        "snake_case": "CODE_REVIEW",
+        "PascalCase": "CODE_REVIEW"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "codeReview",
+        "snake_case": "code_review",
+        "PascalCase": "CodeReview"
+      }
+    ]
+  },
+  "冲突": {
+    "variable": [
+      {
+        "camelCase": "conflict",
+        "snake_case": "conflict",
+        "PascalCase": "Conflict"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "resolveConflict",
+        "snake_case": "resolve_conflict",
+        "PascalCase": "ResolveConflict"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "CONFLICT",
+        "snake_case": "CONFLICT",
+        "PascalCase": "CONFLICT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "conflict",
+        "snake_case": "conflict",
+        "PascalCase": "Conflict"
+      }
+    ]
+  },
+  "标签版本": {
+    "variable": [
+      {
+        "camelCase": "tag",
+        "snake_case": "tag",
+        "PascalCase": "Tag"
+      },
+      {
+        "camelCase": "release",
+        "snake_case": "release",
+        "PascalCase": "Release"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "tag",
+        "snake_case": "tag",
+        "PascalCase": "Tag"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TAG",
+        "snake_case": "TAG",
+        "PascalCase": "TAG"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "tag",
+        "snake_case": "tag",
+        "PascalCase": "Tag"
+      }
+    ]
+  },
+  "检出": {
+    "variable": [
+      {
+        "camelCase": "checkout",
+        "snake_case": "checkout",
+        "PascalCase": "Checkout"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "checkout",
+        "snake_case": "checkout",
+        "PascalCase": "Checkout"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "CHECKOUT",
+        "snake_case": "CHECKOUT",
+        "PascalCase": "CHECKOUT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "checkout",
+        "snake_case": "checkout",
+        "PascalCase": "Checkout"
+      }
+    ]
+  },
+  "拉取": {
+    "variable": [
+      {
+        "camelCase": "pull",
+        "snake_case": "pull",
+        "PascalCase": "Pull"
+      },
+      {
+        "camelCase": "fetch",
+        "snake_case": "fetch",
+        "PascalCase": "Fetch"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "pull",
+        "snake_case": "pull",
+        "PascalCase": "Pull"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "PULL",
+        "snake_case": "PULL",
+        "PascalCase": "PULL"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "pull",
+        "snake_case": "pull",
+        "PascalCase": "Pull"
+      }
+    ]
+  },
+  "推送代码": {
+    "variable": [
+      {
+        "camelCase": "push",
+        "snake_case": "push",
+        "PascalCase": "Push"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "push",
+        "snake_case": "push",
+        "PascalCase": "Push"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "PUSH",
+        "snake_case": "PUSH",
+        "PascalCase": "PUSH"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "push",
+        "snake_case": "push",
+        "PascalCase": "Push"
+      }
+    ]
+  },
+  "暂存": {
+    "variable": [
+      {
+        "camelCase": "stage",
+        "snake_case": "stage",
+        "PascalCase": "Stage"
+      },
+      {
+        "camelCase": "stash",
+        "snake_case": "stash",
+        "PascalCase": "Stash"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "stage",
+        "snake_case": "stage",
+        "PascalCase": "Stage"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "STAGE",
+        "snake_case": "STAGE",
+        "PascalCase": "STAGE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "stage",
+        "snake_case": "stage",
+        "PascalCase": "Stage"
+      }
+    ]
+  },
+  "变基": {
+    "variable": [
+      {
+        "camelCase": "rebase",
+        "snake_case": "rebase",
+        "PascalCase": "Rebase"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "rebase",
+        "snake_case": "rebase",
+        "PascalCase": "Rebase"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "REBASE",
+        "snake_case": "REBASE",
+        "PascalCase": "REBASE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "rebase",
+        "snake_case": "rebase",
+        "PascalCase": "Rebase"
+      }
+    ]
+  },
+  "差异": {
+    "variable": [
+      {
+        "camelCase": "diff",
+        "snake_case": "diff",
+        "PascalCase": "Diff"
+      },
+      {
+        "camelCase": "difference",
+        "snake_case": "difference",
+        "PascalCase": "Difference"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "diff",
+        "snake_case": "diff",
+        "PascalCase": "Diff"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DIFF",
+        "snake_case": "DIFF",
+        "PascalCase": "DIFF"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "diff",
+        "snake_case": "diff",
+        "PascalCase": "Diff"
+      }
+    ]
+  },
+  "补丁": {
+    "variable": [
+      {
+        "camelCase": "patch",
+        "snake_case": "patch",
+        "PascalCase": "Patch"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "applyPatch",
+        "snake_case": "apply_patch",
+        "PascalCase": "ApplyPatch"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "PATCH",
+        "snake_case": "PATCH",
+        "PascalCase": "PATCH"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "patch",
+        "snake_case": "patch",
+        "PascalCase": "Patch"
+      }
+    ]
+  },
+  "变更日志": {
+    "variable": [
+      {
+        "camelCase": "changelog",
+        "snake_case": "changelog",
+        "PascalCase": "Changelog"
+      },
+      {
+        "camelCase": "changeLog",
+        "snake_case": "change_log",
+        "PascalCase": "ChangeLog"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getChangelog",
+        "snake_case": "get_changelog",
+        "PascalCase": "GetChangelog"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "CHANGELOG",
+        "snake_case": "CHANGELOG",
+        "PascalCase": "CHANGELOG"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "changelog",
+        "snake_case": "changelog",
+        "PascalCase": "Changelog"
+      }
+    ]
+  },
+  "注入": {
+    "variable": [
+      {
+        "camelCase": "injection",
+        "snake_case": "injection",
+        "PascalCase": "Injection"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "detectInjection",
+        "snake_case": "detect_injection",
+        "PascalCase": "DetectInjection"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "INJECTION",
+        "snake_case": "INJECTION",
+        "PascalCase": "INJECTION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "injection",
+        "snake_case": "injection",
+        "PascalCase": "Injection"
+      }
+    ]
+  },
+  "跨站": {
+    "variable": [
+      {
+        "camelCase": "crossSite",
+        "snake_case": "cross_site",
+        "PascalCase": "CrossSite"
+      },
+      {
+        "camelCase": "xss",
+        "snake_case": "xss",
+        "PascalCase": "Xss"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "filterCrossSite",
+        "snake_case": "filter_cross_site",
+        "PascalCase": "FilterCrossSite"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "CROSS_SITE",
+        "snake_case": "CROSS_SITE",
+        "PascalCase": "CROSS_SITE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "crossSite",
+        "snake_case": "cross_site",
+        "PascalCase": "CrossSite"
+      }
+    ]
+  },
+  "越权": {
+    "variable": [
+      {
+        "camelCase": "unauthorized",
+        "snake_case": "unauthorized",
+        "PascalCase": "Unauthorized"
+      },
+      {
+        "camelCase": "privilegeEscalation",
+        "snake_case": "privilege_escalation",
+        "PascalCase": "PrivilegeEscalation"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "checkUnauthorized",
+        "snake_case": "check_unauthorized",
+        "PascalCase": "CheckUnauthorized"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "UNAUTHORIZED",
+        "snake_case": "UNAUTHORIZED",
+        "PascalCase": "UNAUTHORIZED"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "unauthorized",
+        "snake_case": "unauthorized",
+        "PascalCase": "Unauthorized"
+      }
+    ]
+  },
+  "脱敏": {
+    "variable": [
+      {
+        "camelCase": "desensitize",
+        "snake_case": "desensitize",
+        "PascalCase": "Desensitize"
+      },
+      {
+        "camelCase": "mask",
+        "snake_case": "mask",
+        "PascalCase": "Mask"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "desensitize",
+        "snake_case": "desensitize",
+        "PascalCase": "Desensitize"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DESENSITIZE",
+        "snake_case": "DESENSITIZE",
+        "PascalCase": "DESENSITIZE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "desensitize",
+        "snake_case": "desensitize",
+        "PascalCase": "Desensitize"
+      }
+    ]
+  },
+  "哈希": {
+    "variable": [
+      {
+        "camelCase": "hash",
+        "snake_case": "hash",
+        "PascalCase": "Hash"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "hash",
+        "snake_case": "hash",
+        "PascalCase": "Hash"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "HASH",
+        "snake_case": "HASH",
+        "PascalCase": "HASH"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "hash",
+        "snake_case": "hash",
+        "PascalCase": "Hash"
+      }
+    ]
+  },
+  "盐值": {
+    "variable": [
+      {
+        "camelCase": "salt",
+        "snake_case": "salt",
+        "PascalCase": "Salt"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "generateSalt",
+        "snake_case": "generate_salt",
+        "PascalCase": "GenerateSalt"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SALT",
+        "snake_case": "SALT",
+        "PascalCase": "SALT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "salt",
+        "snake_case": "salt",
+        "PascalCase": "Salt"
+      }
+    ]
+  },
+  "摘要值": {
+    "variable": [
+      {
+        "camelCase": "digest",
+        "snake_case": "digest",
+        "PascalCase": "Digest"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "digest",
+        "snake_case": "digest",
+        "PascalCase": "Digest"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DIGEST",
+        "snake_case": "DIGEST",
+        "PascalCase": "DIGEST"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "digest",
+        "snake_case": "digest",
+        "PascalCase": "Digest"
+      }
+    ]
+  },
+  "令牌过期": {
+    "variable": [
+      {
+        "camelCase": "tokenExpire",
+        "snake_case": "token_expire",
+        "PascalCase": "TokenExpire"
+      },
+      {
+        "camelCase": "expiresIn",
+        "snake_case": "expires_in",
+        "PascalCase": "ExpiresIn"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "isTokenExpired",
+        "snake_case": "is_token_expired",
+        "PascalCase": "IsTokenExpired"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TOKEN_EXPIRE",
+        "snake_case": "TOKEN_EXPIRE",
+        "PascalCase": "TOKEN_EXPIRE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "tokenExpire",
+        "snake_case": "token_expire",
+        "PascalCase": "TokenExpire"
+      }
+    ]
+  },
+  "刷新令牌": {
+    "variable": [
+      {
+        "camelCase": "refreshToken",
+        "snake_case": "refresh_token",
+        "PascalCase": "RefreshToken"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "refreshToken",
+        "snake_case": "refresh_token",
+        "PascalCase": "RefreshToken"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "REFRESH_TOKEN",
+        "snake_case": "REFRESH_TOKEN",
+        "PascalCase": "REFRESH_TOKEN"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "refreshToken",
+        "snake_case": "refresh_token",
+        "PascalCase": "RefreshToken"
+      }
+    ]
+  },
+  "审计": {
+    "variable": [
+      {
+        "camelCase": "audit",
+        "snake_case": "audit",
+        "PascalCase": "Audit"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "audit",
+        "snake_case": "audit",
+        "PascalCase": "Audit"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "AUDIT",
+        "snake_case": "AUDIT",
+        "PascalCase": "AUDIT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "audit",
+        "snake_case": "audit",
+        "PascalCase": "Audit"
+      }
+    ]
+  },
+  "风控": {
+    "variable": [
+      {
+        "camelCase": "riskControl",
+        "snake_case": "risk_control",
+        "PascalCase": "RiskControl"
+      },
+      {
+        "camelCase": "risk",
+        "snake_case": "risk",
+        "PascalCase": "Risk"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "checkRisk",
+        "snake_case": "check_risk",
+        "PascalCase": "CheckRisk"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "RISK_CONTROL",
+        "snake_case": "RISK_CONTROL",
+        "PascalCase": "RISK_CONTROL"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "riskControl",
+        "snake_case": "risk_control",
+        "PascalCase": "RiskControl"
+      }
+    ]
+  },
+  "验证签名": {
+    "variable": [
+      {
+        "camelCase": "verifySignature",
+        "snake_case": "verify_signature",
+        "PascalCase": "VerifySignature"
+      },
+      {
+        "camelCase": "signature",
+        "snake_case": "signature",
+        "PascalCase": "Signature"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "verifySignature",
+        "snake_case": "verify_signature",
+        "PascalCase": "VerifySignature"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "VERIFY_SIGNATURE",
+        "snake_case": "VERIFY_SIGNATURE",
+        "PascalCase": "VERIFY_SIGNATURE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "verifySignature",
+        "snake_case": "verify_signature",
+        "PascalCase": "VerifySignature"
+      }
+    ]
+  },
+  "防重放": {
+    "variable": [
+      {
+        "camelCase": "antiReplay",
+        "snake_case": "anti_replay",
+        "PascalCase": "AntiReplay"
+      },
+      {
+        "camelCase": "nonce",
+        "snake_case": "nonce",
+        "PascalCase": "Nonce"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "checkNonce",
+        "snake_case": "check_nonce",
+        "PascalCase": "CheckNonce"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "ANTI_REPLAY",
+        "snake_case": "ANTI_REPLAY",
+        "PascalCase": "ANTI_REPLAY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "antiReplay",
+        "snake_case": "anti_replay",
+        "PascalCase": "AntiReplay"
+      }
+    ]
+  },
+  "时效": {
+    "variable": [
+      {
+        "camelCase": "expiry",
+        "snake_case": "expiry",
+        "PascalCase": "Expiry"
+      },
+      {
+        "camelCase": "validity",
+        "snake_case": "validity",
+        "PascalCase": "Validity"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getExpiry",
+        "snake_case": "get_expiry",
+        "PascalCase": "GetExpiry"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "EXPIRY",
+        "snake_case": "EXPIRY",
+        "PascalCase": "EXPIRY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "expiry",
+        "snake_case": "expiry",
+        "PascalCase": "Expiry"
+      }
+    ]
+  },
+  "工作日": {
+    "variable": [
+      {
+        "camelCase": "workday",
+        "snake_case": "workday",
+        "PascalCase": "Workday"
+      },
+      {
+        "camelCase": "businessDay",
+        "snake_case": "business_day",
+        "PascalCase": "BusinessDay"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "isWorkday",
+        "snake_case": "is_workday",
+        "PascalCase": "IsWorkday"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "WORKDAY",
+        "snake_case": "WORKDAY",
+        "PascalCase": "WORKDAY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "workday",
+        "snake_case": "workday",
+        "PascalCase": "Workday"
+      }
+    ]
+  },
+  "节假日": {
+    "variable": [
+      {
+        "camelCase": "holiday",
+        "snake_case": "holiday",
+        "PascalCase": "Holiday"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getHoliday",
+        "snake_case": "get_holiday",
+        "PascalCase": "GetHoliday"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "HOLIDAY",
+        "snake_case": "HOLIDAY",
+        "PascalCase": "HOLIDAY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "holiday",
+        "snake_case": "holiday",
+        "PascalCase": "Holiday"
+      }
+    ]
+  },
+  "有效期": {
+    "variable": [
+      {
+        "camelCase": "validPeriod",
+        "snake_case": "valid_period",
+        "PascalCase": "ValidPeriod"
+      },
+      {
+        "camelCase": "effectiveDate",
+        "snake_case": "effective_date",
+        "PascalCase": "EffectiveDate"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getValidPeriod",
+        "snake_case": "get_valid_period",
+        "PascalCase": "GetValidPeriod"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "VALID_PERIOD",
+        "snake_case": "VALID_PERIOD",
+        "PascalCase": "VALID_PERIOD"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "validPeriod",
+        "snake_case": "valid_period",
+        "PascalCase": "ValidPeriod"
+      }
+    ]
+  },
+  "到期": {
+    "variable": [
+      {
+        "camelCase": "expire",
+        "snake_case": "expire",
+        "PascalCase": "Expire"
+      },
+      {
+        "camelCase": "due",
+        "snake_case": "due",
+        "PascalCase": "Due"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "isExpired",
+        "snake_case": "is_expired",
+        "PascalCase": "IsExpired"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "EXPIRE",
+        "snake_case": "EXPIRE",
+        "PascalCase": "EXPIRE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "expire",
+        "snake_case": "expire",
+        "PascalCase": "Expire"
+      }
+    ]
+  },
+  "周期": {
+    "variable": [
+      {
+        "camelCase": "period",
+        "snake_case": "period",
+        "PascalCase": "Period"
+      },
+      {
+        "camelCase": "cycle",
+        "snake_case": "cycle",
+        "PascalCase": "Cycle"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getPeriod",
+        "snake_case": "get_period",
+        "PascalCase": "GetPeriod"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "PERIOD",
+        "snake_case": "PERIOD",
+        "PascalCase": "PERIOD"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "period",
+        "snake_case": "period",
+        "PascalCase": "Period"
+      }
+    ]
+  },
+  "频率": {
+    "variable": [
+      {
+        "camelCase": "frequency",
+        "snake_case": "frequency",
+        "PascalCase": "Frequency"
+      },
+      {
+        "camelCase": "freq",
+        "snake_case": "freq",
+        "PascalCase": "Freq"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getFrequency",
+        "snake_case": "get_frequency",
+        "PascalCase": "GetFrequency"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "FREQUENCY",
+        "snake_case": "FREQUENCY",
+        "PascalCase": "FREQUENCY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "frequency",
+        "snake_case": "frequency",
+        "PascalCase": "Frequency"
+      }
+    ]
+  },
+  "季度": {
+    "variable": [
+      {
+        "camelCase": "quarter",
+        "snake_case": "quarter",
+        "PascalCase": "Quarter"
+      },
+      {
+        "camelCase": "quarterly",
+        "snake_case": "quarterly",
+        "PascalCase": "Quarterly"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getQuarter",
+        "snake_case": "get_quarter",
+        "PascalCase": "GetQuarter"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "QUARTER",
+        "snake_case": "QUARTER",
+        "PascalCase": "QUARTER"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "quarter",
+        "snake_case": "quarter",
+        "PascalCase": "Quarter"
+      }
+    ]
+  },
+  "年度": {
+    "variable": [
+      {
+        "camelCase": "yearly",
+        "snake_case": "yearly",
+        "PascalCase": "Yearly"
+      },
+      {
+        "camelCase": "annual",
+        "snake_case": "annual",
+        "PascalCase": "Annual"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getYearly",
+        "snake_case": "get_yearly",
+        "PascalCase": "GetYearly"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "YEARLY",
+        "snake_case": "YEARLY",
+        "PascalCase": "YEARLY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "yearly",
+        "snake_case": "yearly",
+        "PascalCase": "Yearly"
+      }
+    ]
+  },
+  "最近": {
+    "variable": [
+      {
+        "camelCase": "recent",
+        "snake_case": "recent",
+        "PascalCase": "Recent"
+      },
+      {
+        "camelCase": "latest",
+        "snake_case": "latest",
+        "PascalCase": "Latest"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getRecent",
+        "snake_case": "get_recent",
+        "PascalCase": "GetRecent"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "RECENT",
+        "snake_case": "RECENT",
+        "PascalCase": "RECENT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "recent",
+        "snake_case": "recent",
+        "PascalCase": "Recent"
+      }
+    ]
+  },
+  "历史记录": {
+    "variable": [
+      {
+        "camelCase": "historical",
+        "snake_case": "historical",
+        "PascalCase": "Historical"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getHistorical",
+        "snake_case": "get_historical",
+        "PascalCase": "GetHistorical"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "HISTORICAL",
+        "snake_case": "HISTORICAL",
+        "PascalCase": "HISTORICAL"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "historical",
+        "snake_case": "historical",
+        "PascalCase": "Historical"
+      }
+    ]
+  },
+  "余额": {
+    "variable": [
+      {
+        "camelCase": "balance",
+        "snake_case": "balance",
+        "PascalCase": "Balance"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getBalance",
+        "snake_case": "get_balance",
+        "PascalCase": "GetBalance"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "BALANCE",
+        "snake_case": "BALANCE",
+        "PascalCase": "BALANCE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "balance",
+        "snake_case": "balance",
+        "PascalCase": "Balance"
+      }
+    ]
+  },
+  "预算": {
+    "variable": [
+      {
+        "camelCase": "budget",
+        "snake_case": "budget",
+        "PascalCase": "Budget"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getBudget",
+        "snake_case": "get_budget",
+        "PascalCase": "GetBudget"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "BUDGET",
+        "snake_case": "BUDGET",
+        "PascalCase": "BUDGET"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "budget",
+        "snake_case": "budget",
+        "PascalCase": "Budget"
+      }
+    ]
+  },
+  "成本": {
+    "variable": [
+      {
+        "camelCase": "cost",
+        "snake_case": "cost",
+        "PascalCase": "Cost"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getCost",
+        "snake_case": "get_cost",
+        "PascalCase": "GetCost"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "COST",
+        "snake_case": "COST",
+        "PascalCase": "COST"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "cost",
+        "snake_case": "cost",
+        "PascalCase": "Cost"
+      }
+    ]
+  },
+  "利润": {
+    "variable": [
+      {
+        "camelCase": "profit",
+        "snake_case": "profit",
+        "PascalCase": "Profit"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getProfit",
+        "snake_case": "get_profit",
+        "PascalCase": "GetProfit"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "PROFIT",
+        "snake_case": "PROFIT",
+        "PascalCase": "PROFIT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "profit",
+        "snake_case": "profit",
+        "PascalCase": "Profit"
+      }
+    ]
+  },
+  "收入": {
+    "variable": [
+      {
+        "camelCase": "income",
+        "snake_case": "income",
+        "PascalCase": "Income"
+      },
+      {
+        "camelCase": "revenue",
+        "snake_case": "revenue",
+        "PascalCase": "Revenue"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getIncome",
+        "snake_case": "get_income",
+        "PascalCase": "GetIncome"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "INCOME",
+        "snake_case": "INCOME",
+        "PascalCase": "INCOME"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "income",
+        "snake_case": "income",
+        "PascalCase": "Income"
+      }
+    ]
+  },
+  "支出": {
+    "variable": [
+      {
+        "camelCase": "expense",
+        "snake_case": "expense",
+        "PascalCase": "Expense"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getExpense",
+        "snake_case": "get_expense",
+        "PascalCase": "GetExpense"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "EXPENSE",
+        "snake_case": "EXPENSE",
+        "PascalCase": "EXPENSE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "expense",
+        "snake_case": "expense",
+        "PascalCase": "Expense"
+      }
+    ]
+  },
+  "币种": {
+    "variable": [
+      {
+        "camelCase": "currency",
+        "snake_case": "currency",
+        "PascalCase": "Currency"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getCurrency",
+        "snake_case": "get_currency",
+        "PascalCase": "GetCurrency"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "CURRENCY",
+        "snake_case": "CURRENCY",
+        "PascalCase": "CURRENCY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "currency",
+        "snake_case": "currency",
+        "PascalCase": "Currency"
+      }
+    ]
+  },
+  "汇率": {
+    "variable": [
+      {
+        "camelCase": "exchangeRate",
+        "snake_case": "exchange_rate",
+        "PascalCase": "ExchangeRate"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getExchangeRate",
+        "snake_case": "get_exchange_rate",
+        "PascalCase": "GetExchangeRate"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "EXCHANGE_RATE",
+        "snake_case": "EXCHANGE_RATE",
+        "PascalCase": "EXCHANGE_RATE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "exchangeRate",
+        "snake_case": "exchange_rate",
+        "PascalCase": "ExchangeRate"
+      }
+    ]
+  },
+  "账期": {
+    "variable": [
+      {
+        "camelCase": "billingPeriod",
+        "snake_case": "billing_period",
+        "PascalCase": "BillingPeriod"
+      },
+      {
+        "camelCase": "paymentTerm",
+        "snake_case": "payment_term",
+        "PascalCase": "PaymentTerm"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getBillingPeriod",
+        "snake_case": "get_billing_period",
+        "PascalCase": "GetBillingPeriod"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "BILLING_PERIOD",
+        "snake_case": "BILLING_PERIOD",
+        "PascalCase": "BILLING_PERIOD"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "billingPeriod",
+        "snake_case": "billing_period",
+        "PascalCase": "BillingPeriod"
+      }
+    ]
+  },
+  "对账": {
+    "variable": [
+      {
+        "camelCase": "reconciliation",
+        "snake_case": "reconciliation",
+        "PascalCase": "Reconciliation"
+      },
+      {
+        "camelCase": "reconcile",
+        "snake_case": "reconcile",
+        "PascalCase": "Reconcile"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "reconcile",
+        "snake_case": "reconcile",
+        "PascalCase": "Reconcile"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "RECONCILIATION",
+        "snake_case": "RECONCILIATION",
+        "PascalCase": "RECONCILIATION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "reconciliation",
+        "snake_case": "reconciliation",
+        "PascalCase": "Reconciliation"
+      }
+    ]
+  },
+  "生产者": {
+    "variable": [
+      {
+        "camelCase": "producer",
+        "snake_case": "producer",
+        "PascalCase": "Producer"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "produce",
+        "snake_case": "produce",
+        "PascalCase": "Produce"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "PRODUCER",
+        "snake_case": "PRODUCER",
+        "PascalCase": "PRODUCER"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "producer",
+        "snake_case": "producer",
+        "PascalCase": "Producer"
+      }
+    ]
+  },
+  "消费者": {
+    "variable": [
+      {
+        "camelCase": "consumer",
+        "snake_case": "consumer",
+        "PascalCase": "Consumer"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "consume",
+        "snake_case": "consume",
+        "PascalCase": "Consume"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "CONSUMER",
+        "snake_case": "CONSUMER",
+        "PascalCase": "CONSUMER"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "consumer",
+        "snake_case": "consumer",
+        "PascalCase": "Consumer"
+      }
+    ]
+  },
+  "消息主题": {
+    "variable": [
+      {
+        "camelCase": "topic",
+        "snake_case": "topic",
+        "PascalCase": "Topic"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "subscribeTopic",
+        "snake_case": "subscribe_topic",
+        "PascalCase": "SubscribeTopic"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TOPIC",
+        "snake_case": "TOPIC",
+        "PascalCase": "TOPIC"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "topic",
+        "snake_case": "topic",
+        "PascalCase": "Topic"
+      }
+    ]
+  },
+  "分区": {
+    "variable": [
+      {
+        "camelCase": "partition",
+        "snake_case": "partition",
+        "PascalCase": "Partition"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getPartition",
+        "snake_case": "get_partition",
+        "PascalCase": "GetPartition"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "PARTITION",
+        "snake_case": "PARTITION",
+        "PascalCase": "PARTITION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "partition",
+        "snake_case": "partition",
+        "PascalCase": "Partition"
+      }
+    ]
+  },
+  "偏移量提交": {
+    "variable": [
+      {
+        "camelCase": "commitOffset",
+        "snake_case": "commit_offset",
+        "PascalCase": "CommitOffset"
+      },
+      {
+        "camelCase": "offset",
+        "snake_case": "offset",
+        "PascalCase": "Offset"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "commitOffset",
+        "snake_case": "commit_offset",
+        "PascalCase": "CommitOffset"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "COMMIT_OFFSET",
+        "snake_case": "COMMIT_OFFSET",
+        "PascalCase": "COMMIT_OFFSET"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "commitOffset",
+        "snake_case": "commit_offset",
+        "PascalCase": "CommitOffset"
+      }
+    ]
+  },
+  "幂等": {
+    "variable": [
+      {
+        "camelCase": "idempotent",
+        "snake_case": "idempotent",
+        "PascalCase": "Idempotent"
+      },
+      {
+        "camelCase": "idempotency",
+        "snake_case": "idempotency",
+        "PascalCase": "Idempotency"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "isIdempotent",
+        "snake_case": "is_idempotent",
+        "PascalCase": "IsIdempotent"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "IDEMPOTENT",
+        "snake_case": "IDEMPOTENT",
+        "PascalCase": "IDEMPOTENT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "idempotent",
+        "snake_case": "idempotent",
+        "PascalCase": "Idempotent"
+      }
+    ]
+  },
+  "顺序消息": {
+    "variable": [
+      {
+        "camelCase": "orderedMessage",
+        "snake_case": "ordered_message",
+        "PascalCase": "OrderedMessage"
+      },
+      {
+        "camelCase": "sequential",
+        "snake_case": "sequential",
+        "PascalCase": "Sequential"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "sendOrdered",
+        "snake_case": "send_ordered",
+        "PascalCase": "SendOrdered"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "ORDERED_MESSAGE",
+        "snake_case": "ORDERED_MESSAGE",
+        "PascalCase": "ORDERED_MESSAGE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "orderedMessage",
+        "snake_case": "ordered_message",
+        "PascalCase": "OrderedMessage"
+      }
+    ]
+  },
+  "积压": {
+    "variable": [
+      {
+        "camelCase": "backlog",
+        "snake_case": "backlog",
+        "PascalCase": "Backlog"
+      },
+      {
+        "camelCase": "lag",
+        "snake_case": "lag",
+        "PascalCase": "Lag"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getBacklog",
+        "snake_case": "get_backlog",
+        "PascalCase": "GetBacklog"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "BACKLOG",
+        "snake_case": "BACKLOG",
+        "PascalCase": "BACKLOG"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "backlog",
+        "snake_case": "backlog",
+        "PascalCase": "Backlog"
+      }
+    ]
+  },
+  "死信": {
+    "variable": [
+      {
+        "camelCase": "deadLetter",
+        "snake_case": "dead_letter",
+        "PascalCase": "DeadLetter"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "handleDeadLetter",
+        "snake_case": "handle_dead_letter",
+        "PascalCase": "HandleDeadLetter"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DEAD_LETTER",
+        "snake_case": "DEAD_LETTER",
+        "PascalCase": "DEAD_LETTER"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "deadLetter",
+        "snake_case": "dead_letter",
+        "PascalCase": "DeadLetter"
+      }
+    ]
+  },
+  "确认": {
+    "variable": [
+      {
+        "camelCase": "confirm",
+        "snake_case": "confirm",
+        "PascalCase": "Confirm"
+      },
+      {
+        "camelCase": "confirm2",
+        "snake_case": "confirm2",
+        "PascalCase": "Confirm2"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "confirm",
+        "snake_case": "confirm",
+        "PascalCase": "Confirm"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "CONFIRM",
+        "snake_case": "CONFIRM",
+        "PascalCase": "CONFIRM"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "confirm",
+        "snake_case": "confirm",
+        "PascalCase": "Confirm"
+      }
+    ]
+  },
+  "重投递": {
+    "variable": [
+      {
+        "camelCase": "redeliver",
+        "snake_case": "redeliver",
+        "PascalCase": "Redeliver"
+      },
+      {
+        "camelCase": "requeue",
+        "snake_case": "requeue",
+        "PascalCase": "Requeue"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "redeliver",
+        "snake_case": "redeliver",
+        "PascalCase": "Redeliver"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "REDELIVER",
+        "snake_case": "REDELIVER",
+        "PascalCase": "REDELIVER"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "redeliver",
+        "snake_case": "redeliver",
+        "PascalCase": "Redeliver"
+      }
+    ]
+  },
+  "镜像": {
+    "variable": [
+      {
+        "camelCase": "image",
+        "snake_case": "image",
+        "PascalCase": "Image"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "pullImage",
+        "snake_case": "pull_image",
+        "PascalCase": "PullImage"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "IMAGE",
+        "snake_case": "IMAGE",
+        "PascalCase": "IMAGE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "image",
+        "snake_case": "image",
+        "PascalCase": "Image"
+      }
+    ]
+  },
+  "镜像仓库": {
+    "variable": [
+      {
+        "camelCase": "registry",
+        "snake_case": "registry",
+        "PascalCase": "Registry"
+      },
+      {
+        "camelCase": "repository",
+        "snake_case": "repository",
+        "PascalCase": "Repository"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getRegistry",
+        "snake_case": "get_registry",
+        "PascalCase": "GetRegistry"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "REGISTRY",
+        "snake_case": "REGISTRY",
+        "PascalCase": "REGISTRY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "registry",
+        "snake_case": "registry",
+        "PascalCase": "Registry"
+      }
+    ]
+  },
+  "服务发现": {
+    "variable": [
+      {
+        "camelCase": "serviceDiscovery",
+        "snake_case": "service_discovery",
+        "PascalCase": "ServiceDiscovery"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "discover",
+        "snake_case": "discover",
+        "PascalCase": "Discover"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SERVICE_DISCOVERY",
+        "snake_case": "SERVICE_DISCOVERY",
+        "PascalCase": "SERVICE_DISCOVERY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "serviceDiscovery",
+        "snake_case": "service_discovery",
+        "PascalCase": "ServiceDiscovery"
+      }
+    ]
+  },
+  "配置中心": {
+    "variable": [
+      {
+        "camelCase": "configCenter",
+        "snake_case": "config_center",
+        "PascalCase": "ConfigCenter"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getConfigCenter",
+        "snake_case": "get_config_center",
+        "PascalCase": "GetConfigCenter"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "CONFIG_CENTER",
+        "snake_case": "CONFIG_CENTER",
+        "PascalCase": "CONFIG_CENTER"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "configCenter",
+        "snake_case": "config_center",
+        "PascalCase": "ConfigCenter"
+      }
+    ]
+  },
+  "副本数": {
+    "variable": [
+      {
+        "camelCase": "replicaCount",
+        "snake_case": "replica_count",
+        "PascalCase": "ReplicaCount"
+      },
+      {
+        "camelCase": "replicas",
+        "snake_case": "replicas",
+        "PascalCase": "Replicas"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getReplicaCount",
+        "snake_case": "get_replica_count",
+        "PascalCase": "GetReplicaCount"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "REPLICA_COUNT",
+        "snake_case": "REPLICA_COUNT",
+        "PascalCase": "REPLICA_COUNT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "replicaCount",
+        "snake_case": "replica_count",
+        "PascalCase": "ReplicaCount"
+      }
+    ]
+  },
+  "滚动更新": {
+    "variable": [
+      {
+        "camelCase": "rollingUpdate",
+        "snake_case": "rolling_update",
+        "PascalCase": "RollingUpdate"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "rollingUpdate",
+        "snake_case": "rolling_update",
+        "PascalCase": "RollingUpdate"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "ROLLING_UPDATE",
+        "snake_case": "ROLLING_UPDATE",
+        "PascalCase": "ROLLING_UPDATE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "rollingUpdate",
+        "snake_case": "rolling_update",
+        "PascalCase": "RollingUpdate"
+      }
+    ]
+  },
+  "探针": {
+    "variable": [
+      {
+        "camelCase": "probe",
+        "snake_case": "probe",
+        "PascalCase": "Probe"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "checkProbe",
+        "snake_case": "check_probe",
+        "PascalCase": "CheckProbe"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "PROBE",
+        "snake_case": "PROBE",
+        "PascalCase": "PROBE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "probe",
+        "snake_case": "probe",
+        "PascalCase": "Probe"
+      }
+    ]
+  },
+  "配额": {
+    "variable": [
+      {
+        "camelCase": "quota",
+        "snake_case": "quota",
+        "PascalCase": "Quota"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getQuota",
+        "snake_case": "get_quota",
+        "PascalCase": "GetQuota"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "QUOTA",
+        "snake_case": "QUOTA",
+        "PascalCase": "QUOTA"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "quota",
+        "snake_case": "quota",
+        "PascalCase": "Quota"
+      }
+    ]
+  },
+  "命名空间隔离": {
+    "variable": [
+      {
+        "camelCase": "namespace",
+        "snake_case": "namespace",
+        "PascalCase": "Namespace"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "createNamespace",
+        "snake_case": "create_namespace",
+        "PascalCase": "CreateNamespace"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "NAMESPACE",
+        "snake_case": "NAMESPACE",
+        "PascalCase": "NAMESPACE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "namespace",
+        "snake_case": "namespace",
+        "PascalCase": "Namespace"
+      }
+    ]
+  },
+  "挂载卷": {
+    "variable": [
+      {
+        "camelCase": "volume",
+        "snake_case": "volume",
+        "PascalCase": "Volume"
+      },
+      {
+        "camelCase": "mount",
+        "snake_case": "mount",
+        "PascalCase": "Mount"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "mount",
+        "snake_case": "mount",
+        "PascalCase": "Mount"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "VOLUME",
+        "snake_case": "VOLUME",
+        "PascalCase": "VOLUME"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "volume",
+        "snake_case": "volume",
+        "PascalCase": "Volume"
+      }
+    ]
+  },
+  "环境变量": {
+    "variable": [
+      {
+        "camelCase": "envVar",
+        "snake_case": "env_var",
+        "PascalCase": "EnvVar"
+      },
+      {
+        "camelCase": "environmentVariable",
+        "snake_case": "environment_variable",
+        "PascalCase": "EnvironmentVariable"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getEnvVar",
+        "snake_case": "get_env_var",
+        "PascalCase": "GetEnvVar"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "ENV_VAR",
+        "snake_case": "ENV_VAR",
+        "PascalCase": "ENV_VAR"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "envVar",
+        "snake_case": "env_var",
+        "PascalCase": "EnvVar"
+      }
+    ]
+  },
+  "启动参数": {
+    "variable": [
+      {
+        "camelCase": "startupArgs",
+        "snake_case": "startup_args",
+        "PascalCase": "StartupArgs"
+      },
+      {
+        "camelCase": "args",
+        "snake_case": "args",
+        "PascalCase": "Args"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getStartupArgs",
+        "snake_case": "get_startup_args",
+        "PascalCase": "GetStartupArgs"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "STARTUP_ARGS",
+        "snake_case": "STARTUP_ARGS",
+        "PascalCase": "STARTUP_ARGS"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "startupArgs",
+        "snake_case": "startup_args",
+        "PascalCase": "StartupArgs"
+      }
+    ]
+  },
+  "切换": {
+    "variable": [
+      {
+        "camelCase": "switch",
+        "snake_case": "switch",
+        "PascalCase": "Switch"
+      },
+      {
+        "camelCase": "toggle",
+        "snake_case": "toggle",
+        "PascalCase": "Toggle"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "toggle",
+        "snake_case": "toggle",
+        "PascalCase": "Toggle"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SWITCH",
+        "snake_case": "SWITCH",
+        "PascalCase": "SWITCH"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "switch",
+        "snake_case": "switch",
+        "PascalCase": "Switch"
+      }
+    ]
+  },
+  "选择": {
+    "variable": [
+      {
+        "camelCase": "select",
+        "snake_case": "select",
+        "PascalCase": "Select"
+      },
+      {
+        "camelCase": "choose",
+        "snake_case": "choose",
+        "PascalCase": "Choose"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "select",
+        "snake_case": "select",
+        "PascalCase": "Select"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SELECT",
+        "snake_case": "SELECT",
+        "PascalCase": "SELECT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "select",
+        "snake_case": "select",
+        "PascalCase": "Select"
+      }
+    ]
+  },
+  "拒绝": {
+    "variable": [
+      {
+        "camelCase": "deny",
+        "snake_case": "deny",
+        "PascalCase": "Deny"
+      },
+      {
+        "camelCase": "refuse",
+        "snake_case": "refuse",
+        "PascalCase": "Refuse"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "deny",
+        "snake_case": "deny",
+        "PascalCase": "Deny"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DENY",
+        "snake_case": "DENY",
+        "PascalCase": "DENY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "deny",
+        "snake_case": "deny",
+        "PascalCase": "Deny"
+      }
+    ]
+  },
+  "重载": {
+    "variable": [
+      {
+        "camelCase": "reload",
+        "snake_case": "reload",
+        "PascalCase": "Reload"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "reload",
+        "snake_case": "reload",
+        "PascalCase": "Reload"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "RELOAD",
+        "snake_case": "RELOAD",
+        "PascalCase": "RELOAD"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "reload",
+        "snake_case": "reload",
+        "PascalCase": "Reload"
+      }
+    ]
+  },
+  "挂载": {
+    "variable": [
+      {
+        "camelCase": "mount",
+        "snake_case": "mount",
+        "PascalCase": "Mount"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "mount",
+        "snake_case": "mount",
+        "PascalCase": "Mount"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "MOUNT",
+        "snake_case": "MOUNT",
+        "PascalCase": "MOUNT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "mount",
+        "snake_case": "mount",
+        "PascalCase": "Mount"
+      }
+    ]
+  },
+  "卸载": {
+    "variable": [
+      {
+        "camelCase": "unmount",
+        "snake_case": "unmount",
+        "PascalCase": "Unmount"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "unmount",
+        "snake_case": "unmount",
+        "PascalCase": "Unmount"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "UNMOUNT",
+        "snake_case": "UNMOUNT",
+        "PascalCase": "UNMOUNT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "unmount",
+        "snake_case": "unmount",
+        "PascalCase": "Unmount"
+      }
+    ]
+  },
+  "注册回调": {
+    "variable": [
+      {
+        "camelCase": "registerCallback",
+        "snake_case": "register_callback",
+        "PascalCase": "RegisterCallback"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "registerCallback",
+        "snake_case": "register_callback",
+        "PascalCase": "RegisterCallback"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "REGISTER_CALLBACK",
+        "snake_case": "REGISTER_CALLBACK",
+        "PascalCase": "REGISTER_CALLBACK"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "registerCallback",
+        "snake_case": "register_callback",
+        "PascalCase": "RegisterCallback"
+      }
+    ]
+  },
+  "注销回调": {
+    "variable": [
+      {
+        "camelCase": "unregisterCallback",
+        "snake_case": "unregister_callback",
+        "PascalCase": "UnregisterCallback"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "unregisterCallback",
+        "snake_case": "unregister_callback",
+        "PascalCase": "UnregisterCallback"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "UNREGISTER_CALLBACK",
+        "snake_case": "UNREGISTER_CALLBACK",
+        "PascalCase": "UNREGISTER_CALLBACK"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "unregisterCallback",
+        "snake_case": "unregister_callback",
+        "PascalCase": "UnregisterCallback"
+      }
+    ]
+  },
+  "触发": {
+    "variable": [
+      {
+        "camelCase": "trigger",
+        "snake_case": "trigger",
+        "PascalCase": "Trigger"
+      },
+      {
+        "camelCase": "fire",
+        "snake_case": "fire",
+        "PascalCase": "Fire"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "trigger",
+        "snake_case": "trigger",
+        "PascalCase": "Trigger"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TRIGGER",
+        "snake_case": "TRIGGER",
+        "PascalCase": "TRIGGER"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "trigger",
+        "snake_case": "trigger",
+        "PascalCase": "Trigger"
+      }
+    ]
+  },
+  "分发": {
+    "variable": [
+      {
+        "camelCase": "dispatch",
+        "snake_case": "dispatch",
+        "PascalCase": "Dispatch"
+      },
+      {
+        "camelCase": "distribute",
+        "snake_case": "distribute",
+        "PascalCase": "Distribute"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "dispatch",
+        "snake_case": "dispatch",
+        "PascalCase": "Dispatch"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DISPATCH",
+        "snake_case": "DISPATCH",
+        "PascalCase": "DISPATCH"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "dispatch",
+        "snake_case": "dispatch",
+        "PascalCase": "Dispatch"
+      }
+    ]
+  },
+  "广播": {
+    "variable": [
+      {
+        "camelCase": "broadcast",
+        "snake_case": "broadcast",
+        "PascalCase": "Broadcast"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "broadcast",
+        "snake_case": "broadcast",
+        "PascalCase": "Broadcast"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "BROADCAST",
+        "snake_case": "BROADCAST",
+        "PascalCase": "BROADCAST"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "broadcast",
+        "snake_case": "broadcast",
+        "PascalCase": "Broadcast"
+      }
+    ]
+  },
+  "拦截": {
+    "variable": [
+      {
+        "camelCase": "intercept",
+        "snake_case": "intercept",
+        "PascalCase": "Intercept"
+      },
+      {
+        "camelCase": "interceptor",
+        "snake_case": "interceptor",
+        "PascalCase": "Interceptor"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "intercept",
+        "snake_case": "intercept",
+        "PascalCase": "Intercept"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "INTERCEPT",
+        "snake_case": "INTERCEPT",
+        "PascalCase": "INTERCEPT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "intercept",
+        "snake_case": "intercept",
+        "PascalCase": "Intercept"
+      }
+    ]
+  },
+  "包装": {
+    "variable": [
+      {
+        "camelCase": "wrap",
+        "snake_case": "wrap",
+        "PascalCase": "Wrap"
+      },
+      {
+        "camelCase": "wrapper",
+        "snake_case": "wrapper",
+        "PascalCase": "Wrapper"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "wrap",
+        "snake_case": "wrap",
+        "PascalCase": "Wrap"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "WRAP",
+        "snake_case": "WRAP",
+        "PascalCase": "WRAP"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "wrap",
+        "snake_case": "wrap",
+        "PascalCase": "Wrap"
+      }
+    ]
+  },
+  "解包": {
+    "variable": [
+      {
+        "camelCase": "unwrap",
+        "snake_case": "unwrap",
+        "PascalCase": "Unwrap"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "unwrap",
+        "snake_case": "unwrap",
+        "PascalCase": "Unwrap"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "UNWRAP",
+        "snake_case": "UNWRAP",
+        "PascalCase": "UNWRAP"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "unwrap",
+        "snake_case": "unwrap",
+        "PascalCase": "Unwrap"
+      }
+    ]
+  },
+  "降噪": {
+    "variable": [
+      {
+        "camelCase": "debounce",
+        "snake_case": "debounce",
+        "PascalCase": "Debounce"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "debounce",
+        "snake_case": "debounce",
+        "PascalCase": "Debounce"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DEBOUNCE",
+        "snake_case": "DEBOUNCE",
+        "PascalCase": "DEBOUNCE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "debounce",
+        "snake_case": "debounce",
+        "PascalCase": "Debounce"
+      }
+    ]
+  },
+  "节流": {
+    "variable": [
+      {
+        "camelCase": "throttle",
+        "snake_case": "throttle",
+        "PascalCase": "Throttle"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "throttle",
+        "snake_case": "throttle",
+        "PascalCase": "Throttle"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "THROTTLE",
+        "snake_case": "THROTTLE",
+        "PascalCase": "THROTTLE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "throttle",
+        "snake_case": "throttle",
+        "PascalCase": "Throttle"
+      }
+    ]
+  },
+  "重排": {
+    "variable": [
+      {
+        "camelCase": "reorder",
+        "snake_case": "reorder",
+        "PascalCase": "Reorder"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "reorder",
+        "snake_case": "reorder",
+        "PascalCase": "Reorder"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "REORDER",
+        "snake_case": "REORDER",
+        "PascalCase": "REORDER"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "reorder",
+        "snake_case": "reorder",
+        "PascalCase": "Reorder"
+      }
+    ]
+  },
+  "归一化": {
+    "variable": [
+      {
+        "camelCase": "normalize",
+        "snake_case": "normalize",
+        "PascalCase": "Normalize"
+      },
+      {
+        "camelCase": "normalization",
+        "snake_case": "normalization",
+        "PascalCase": "Normalization"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "normalize",
+        "snake_case": "normalize",
+        "PascalCase": "Normalize"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "NORMALIZE",
+        "snake_case": "NORMALIZE",
+        "PascalCase": "NORMALIZE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "normalize",
+        "snake_case": "normalize",
+        "PascalCase": "Normalize"
+      }
+    ]
+  },
+  "裁剪": {
+    "variable": [
+      {
+        "camelCase": "trim",
+        "snake_case": "trim",
+        "PascalCase": "Trim"
+      },
+      {
+        "camelCase": "crop",
+        "snake_case": "crop",
+        "PascalCase": "Crop"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "trim",
+        "snake_case": "trim",
+        "PascalCase": "Trim"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TRIM",
+        "snake_case": "TRIM",
+        "PascalCase": "TRIM"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "trim",
+        "snake_case": "trim",
+        "PascalCase": "Trim"
+      }
+    ]
+  },
+  "补齐": {
+    "variable": [
+      {
+        "camelCase": "pad",
+        "snake_case": "pad",
+        "PascalCase": "Pad"
+      },
+      {
+        "camelCase": "padding",
+        "snake_case": "padding",
+        "PascalCase": "Padding"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "pad",
+        "snake_case": "pad",
+        "PascalCase": "Pad"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "PAD",
+        "snake_case": "PAD",
+        "PascalCase": "PAD"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "pad",
+        "snake_case": "pad",
+        "PascalCase": "Pad"
+      }
+    ]
+  },
+  "截断": {
+    "variable": [
+      {
+        "camelCase": "truncate",
+        "snake_case": "truncate",
+        "PascalCase": "Truncate"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "truncate",
+        "snake_case": "truncate",
+        "PascalCase": "Truncate"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TRUNCATE",
+        "snake_case": "TRUNCATE",
+        "PascalCase": "TRUNCATE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "truncate",
+        "snake_case": "truncate",
+        "PascalCase": "Truncate"
+      }
+    ]
+  },
+  "元数据": {
+    "variable": [
+      {
+        "camelCase": "metadata",
+        "snake_case": "metadata",
+        "PascalCase": "Metadata"
+      },
+      {
+        "camelCase": "meta",
+        "snake_case": "meta",
+        "PascalCase": "Meta"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getMetadata",
+        "snake_case": "get_metadata",
+        "PascalCase": "GetMetadata"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "METADATA",
+        "snake_case": "METADATA",
+        "PascalCase": "METADATA"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "metadata",
+        "snake_case": "metadata",
+        "PascalCase": "Metadata"
+      }
+    ]
+  },
+  "属性值": {
+    "variable": [
+      {
+        "camelCase": "attributeValue",
+        "snake_case": "attribute_value",
+        "PascalCase": "AttributeValue"
+      },
+      {
+        "camelCase": "propertyValue",
+        "snake_case": "property_value",
+        "PascalCase": "PropertyValue"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getAttributeValue",
+        "snake_case": "get_attribute_value",
+        "PascalCase": "GetAttributeValue"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "ATTRIBUTE_VALUE",
+        "snake_case": "ATTRIBUTE_VALUE",
+        "PascalCase": "ATTRIBUTE_VALUE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "attributeValue",
+        "snake_case": "attribute_value",
+        "PascalCase": "AttributeValue"
+      }
+    ]
+  },
+  "枚举值": {
+    "variable": [
+      {
+        "camelCase": "enumValue",
+        "snake_case": "enum_value",
+        "PascalCase": "EnumValue"
+      },
+      {
+        "camelCase": "enumItem",
+        "snake_case": "enum_item",
+        "PascalCase": "EnumItem"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getEnumValue",
+        "snake_case": "get_enum_value",
+        "PascalCase": "GetEnumValue"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "ENUM_VALUE",
+        "snake_case": "ENUM_VALUE",
+        "PascalCase": "ENUM_VALUE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "enumValue",
+        "snake_case": "enum_value",
+        "PascalCase": "EnumValue"
+      }
+    ]
+  },
+  "常量值": {
+    "variable": [
+      {
+        "camelCase": "constantValue",
+        "snake_case": "constant_value",
+        "PascalCase": "ConstantValue"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getConstantValue",
+        "snake_case": "get_constant_value",
+        "PascalCase": "GetConstantValue"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "CONSTANT_VALUE",
+        "snake_case": "CONSTANT_VALUE",
+        "PascalCase": "CONSTANT_VALUE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "constantValue",
+        "snake_case": "constant_value",
+        "PascalCase": "ConstantValue"
+      }
+    ]
+  },
+  "默认参数": {
+    "variable": [
+      {
+        "camelCase": "defaultParam",
+        "snake_case": "default_param",
+        "PascalCase": "DefaultParam"
+      },
+      {
+        "camelCase": "defaultValue",
+        "snake_case": "default_value",
+        "PascalCase": "DefaultValue"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getDefaultParam",
+        "snake_case": "get_default_param",
+        "PascalCase": "GetDefaultParam"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DEFAULT_PARAM",
+        "snake_case": "DEFAULT_PARAM",
+        "PascalCase": "DEFAULT_PARAM"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "defaultParam",
+        "snake_case": "default_param",
+        "PascalCase": "DefaultParam"
+      }
+    ]
+  },
+  "可选参数": {
+    "variable": [
+      {
+        "camelCase": "optionalParam",
+        "snake_case": "optional_param",
+        "PascalCase": "OptionalParam"
+      },
+      {
+        "camelCase": "optional",
+        "snake_case": "optional",
+        "PascalCase": "Optional"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "isOptional",
+        "snake_case": "is_optional",
+        "PascalCase": "IsOptional"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "OPTIONAL_PARAM",
+        "snake_case": "OPTIONAL_PARAM",
+        "PascalCase": "OPTIONAL_PARAM"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "optionalParam",
+        "snake_case": "optional_param",
+        "PascalCase": "OptionalParam"
+      }
+    ]
+  },
+  "可变参数": {
+    "variable": [
+      {
+        "camelCase": "variadic",
+        "snake_case": "variadic",
+        "PascalCase": "Variadic"
+      },
+      {
+        "camelCase": "restParam",
+        "snake_case": "rest_param",
+        "PascalCase": "RestParam"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getVariadic",
+        "snake_case": "get_variadic",
+        "PascalCase": "GetVariadic"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "VARIADIC",
+        "snake_case": "VARIADIC",
+        "PascalCase": "VARIADIC"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "variadic",
+        "snake_case": "variadic",
+        "PascalCase": "Variadic"
+      }
+    ]
+  },
+  "类型约束": {
+    "variable": [
+      {
+        "camelCase": "typeConstraint",
+        "snake_case": "type_constraint",
+        "PascalCase": "TypeConstraint"
+      },
+      {
+        "camelCase": "constraint",
+        "snake_case": "constraint",
+        "PascalCase": "Constraint"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getTypeConstraint",
+        "snake_case": "get_type_constraint",
+        "PascalCase": "GetTypeConstraint"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TYPE_CONSTRAINT",
+        "snake_case": "TYPE_CONSTRAINT",
+        "PascalCase": "TYPE_CONSTRAINT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "typeConstraint",
+        "snake_case": "type_constraint",
+        "PascalCase": "TypeConstraint"
+      }
+    ]
+  },
+  "泛型参数": {
+    "variable": [
+      {
+        "camelCase": "typeParam",
+        "snake_case": "type_param",
+        "PascalCase": "TypeParam"
+      },
+      {
+        "camelCase": "genericParam",
+        "snake_case": "generic_param",
+        "PascalCase": "GenericParam"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getTypeParam",
+        "snake_case": "get_type_param",
+        "PascalCase": "GetTypeParam"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TYPE_PARAM",
+        "snake_case": "TYPE_PARAM",
+        "PascalCase": "TYPE_PARAM"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "typeParam",
+        "snake_case": "type_param",
+        "PascalCase": "TypeParam"
+      }
+    ]
+  },
+  "类型转换": {
+    "variable": [
+      {
+        "camelCase": "cast",
+        "snake_case": "cast",
+        "PascalCase": "Cast"
+      },
+      {
+        "camelCase": "typeConvert",
+        "snake_case": "type_convert",
+        "PascalCase": "TypeConvert"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "cast",
+        "snake_case": "cast",
+        "PascalCase": "Cast"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "CAST",
+        "snake_case": "CAST",
+        "PascalCase": "CAST"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "cast",
+        "snake_case": "cast",
+        "PascalCase": "Cast"
+      }
+    ]
+  },
+  "装箱": {
+    "variable": [
+      {
+        "camelCase": "boxing",
+        "snake_case": "boxing",
+        "PascalCase": "Boxing"
+      },
+      {
+        "camelCase": "box",
+        "snake_case": "box",
+        "PascalCase": "Box"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "box",
+        "snake_case": "box",
+        "PascalCase": "Box"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "BOXING",
+        "snake_case": "BOXING",
+        "PascalCase": "BOXING"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "boxing",
+        "snake_case": "boxing",
+        "PascalCase": "Boxing"
+      }
+    ]
+  },
+  "拆箱": {
+    "variable": [
+      {
+        "camelCase": "unboxing",
+        "snake_case": "unboxing",
+        "PascalCase": "Unboxing"
+      },
+      {
+        "camelCase": "unbox",
+        "snake_case": "unbox",
+        "PascalCase": "Unbox"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "unbox",
+        "snake_case": "unbox",
+        "PascalCase": "Unbox"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "UNBOXING",
+        "snake_case": "UNBOXING",
+        "PascalCase": "UNBOXING"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "unboxing",
+        "snake_case": "unboxing",
+        "PascalCase": "Unboxing"
+      }
+    ]
+  },
+  "引用": {
+    "variable": [
+      {
+        "camelCase": "reference",
+        "snake_case": "reference",
+        "PascalCase": "Reference"
+      },
+      {
+        "camelCase": "ref",
+        "snake_case": "ref",
+        "PascalCase": "Ref"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getReference",
+        "snake_case": "get_reference",
+        "PascalCase": "GetReference"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "REFERENCE",
+        "snake_case": "REFERENCE",
+        "PascalCase": "REFERENCE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "reference",
+        "snake_case": "reference",
+        "PascalCase": "Reference"
+      }
+    ]
+  },
+  "值类型": {
+    "variable": [
+      {
+        "camelCase": "valueType",
+        "snake_case": "value_type",
+        "PascalCase": "ValueType"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getValueType",
+        "snake_case": "get_value_type",
+        "PascalCase": "GetValueType"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "VALUE_TYPE",
+        "snake_case": "VALUE_TYPE",
+        "PascalCase": "VALUE_TYPE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "valueType",
+        "snake_case": "value_type",
+        "PascalCase": "ValueType"
+      }
+    ]
+  },
+  "引用类型": {
+    "variable": [
+      {
+        "camelCase": "referenceType",
+        "snake_case": "reference_type",
+        "PascalCase": "ReferenceType"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getReferenceType",
+        "snake_case": "get_reference_type",
+        "PascalCase": "GetReferenceType"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "REFERENCE_TYPE",
+        "snake_case": "REFERENCE_TYPE",
+        "PascalCase": "REFERENCE_TYPE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "referenceType",
+        "snake_case": "reference_type",
+        "PascalCase": "ReferenceType"
+      }
+    ]
+  },
+  "深拷贝": {
+    "variable": [
+      {
+        "camelCase": "deepCopy",
+        "snake_case": "deep_copy",
+        "PascalCase": "DeepCopy"
+      },
+      {
+        "camelCase": "deepClone",
+        "snake_case": "deep_clone",
+        "PascalCase": "DeepClone"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "deepCopy",
+        "snake_case": "deep_copy",
+        "PascalCase": "DeepCopy"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DEEP_COPY",
+        "snake_case": "DEEP_COPY",
+        "PascalCase": "DEEP_COPY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "deepCopy",
+        "snake_case": "deep_copy",
+        "PascalCase": "DeepCopy"
+      }
+    ]
+  },
+  "浅拷贝": {
+    "variable": [
+      {
+        "camelCase": "shallowCopy",
+        "snake_case": "shallow_copy",
+        "PascalCase": "ShallowCopy"
+      },
+      {
+        "camelCase": "shallowClone",
+        "snake_case": "shallow_clone",
+        "PascalCase": "ShallowClone"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "shallowCopy",
+        "snake_case": "shallow_copy",
+        "PascalCase": "ShallowCopy"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SHALLOW_COPY",
+        "snake_case": "SHALLOW_COPY",
+        "PascalCase": "SHALLOW_COPY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "shallowCopy",
+        "snake_case": "shallow_copy",
+        "PascalCase": "ShallowCopy"
+      }
+    ]
+  },
+  "可变": {
+    "variable": [
+      {
+        "camelCase": "mutable",
+        "snake_case": "mutable",
+        "PascalCase": "Mutable"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "isMutable",
+        "snake_case": "is_mutable",
+        "PascalCase": "IsMutable"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "MUTABLE",
+        "snake_case": "MUTABLE",
+        "PascalCase": "MUTABLE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "mutable",
+        "snake_case": "mutable",
+        "PascalCase": "Mutable"
+      }
+    ]
+  },
+  "不可变": {
+    "variable": [
+      {
+        "camelCase": "immutable",
+        "snake_case": "immutable",
+        "PascalCase": "Immutable"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "isImmutable",
+        "snake_case": "is_immutable",
+        "PascalCase": "IsImmutable"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "IMMUTABLE",
+        "snake_case": "IMMUTABLE",
+        "PascalCase": "IMMUTABLE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "immutable",
+        "snake_case": "immutable",
+        "PascalCase": "Immutable"
+      }
+    ]
+  },
+  "空安全": {
+    "variable": [
+      {
+        "camelCase": "nullSafe",
+        "snake_case": "null_safe",
+        "PascalCase": "NullSafe"
+      },
+      {
+        "camelCase": "nullable",
+        "snake_case": "nullable",
+        "PascalCase": "Nullable"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "isNullSafe",
+        "snake_case": "is_null_safe",
+        "PascalCase": "IsNullSafe"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "NULL_SAFE",
+        "snake_case": "NULL_SAFE",
+        "PascalCase": "NULL_SAFE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "nullSafe",
+        "snake_case": "null_safe",
+        "PascalCase": "NullSafe"
       }
     ]
   }

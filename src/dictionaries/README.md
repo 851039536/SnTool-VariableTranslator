@@ -144,4 +144,4 @@ npm test
 
 **体积影响**
 词表以 JSON 模块 `import`，经 `vite-plugin-singlefile` 内联进 `dist/index.html`。
-当前 541 条约带来 190KB 未压缩增量（gzip 后约 33KB）。若词条增至数千条，应改为 `import()` 懒加载。
+当前 685 条约带来 240KB 未压缩增量（gzip 后约 42KB）。若词条增至数千条，应改为 `import()` 懒加载。
