@@ -98,7 +98,7 @@ API 调用参数优化：
 
 ### 防抖自动翻译
 
-输入使用 2.5 秒防抖进行监听（[VariableTranslator/index.vue](src/VariableTranslator/index.vue)）。当文本来自 uTools（`isFromUtools` 标志）时，会在 100ms 后立即翻译，以确保 API 配置已加载。
+输入使用 2.5 秒防抖进行监听（[VariableTranslator/index.vue](src/VariableTranslator/index.vue)）。当文本来自 uTools（`isFromUtools` 标志）时，会在 100ms 后立即翻译——该延迟**与 API Key 无关**（`loadApiKey()` 在 `onMounted` 中已同步完成），仅用于等 uTools 的 set 值落到 `chineseInput` 后再读取。该路径**不校验 `isApiConfigured`**，因为词典命中无需 Key。
 
 ### 结果展示与复制交互
 
@@ -130,6 +130,7 @@ API 调用参数优化：
 - API Key 由每个用户在**插件设置面板**填写（header 右侧钥匙按钮），保存后写入 uTools db（键 `translator_api_key`），组件挂载时读入 `apiKey` ref，翻译请求实时取该值作为 `Authorization: Bearer`
 - Key 输入框 `type="password"` 掩码 + 显示/隐藏切换；「清除」按钮可移除本机 Key
 - 未配置 Key 时状态栏显示「请先设置 DeepSeek API Key」，点击可直接展开设置面板
+  - ⚠️ 但**词典命中优先于该警告**：状态栏分支顺序为 翻译中 → 内置词典直译 → 未配置 Key → 将调用 API → 空输入。因此未配 Key 时输入词表内词汇**不会**显示 Key 警告，而是显示「内置词典直译 · 不消耗 API」
 - 安全约束：Key 永不写入源码/日志/打包产物；401（Key 无效）、402（余额不足）、429（限流）均做中文错误提示
 
 ### 内置词典（本地直译）
@@ -183,7 +184,7 @@ API 调用参数优化：
 - [src/VariableTranslator/index.scss](src/VariableTranslator/index.scss)：翻译器组件专用样式
 - [src/config/icons.ts](src/config/icons.ts)：Iconify 图标注册表
 - [src/config/api.ts](src/config/api.ts)：API 配置（仅 endpoint/model/CACHE_TTL，不含密钥）
-- [src/dictionaries/index.js](src/dictionaries/index.js)：内置词典查询入口 + 命名约定表
+- [src/dictionaries/index.js](src/dictionaries/index.js)：内置词典查询入口（异步懒加载）
 - [src/dictionaries/words.json](src/dictionaries/words.json)：扁平词表数据（无语言维度，可提交）
 
 ### 依赖说明
