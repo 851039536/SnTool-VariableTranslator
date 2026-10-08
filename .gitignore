@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# 本地 AI 助手产物（可能含密钥前缀/事故记录，禁止提交）
+.codebuddy/
+
+# 本地代码评审输出
+.ocr/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

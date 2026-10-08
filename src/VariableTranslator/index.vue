@@ -53,6 +53,10 @@
             前往 DeepSeek 平台获取 Key
           </a>
         </div>
+        <div v-if="settingsError" class="key-settings-error">
+          <Icon :icon="TI.warning" width="13" />
+          <span>{{ settingsError }}</span>
+        </div>
         <div class="key-settings-note">
           <Icon :icon="TI.info" width="13" />
           <span>使用自己的 Key 按量计费、翻译成本很低；结果自动缓存 7 天，重复翻译直接命中缓存，不重复扣费。</span>
@@ -303,6 +307,7 @@ const apiKey = ref('');
 const apiKeyDraft = ref('');
 const showKey = ref(false);       // Key 输入框明文/掩码切换
 const showSettings = ref(false);  // 设置卡片展开状态
+const settingsError = ref('');    // 设置卡片内的保存失败提示
 const keyInputRef = ref(null);
 
 const isApiConfigured = computed(() => !!apiKey.value.trim());
@@ -323,7 +328,7 @@ function toggleDirection() {
 function loadApiKey() {
   try {
     const doc = window.utools.db.get(DB_KEY_API);
-    const stored = doc?.data?.apiKey || doc?.data || '';
+    const stored = doc?.data?.apiKey;
     apiKey.value = typeof stored === 'string' ? stored.trim() : '';
   } catch (_) {
     apiKey.value = '';
@@ -333,8 +338,15 @@ function loadApiKey() {
 function saveApiKey() {
   const key = apiKeyDraft.value.trim();
   if (!key) return;
+  // 先落盘再改内存状态：dbUpsert 失败不抛异常，只返回 { error }，需显式检查，
+  // 否则界面显示「已配置」而 db 中并无 Key，后续请求会带上未持久化的 token。
+  const result = dbUpsert({ _id: DB_KEY_API, data: { apiKey: key } });
+  if (result?.error) {
+    settingsError.value = '保存失败，请重试';
+    return;
+  }
   apiKey.value = key;
-  dbUpsert({ _id: DB_KEY_API, data: { apiKey: key } });
+  settingsError.value = '';
   apiKeyDraft.value = '';
   showKey.value = false;
   showSettings.value = false;
@@ -375,6 +387,7 @@ function openSettings() {
   showSettings.value = true;
   apiKeyDraft.value = '';
   showKey.value = false;
+  settingsError.value = '';
   nextTick(() => keyInputRef.value?.focus());
 }
 

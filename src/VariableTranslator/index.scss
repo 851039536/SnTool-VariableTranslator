@@ -938,6 +938,21 @@
 
 // ── API Key 设置卡片底部说明 ──────────────────────────────────
 
+// ── API Key 设置卡片保存失败提示 ──────────────────────────────
+
+.key-settings-error {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  margin-top: $spacing-sm;
+  font-size: 11px;
+  color: var(--b3-theme-error);
+
+  svg {
+    flex-shrink: 0;
+  }
+}
+
 .key-settings-note {
   display: flex;
   align-items: flex-start;
