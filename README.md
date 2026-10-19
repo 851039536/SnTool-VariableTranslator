@@ -8,6 +8,7 @@
 
 - **双向翻译**：中→英生成编程命名，英→中解析变量含义
 - **内置词典直译**：常见词本地命中即返回，**零延迟、零费用、离线可用**，未命中自动回落 AI；词表扁平、不分语言，命中结果稳定可预期（当前收录 990+ 条编程词汇）
+- **词表浏览**：「词表」页签按 10 个类别浏览内置词条，支持关键词筛选，点击任意词条回填并立即翻译（数据独立 chunk 懒加载，不增启动体积）
 - **多种命名风格**：支持 camelCase、snake_case、PascalCase 三种命名规范
 - **多种命名类型**：提供变量（Variable）、方法（Method）、常量（Constant）、类（Class）四种类型
 - **AI 驱动**：调用 DeepSeek 模型（`deepseek-v4-flash`，非思考模式）翻译未收录词汇；**插件不内置 Key**，需自备（见「API 配置」）
@@ -146,7 +147,7 @@ uTools 会加载 Vite 开发服务器。插件目录仍指向 `public/`——此
 ```bash
 npm run dev     # 开发模式（http://localhost:5173）
 npm run build   # 生产构建，输出到 dist/
-npm test        # 内置词典测试（结构 / 重复 / 命名规范 / 查询行为 / 懒加载产物）
+npm test        # 内置词典测试（结构 / 重复 / 命名规范 / 查询行为 / 懒加载产物 / 分类数据）
 ```
 
 > `npm test` 通过时退出码 0，存在失败项时为 1，可用于 CI 或 pre-commit。
@@ -175,6 +176,7 @@ SnTool-VariableTranslator/
 │   ├── dictionaries/              # 内置词典（命中即跳过 API）
 │   │   ├── index.js               # 查询入口（异步懒加载）
 │   │   ├── words.json             # 扁平词表（不按语言分类）
+│   │   ├── categories.json        # 分类索引（词表页按类别浏览）
 │   │   └── README.md              # 词条贡献规范
 │   ├── VariableTranslator/
 │   │   ├── index.vue              # 核心组件

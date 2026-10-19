@@ -421,6 +421,72 @@ check('英→中方向固定走 API', vue.includes("pendingSource.value = 'api'"
 check('pendingSource 丢弃过期异步结果', /chineseInput\.value\.trim\(\) !== text\) return/.test(vue));
 check('translate 丢弃过期异步结果', /chineseInput\.value\.trim\(\) !== inputSnapshot\) return/.test(vue));
 
+// ── 6. 分类数据（词表页） ─────────────────────────────────────
+//
+// categories.json 支撑「词表」页按类别浏览。与词表一样是懒加载 JSON，
+// 这里校验它与 words.json 的覆盖一致性 + listDictionary 查询行为。
+
+section('6. 分类数据');
+
+const CATS_PATH = path.join(ROOT, 'src/dictionaries/categories.json');
+let categories;
+try {
+  categories = JSON.parse(fs.readFileSync(CATS_PATH, 'utf8'));
+} catch (e) {
+  categories = null;
+  check('categories.json 可解析', false, e.message);
+}
+
+if (categories) {
+  const catIds = Object.keys(categories);
+  check('categories.json 至少包含一个类别', catIds.length > 0);
+
+  // 6.1 结构：label 非空字符串，words 是字符串数组
+  const badCat = catIds.filter((id) => {
+    const c = categories[id];
+    return !c || typeof c.label !== 'string' || !c.label || !Array.isArray(c.words) || c.words.some((w) => typeof w !== 'string');
+  });
+  check('所有类别 label 非空且 words 为字符串数组', badCat.length === 0, badCat.join(','));
+
+  // 6.2 覆盖：分类引用的词必须存在于词表（防拼写漂移）
+  const catWords = catIds.flatMap((id) => categories[id].words);
+  const ghostWords = catWords.filter((w) => !(w in words));
+  check('分类引用的词条都存在于词表', ghostWords.length === 0, ghostWords.slice(0, 5).join(','));
+
+  // 6.3 覆盖：词表每个词条至少归入一个类别（防新词漏标）
+  const covered = new Set(catWords);
+  const uncovered = keys.filter((k) => !covered.has(k));
+  check('词表全部词条已被分类覆盖', uncovered.length === 0, uncovered.slice(0, 10).join(','));
+
+  // 6.4 类别非空
+  const emptyCats = catIds.filter((id) => categories[id].words.length === 0);
+  check('无空类别', emptyCats.length === 0, emptyCats.join(','));
+
+  // 6.5 listDictionary 行为：全量 == 词表 key 集合；按类别取子集
+  //     lookupDictionary 与 listDictionary 同模块导出，借助 Function 原型拿到模块命名空间不可行，
+  //     直接重新 dynamic import 一次（bundleDir 未清理，模块缓存命中，零成本）
+  const dictModule = await import(pathToFileURL(path.join(bundleDir, fs.readdirSync(bundleDir).find((f) => f.startsWith('index') && f.endsWith('.js')))).href);
+  const { listDictionary, dictionaryCategories } = dictModule;
+  const all = await listDictionary(null);
+  check(
+    'listDictionary(null) 覆盖全部词条',
+    all.length === keys.length && new Set(all.map((w) => w.chinese)).size === keys.length,
+    `${all.length} vs ${keys.length}`
+  );
+  const cats = await dictionaryCategories();
+  check('dictionaryCategories 与文件一致', cats.length === catIds.length, `${cats.length} vs ${catIds.length}`);
+  const firstCat = cats[0];
+  const sub = await listDictionary(firstCat.id);
+  check(
+    '按类别查询返回该类别全部词条',
+    sub.length === firstCat.count && sub.every((w) => w.category === firstCat.id),
+    `${sub.length} vs ${firstCat.count}`
+  );
+
+  // 6.6 词表页 UI 引用了新的两个 API（防止组件漏 import 导致页签空白）
+  check('词表页已接入 dictionaryCategories/listDictionary', vue.includes('dictionaryCategories') && vue.includes('listDictionary'));
+}
+
 // ── 汇总 ────────────────────────────────────────────────────
 
 // 测试全部跑完（词表已加载完毕）再清理临时打包目录

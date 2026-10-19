@@ -34,7 +34,7 @@ npm test
 | [index.html](index.html)                                             | HTML 入口点，挂载 `#app`                     |
 | [src/main.js](src/main.js)                                           | Vue 应用初始化                               |
 | [src/App.vue](src/App.vue)                                           | 根组件 - 处理路由、主题切换、uTools 生命周期 |
-| [src/VariableTranslator/index.vue](src/VariableTranslator/index.vue) | 主要翻译功能组件                             |
+| [src/VariableTranslator/index.vue](src/VariableTranslator/index.vue) | 主要翻译功能组件（翻译/词表/历史三页签）     |
 
 ### uTools 集成
 
@@ -107,9 +107,12 @@ API 调用参数优化：
 - 命名行整行可点击复制（行内复制按钮 `@click.stop` 避免双触发），复制后窗口保持打开，支持连续复制
 - 重新翻译时旧结果保留并加 `.is-stale`（半透明），避免内容闪空；进入插件时输入框自动聚焦
 
-### Tab 历史记录
+### Tab 页签（翻译 / 词表 / 历史）
 
-- Tab 切换（header 左侧）：“翻译”/“历史”两个视图；历史列表用 `allDocs('translator_cache_')` **全量读取**后，在内存中按 `timestamp` 倒序并 `.slice(0, 50)` 截断（非数据库层限制），展示方向/输入/相对时间
+- Tab 切换（header 左侧）：「翻译」/「词表」/「历史」三个视图
+- **词表视图**：按类别浏览内置词条。数据源是 `src/dictionaries/categories.json`（独立 chunk 懒加载），经 `dictionaryCategories()` / `listDictionary()` 两个异步 API 读取；点击词条回填输入并立即翻译（`useWordsEntry`，与历史条目同路径）
+  - ⚠️ `words.json` 与 `categories.json` 必须双向覆盖一致：新增词条必须同步归类，`npm test` 第 6 组会校验（分类引用的词必须在词表、词表词条必须已分类）
+- 历史列表用 `allDocs('translator_cache_')` **全量读取**后，在内存中按 `timestamp` 倒序并 `.slice(0, 50)` 截断（非数据库层限制），展示方向/输入/相对时间
 - 点击历史条目回填方向+输入并立即重查（命中缓存瞬时返回）；支持单条删除与清空；头部展示缓存命中统计（hits/total）
 - 历史与缓存共用存储，随 7 天 TTL 自然淘汰
 
@@ -135,7 +138,7 @@ API 调用参数优化：
 
 ### 内置词典（本地直译）
 
-模块：[src/dictionaries/](src/dictionaries/)（`index.js` 为唯一查询入口，`words.json` 为扁平词表）
+模块：[src/dictionaries/](src/dictionaries/)（`index.js` 为唯一查询入口，`words.json` 为扁平词表，`categories.json` 为分类索引）
 
 - **命中即跳过 API**：`translate()` 中词典查询前置于缓存与 Key 校验，命中直接返回结果，**不调用 API、不写缓存、不计缓存统计**
 - **懒加载（异步）**：`lookupDictionary(text)` / `dictionarySize()` 均返回 **Promise**，内部用动态 `import('./words.json')` 加载并缓存，整个会话只加载一次
@@ -186,6 +189,7 @@ API 调用参数优化：
 - [src/config/api.ts](src/config/api.ts)：API 配置（仅 endpoint/model/CACHE_TTL，不含密钥）
 - [src/dictionaries/index.js](src/dictionaries/index.js)：内置词典查询入口（异步懒加载）
 - [src/dictionaries/words.json](src/dictionaries/words.json)：扁平词表数据（无语言维度，可提交）
+- [src/dictionaries/categories.json](src/dictionaries/categories.json)：分类索引（词表页数据源，独立 chunk 懒加载，可提交）
 
 ### 依赖说明
 

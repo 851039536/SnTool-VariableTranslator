@@ -6,6 +6,7 @@
       <header class="header">
         <nav class="tabs">
           <button class="tab" :class="{ active: activeTab === 'translate' }" @click="switchTab('translate')">翻译</button>
+          <button class="tab" :class="{ active: activeTab === 'words' }" @click="switchTab('words')">词表</button>
           <button class="tab" :class="{ active: activeTab === 'history' }" @click="switchTab('history')">历史</button>
         </nav>
         <div class="header-controls">
@@ -205,6 +206,30 @@
 
       </template>
 
+      <!-- 词表浏览（按类别查看内置词条，点击回填翻译） -->
+      <div v-else-if="activeTab === 'words'" class="card words-panel">
+        <div class="words-head">
+          <span class="words-stats">共 {{ dictionaryTotal }} 条 · {{ activeCategoryLabel }}</span>
+          <input v-model="wordsQuery" class="input words-search" type="text" placeholder="筛选词表…" spellcheck="false" />
+        </div>
+        <div class="words-cats">
+          <button v-for="cat in categories" :key="cat.id" class="words-cat"
+            :class="{ active: wordsCategory === cat.id }" @click="wordsCategory = cat.id">
+            {{ cat.label }}<span class="words-cat-count">{{ cat.count }}</span>
+          </button>
+        </div>
+        <div class="words-list">
+          <div v-if="filteredWords.length === 0" class="words-empty">
+            <Icon :icon="TI.dictionary" width="15" /> {{ wordsQuery ? '无匹配词条' : '词表加载中…' }}
+          </div>
+          <div v-for="w in filteredWords" :key="w.chinese" class="words-item" :title="'点击翻译：' + w.chinese"
+            @click="useWordsEntry(w)">
+            <span class="words-zh">{{ w.chinese }}</span>
+            <code class="words-en">{{ w.preview }}</code>
+          </div>
+        </div>
+      </div>
+
       <!-- 历史记录 -->
       <div v-else class="card history-panel">
         <div class="history-head">
@@ -315,7 +340,7 @@
 import { ref, computed, onMounted, watch, onUnmounted, nextTick } from 'vue';
 import { COMMON_ICONS, FEATURE_ICONS } from '@/config/icons';
 import { API_CONFIG, CACHE_TTL } from '@/config/api';
-import { lookupDictionary, dictionarySize } from '@/dictionaries';
+import { lookupDictionary, dictionarySize, dictionaryCategories, listDictionary } from '@/dictionaries';
 
 const TI = FEATURE_ICONS.translator;
 
@@ -391,6 +416,71 @@ const keyInputRef = ref(null);
 
 /** 内置词表条目数（帮助面板展示用，词表懒加载，就绪后填充） */
 const dictionaryTotal = ref(0);
+
+// ── 词表浏览页 ───────────────────────────────────────
+const categories = ref([]);          // [{ id, label, count }]
+const wordsCategory = ref(null);     // null = 全部
+const wordsQuery = ref('');          // 筛选关键词
+const wordsEntries = ref([]);        // [{ chinese, category, preview }]
+const wordsLoaded = ref(false);
+
+/** 当前分类展示名（头部统计用） */
+const activeCategoryLabel = computed(() => {
+  if (wordsCategory.value === null) return '全部类别';
+  return categories.value.find((c) => c.id === wordsCategory.value)?.label || '';
+});
+
+/** 按分类 + 关键词过滤（中文前缀优先，再按中文排序） */
+const filteredWords = computed(() => {
+  const q = wordsQuery.value.trim().toLowerCase();
+  let list = wordsEntries.value;
+  if (wordsCategory.value !== null) {
+    list = list.filter((w) => w.category === wordsCategory.value);
+  }
+  if (q) {
+    const starts = [];
+    const contains = [];
+    for (const w of list) {
+      if (w.chinese.includes(wordsQuery.value.trim()) || w.preview.toLowerCase().includes(q)) {
+        (w.chinese.startsWith(wordsQuery.value.trim()) ? starts : contains).push(w);
+      }
+    }
+    list = [...starts, ...contains];
+  }
+  return list;
+});
+
+/** 首次进入词表页时懒加载（词典 chunk 已含词条数据，分类数据独立 chunk） */
+async function ensureWordsLoaded() {
+  if (wordsLoaded.value) return;
+  wordsLoaded.value = true;
+  try {
+    const [cats, list] = await Promise.all([dictionaryCategories(), listDictionary(null)]);
+    categories.value = cats;
+    // 预览文本：取 variable 首候选 camelCase；逐条查词典成本低（词表已在内存）
+    const withPreview = await Promise.all(
+      list.map(async (item) => {
+        const hit = await lookupDictionary(item.chinese);
+        return { ...item, preview: hit?.[0]?.variable?.[0]?.camelCase || '' };
+      })
+    );
+    wordsEntries.value = withPreview;
+  } catch (_) {
+    categories.value = [];
+    wordsEntries.value = [];
+  }
+}
+
+/** 点击词条：回填输入并立即翻译（同历史条目行为） */
+function useWordsEntry(w) {
+  activeTab.value = 'translate';
+  chineseInput.value = w.chinese;
+  nextTick(() => {
+    if (debounceTimer) clearTimeout(debounceTimer);
+    translate();
+    inputRef.value?.focus();
+  });
+}
 
 const isApiConfigured = computed(() => !!apiKey.value.trim());
 const maxLen = computed(() => isZhToEn.value ? 15 : 30);
@@ -858,6 +948,8 @@ function switchTab(tab) {
   activeTab.value = tab;
   if (tab === 'history') {
     loadHistory();
+  } else if (tab === 'words') {
+    ensureWordsLoaded();
   } else {
     nextTick(() => inputRef.value?.focus());
   }

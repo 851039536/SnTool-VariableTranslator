@@ -27,6 +27,9 @@ const REQUIRED_STYLES = ['camelCase', 'snake_case', 'PascalCase'];
 /** 词表缓存（模块级，整个会话只加载一次） */
 let wordsPromise = null;
 
+/** 分类数据缓存（模块级，首次打开「词表」页时才加载） */
+let categoriesPromise = null;
+
 /**
  * 加载词表（惰性、单次）。失败时返回 null，使查询降级为「未命中」而不是抛错。
  * @returns {Promise<object|null>}
@@ -98,4 +101,55 @@ export async function lookupDictionary(text) {
 export async function dictionarySize() {
   const words = await loadWords();
   return words ? Object.keys(words).length : 0;
+}
+
+/**
+ * 加载分类数据（惰性、单次）。失败返回 null，词表页降级为「暂无分类」而不是抛错。
+ * @returns {Promise<object|null>}
+ */
+function loadCategories() {
+  if (!categoriesPromise) {
+    categoriesPromise = import('./categories.json')
+      .then((m) => m.default || m)
+      .catch((e) => {
+        console.warn('[dictionaries] 分类数据加载失败，词表页将不可用:', e?.message || e);
+        return null;
+      });
+  }
+  return categoriesPromise;
+}
+
+/**
+ * 按类别列出词条（词表页数据源）。
+ *
+ * @param {string|null} category 类别 id；null/undefined 返回全部词条
+ * @returns {Promise<Array<{chinese: string, category: string}>>}
+ *   按中文排序的轻量列表——只含 key 与类别，不含命名数据（完整数据用 lookupDictionary 按需取）
+ */
+export async function listDictionary(category = null) {
+  const cats = await loadCategories();
+  if (!cats) return [];
+
+  const ids = category ? [category] : Object.keys(cats);
+  const seen = new Set();
+  const list = [];
+  for (const id of ids) {
+    for (const zh of cats[id]?.words || []) {
+      if (seen.has(zh)) continue; // 一个词归入多个类别时只在首个类别展示
+      seen.add(zh);
+      list.push({ chinese: zh, category: id });
+    }
+  }
+  list.sort((a, b) => a.chinese.localeCompare(b.chinese, 'zh-Hans-CN'));
+  return list;
+}
+
+/**
+ * 分类元信息（词表页分类栏数据源）。
+ * @returns {Promise<Array<{id: string, label: string, count: number}>>} 按文件内声明顺序返回
+ */
+export async function dictionaryCategories() {
+  const cats = await loadCategories();
+  if (!cats) return [];
+  return Object.entries(cats).map(([id, meta]) => ({ id, label: meta.label, count: (meta.words || []).length }));
 }

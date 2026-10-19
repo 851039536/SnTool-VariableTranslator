@@ -895,6 +895,131 @@
   }
 }
 
+// ── 词表浏览面板 ──────────────────────────────────────
+
+.words-panel {
+  padding: $spacing-sm $spacing-md;
+  display: flex;
+  flex-direction: column;
+  max-height: 70vh;
+}
+
+.words-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-sm;
+  padding-bottom: $spacing-xs;
+  margin-bottom: $spacing-xs;
+  border-bottom: 1px dashed var(--b3-border-color);
+}
+
+.words-stats {
+  font-size: 11px;
+  font-family: $vp-mono;
+  color: var(--b3-theme-on-surface-secondary);
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+.words-search {
+  max-width: 200px;
+  height: 26px;
+  padding: 0 $spacing-sm;
+  font-size: 12px;
+}
+
+.words-cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+  padding-bottom: $spacing-xs;
+  margin-bottom: $spacing-xs;
+  border-bottom: 1px dashed var(--b3-border-color);
+}
+
+.words-cat {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px $spacing-sm;
+  font-size: 11px;
+  color: var(--b3-theme-on-surface-secondary);
+  background: transparent;
+  border: 1px solid var(--b3-border-color);
+  border-radius: $radius-full;
+  cursor: pointer;
+  transition: $vp-transition;
+
+  &:hover {
+    border-color: var(--b3-theme-primary);
+    color: var(--b3-theme-on-surface);
+  }
+
+  &.active {
+    background: var(--b3-theme-primary);
+    border-color: var(--b3-theme-primary);
+    color: var(--b3-theme-surface);
+  }
+}
+
+.words-cat-count {
+  font-family: $vp-mono;
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.words-list {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 120px;
+}
+
+.words-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-xs;
+  padding: $spacing-lg 0;
+  font-size: 12px;
+  color: var(--b3-theme-on-surface-secondary);
+  opacity: 0.5;
+}
+
+.words-item {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: $vp-transition;
+
+  &:hover {
+    background: var(--b3-theme-surface-alt);
+
+    .words-en {
+      color: var(--b3-theme-primary);
+    }
+  }
+}
+
+.words-zh {
+  flex: 1;
+  font-size: 13px;
+  color: var(--b3-theme-on-surface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.words-en {
+  font-size: 12px;
+  font-family: $vp-mono;
+  color: var(--b3-theme-on-surface-secondary);
+  white-space: nowrap;
+}
+
 // ── 历史记录面板 ──────────────────────────────────────
 
 .history-panel {
