@@ -34888,5 +34888,3115 @@
         "PascalCase": "Composable"
       }
     ]
+  },
+  "数据可视化": {
+    "variable": [
+      {
+        "camelCase": "dataVisualization",
+        "snake_case": "data_visualization",
+        "PascalCase": "DataVisualization"
+      },
+      {
+        "camelCase": "visualization",
+        "snake_case": "visualization",
+        "PascalCase": "Visualization"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "renderChart",
+        "snake_case": "render_chart",
+        "PascalCase": "RenderChart"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DATA_VISUALIZATION",
+        "snake_case": "DATA_VISUALIZATION",
+        "PascalCase": "DATA_VISUALIZATION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "dataVisualization",
+        "snake_case": "data_visualization",
+        "PascalCase": "DataVisualization"
+      }
+    ]
+  },
+  "柱状图": {
+    "variable": [
+      {
+        "camelCase": "barChart",
+        "snake_case": "bar_chart",
+        "PascalCase": "BarChart"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "renderBarChart",
+        "snake_case": "render_bar_chart",
+        "PascalCase": "RenderBarChart"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "BAR_CHART",
+        "snake_case": "BAR_CHART",
+        "PascalCase": "BAR_CHART"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "barChart",
+        "snake_case": "bar_chart",
+        "PascalCase": "BarChart"
+      }
+    ]
+  },
+  "折线图": {
+    "variable": [
+      {
+        "camelCase": "lineChart",
+        "snake_case": "line_chart",
+        "PascalCase": "LineChart"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "renderLineChart",
+        "snake_case": "render_line_chart",
+        "PascalCase": "RenderLineChart"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "LINE_CHART",
+        "snake_case": "LINE_CHART",
+        "PascalCase": "LINE_CHART"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "lineChart",
+        "snake_case": "line_chart",
+        "PascalCase": "LineChart"
+      }
+    ]
+  },
+  "饼图": {
+    "variable": [
+      {
+        "camelCase": "pieChart",
+        "snake_case": "pie_chart",
+        "PascalCase": "PieChart"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "renderPieChart",
+        "snake_case": "render_pie_chart",
+        "PascalCase": "RenderPieChart"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "PIE_CHART",
+        "snake_case": "PIE_CHART",
+        "PascalCase": "PIE_CHART"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "pieChart",
+        "snake_case": "pie_chart",
+        "PascalCase": "PieChart"
+      }
+    ]
+  },
+  "散点图": {
+    "variable": [
+      {
+        "camelCase": "scatterChart",
+        "snake_case": "scatter_chart",
+        "PascalCase": "ScatterChart"
+      },
+      {
+        "camelCase": "scatter",
+        "snake_case": "scatter",
+        "PascalCase": "Scatter"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "renderScatter",
+        "snake_case": "render_scatter",
+        "PascalCase": "RenderScatter"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SCATTER_CHART",
+        "snake_case": "SCATTER_CHART",
+        "PascalCase": "SCATTER_CHART"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "scatterChart",
+        "snake_case": "scatter_chart",
+        "PascalCase": "ScatterChart"
+      }
+    ]
+  },
+  "雷达图": {
+    "variable": [
+      {
+        "camelCase": "radarChart",
+        "snake_case": "radar_chart",
+        "PascalCase": "RadarChart"
+      },
+      {
+        "camelCase": "radar",
+        "snake_case": "radar",
+        "PascalCase": "Radar"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "renderRadar",
+        "snake_case": "render_radar",
+        "PascalCase": "RenderRadar"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "RADAR_CHART",
+        "snake_case": "RADAR_CHART",
+        "PascalCase": "RADAR_CHART"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "radarChart",
+        "snake_case": "radar_chart",
+        "PascalCase": "RadarChart"
+      }
+    ]
+  },
+  "热力图": {
+    "variable": [
+      {
+        "camelCase": "heatmap",
+        "snake_case": "heatmap",
+        "PascalCase": "Heatmap"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "renderHeatmap",
+        "snake_case": "render_heatmap",
+        "PascalCase": "RenderHeatmap"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "HEATMAP",
+        "snake_case": "HEATMAP",
+        "PascalCase": "HEATMAP"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "heatmap",
+        "snake_case": "heatmap",
+        "PascalCase": "Heatmap"
+      }
+    ]
+  },
+  "桑基图": {
+    "variable": [
+      {
+        "camelCase": "sankey",
+        "snake_case": "sankey",
+        "PascalCase": "Sankey"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "renderSankey",
+        "snake_case": "render_sankey",
+        "PascalCase": "RenderSankey"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SANKEY",
+        "snake_case": "SANKEY",
+        "PascalCase": "SANKEY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "sankey",
+        "snake_case": "sankey",
+        "PascalCase": "Sankey"
+      }
+    ]
+  },
+  "漏斗图": {
+    "variable": [
+      {
+        "camelCase": "funnel",
+        "snake_case": "funnel",
+        "PascalCase": "Funnel"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "renderFunnel",
+        "snake_case": "render_funnel",
+        "PascalCase": "RenderFunnel"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "FUNNEL",
+        "snake_case": "FUNNEL",
+        "PascalCase": "FUNNEL"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "funnel",
+        "snake_case": "funnel",
+        "PascalCase": "Funnel"
+      }
+    ]
+  },
+  "面积图": {
+    "variable": [
+      {
+        "camelCase": "areaChart",
+        "snake_case": "area_chart",
+        "PascalCase": "AreaChart"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "renderAreaChart",
+        "snake_case": "render_area_chart",
+        "PascalCase": "RenderAreaChart"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "AREA_CHART",
+        "snake_case": "AREA_CHART",
+        "PascalCase": "AREA_CHART"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "areaChart",
+        "snake_case": "area_chart",
+        "PascalCase": "AreaChart"
+      }
+    ]
+  },
+  "气泡图": {
+    "variable": [
+      {
+        "camelCase": "bubbleChart",
+        "snake_case": "bubble_chart",
+        "PascalCase": "BubbleChart"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "renderBubble",
+        "snake_case": "render_bubble",
+        "PascalCase": "RenderBubble"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "BUBBLE_CHART",
+        "snake_case": "BUBBLE_CHART",
+        "PascalCase": "BUBBLE_CHART"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "bubbleChart",
+        "snake_case": "bubble_chart",
+        "PascalCase": "BubbleChart"
+      }
+    ]
+  },
+  "箱线图": {
+    "variable": [
+      {
+        "camelCase": "boxPlot",
+        "snake_case": "box_plot",
+        "PascalCase": "BoxPlot"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "renderBoxPlot",
+        "snake_case": "render_box_plot",
+        "PascalCase": "RenderBoxPlot"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "BOX_PLOT",
+        "snake_case": "BOX_PLOT",
+        "PascalCase": "BOX_PLOT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "boxPlot",
+        "snake_case": "box_plot",
+        "PascalCase": "BoxPlot"
+      }
+    ]
+  },
+  "直方图": {
+    "variable": [
+      {
+        "camelCase": "histogram",
+        "snake_case": "histogram",
+        "PascalCase": "Histogram"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "renderHistogram",
+        "snake_case": "render_histogram",
+        "PascalCase": "RenderHistogram"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "HISTOGRAM",
+        "snake_case": "HISTOGRAM",
+        "PascalCase": "HISTOGRAM"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "histogram",
+        "snake_case": "histogram",
+        "PascalCase": "Histogram"
+      }
+    ]
+  },
+  "词云": {
+    "variable": [
+      {
+        "camelCase": "wordCloud",
+        "snake_case": "word_cloud",
+        "PascalCase": "WordCloud"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "renderWordCloud",
+        "snake_case": "render_word_cloud",
+        "PascalCase": "RenderWordCloud"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "WORD_CLOUD",
+        "snake_case": "WORD_CLOUD",
+        "PascalCase": "WORD_CLOUD"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "wordCloud",
+        "snake_case": "word_cloud",
+        "PascalCase": "WordCloud"
+      }
+    ]
+  },
+  "地图可视化": {
+    "variable": [
+      {
+        "camelCase": "mapVisualization",
+        "snake_case": "map_visualization",
+        "PascalCase": "MapVisualization"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "renderMap",
+        "snake_case": "render_map",
+        "PascalCase": "RenderMap"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "MAP_VISUALIZATION",
+        "snake_case": "MAP_VISUALIZATION",
+        "PascalCase": "MAP_VISUALIZATION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "mapVisualization",
+        "snake_case": "map_visualization",
+        "PascalCase": "MapVisualization"
+      }
+    ]
+  },
+  "坐标轴": {
+    "variable": [
+      {
+        "camelCase": "axis",
+        "snake_case": "axis",
+        "PascalCase": "Axis"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getAxis",
+        "snake_case": "get_axis",
+        "PascalCase": "GetAxis"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "AXIS",
+        "snake_case": "AXIS",
+        "PascalCase": "AXIS"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "axis",
+        "snake_case": "axis",
+        "PascalCase": "Axis"
+      }
+    ]
+  },
+  "横轴": {
+    "variable": [
+      {
+        "camelCase": "xAxis",
+        "snake_case": "x_axis",
+        "PascalCase": "XAxis"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getXAxis",
+        "snake_case": "get_xaxis",
+        "PascalCase": "GetXAxis"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "X_AXIS",
+        "snake_case": "X_AXIS",
+        "PascalCase": "X_AXIS"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "xAxis",
+        "snake_case": "xaxis",
+        "PascalCase": "XAxis"
+      }
+    ]
+  },
+  "纵轴": {
+    "variable": [
+      {
+        "camelCase": "yAxis",
+        "snake_case": "y_axis",
+        "PascalCase": "YAxis"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getYAxis",
+        "snake_case": "get_yaxis",
+        "PascalCase": "GetYAxis"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "Y_AXIS",
+        "snake_case": "Y_AXIS",
+        "PascalCase": "Y_AXIS"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "yAxis",
+        "snake_case": "yaxis",
+        "PascalCase": "YAxis"
+      }
+    ]
+  },
+  "图例": {
+    "variable": [
+      {
+        "camelCase": "legend",
+        "snake_case": "legend",
+        "PascalCase": "Legend"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "renderLegend",
+        "snake_case": "render_legend",
+        "PascalCase": "RenderLegend"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "LEGEND",
+        "snake_case": "LEGEND",
+        "PascalCase": "LEGEND"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "legend",
+        "snake_case": "legend",
+        "PascalCase": "Legend"
+      }
+    ]
+  },
+  "网格线": {
+    "variable": [
+      {
+        "camelCase": "gridLine",
+        "snake_case": "grid_line",
+        "PascalCase": "GridLine"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "renderGrid",
+        "snake_case": "render_grid",
+        "PascalCase": "RenderGrid"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "GRID_LINE",
+        "snake_case": "GRID_LINE",
+        "PascalCase": "GRID_LINE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "gridLine",
+        "snake_case": "grid_line",
+        "PascalCase": "GridLine"
+      }
+    ]
+  },
+  "数据系列": {
+    "variable": [
+      {
+        "camelCase": "series",
+        "snake_case": "series",
+        "PascalCase": "Series"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getSeries",
+        "snake_case": "get_series",
+        "PascalCase": "GetSeries"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SERIES",
+        "snake_case": "SERIES",
+        "PascalCase": "SERIES"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "series",
+        "snake_case": "series",
+        "PascalCase": "Series"
+      }
+    ]
+  },
+  "数据点": {
+    "variable": [
+      {
+        "camelCase": "dataPoint",
+        "snake_case": "data_point",
+        "PascalCase": "DataPoint"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getDataPoint",
+        "snake_case": "get_data_point",
+        "PascalCase": "GetDataPoint"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DATA_POINT",
+        "snake_case": "DATA_POINT",
+        "PascalCase": "DATA_POINT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "dataPoint",
+        "snake_case": "data_point",
+        "PascalCase": "DataPoint"
+      }
+    ]
+  },
+  "缩略轴": {
+    "variable": [
+      {
+        "camelCase": "dataZoom",
+        "snake_case": "data_zoom",
+        "PascalCase": "DataZoom"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "zoomTo",
+        "snake_case": "zoom_to",
+        "PascalCase": "ZoomTo"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DATA_ZOOM",
+        "snake_case": "DATA_ZOOM",
+        "PascalCase": "DATA_ZOOM"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "dataZoom",
+        "snake_case": "data_zoom",
+        "PascalCase": "DataZoom"
+      }
+    ]
+  },
+  "笛卡尔坐标系": {
+    "variable": [
+      {
+        "camelCase": "cartesian",
+        "snake_case": "cartesian",
+        "PascalCase": "Cartesian"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "toCartesian",
+        "snake_case": "to_cartesian",
+        "PascalCase": "ToCartesian"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "CARTESIAN",
+        "snake_case": "CARTESIAN",
+        "PascalCase": "CARTESIAN"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "cartesian",
+        "snake_case": "cartesian",
+        "PascalCase": "Cartesian"
+      }
+    ]
+  },
+  "极坐标系": {
+    "variable": [
+      {
+        "camelCase": "polar",
+        "snake_case": "polar",
+        "PascalCase": "Polar"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "toPolar",
+        "snake_case": "to_polar",
+        "PascalCase": "ToPolar"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "POLAR",
+        "snake_case": "POLAR",
+        "PascalCase": "POLAR"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "polar",
+        "snake_case": "polar",
+        "PascalCase": "Polar"
+      }
+    ]
+  },
+  "时间轴": {
+    "variable": [
+      {
+        "camelCase": "timeline",
+        "snake_case": "timeline",
+        "PascalCase": "Timeline"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getTimeline",
+        "snake_case": "get_timeline",
+        "PascalCase": "GetTimeline"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TIMELINE",
+        "snake_case": "TIMELINE",
+        "PascalCase": "TIMELINE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "timeline",
+        "snake_case": "timeline",
+        "PascalCase": "Timeline"
+      }
+    ]
+  },
+  "刻度": {
+    "variable": [
+      {
+        "camelCase": "tick",
+        "snake_case": "tick",
+        "PascalCase": "Tick"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getTicks",
+        "snake_case": "get_ticks",
+        "PascalCase": "GetTicks"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TICK",
+        "snake_case": "TICK",
+        "PascalCase": "TICK"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "tick",
+        "snake_case": "tick",
+        "PascalCase": "Tick"
+      }
+    ]
+  },
+  "游戏循环": {
+    "variable": [
+      {
+        "camelCase": "gameLoop",
+        "snake_case": "game_loop",
+        "PascalCase": "GameLoop"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "tickLoop",
+        "snake_case": "tick_loop",
+        "PascalCase": "TickLoop"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "GAME_LOOP",
+        "snake_case": "GAME_LOOP",
+        "PascalCase": "GAME_LOOP"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "gameLoop",
+        "snake_case": "game_loop",
+        "PascalCase": "GameLoop"
+      }
+    ]
+  },
+  "帧率": {
+    "variable": [
+      {
+        "camelCase": "frameRate",
+        "snake_case": "frame_rate",
+        "PascalCase": "FrameRate"
+      },
+      {
+        "camelCase": "fps",
+        "snake_case": "fps",
+        "PascalCase": "Fps"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getFrameRate",
+        "snake_case": "get_frame_rate",
+        "PascalCase": "GetFrameRate"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "FPS",
+        "snake_case": "FPS",
+        "PascalCase": "FPS"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "frameRate",
+        "snake_case": "frame_rate",
+        "PascalCase": "FrameRate"
+      }
+    ]
+  },
+  "碰撞检测": {
+    "variable": [
+      {
+        "camelCase": "collisionDetection",
+        "snake_case": "collision_detection",
+        "PascalCase": "CollisionDetection"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "detectCollision",
+        "snake_case": "detect_collision",
+        "PascalCase": "DetectCollision"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "COLLISION_DETECTION",
+        "snake_case": "COLLISION_DETECTION",
+        "PascalCase": "COLLISION_DETECTION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "collisionDetection",
+        "snake_case": "collision_detection",
+        "PascalCase": "CollisionDetection"
+      }
+    ]
+  },
+  "碰撞体": {
+    "variable": [
+      {
+        "camelCase": "collider",
+        "snake_case": "collider",
+        "PascalCase": "Collider"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getCollider",
+        "snake_case": "get_collider",
+        "PascalCase": "GetCollider"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "COLLIDER",
+        "snake_case": "COLLIDER",
+        "PascalCase": "COLLIDER"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "collider",
+        "snake_case": "collider",
+        "PascalCase": "Collider"
+      }
+    ]
+  },
+  "刚体": {
+    "variable": [
+      {
+        "camelCase": "rigidbody",
+        "snake_case": "rigidbody",
+        "PascalCase": "Rigidbody"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "applyForce",
+        "snake_case": "apply_force",
+        "PascalCase": "ApplyForce"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "RIGIDBODY",
+        "snake_case": "RIGIDBODY",
+        "PascalCase": "RIGIDBODY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "rigidbody",
+        "snake_case": "rigidbody",
+        "PascalCase": "Rigidbody"
+      }
+    ]
+  },
+  "物理引擎": {
+    "variable": [
+      {
+        "camelCase": "physicsEngine",
+        "snake_case": "physics_engine",
+        "PascalCase": "PhysicsEngine"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "stepPhysics",
+        "snake_case": "step_physics",
+        "PascalCase": "StepPhysics"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "PHYSICS_ENGINE",
+        "snake_case": "PHYSICS_ENGINE",
+        "PascalCase": "PHYSICS_ENGINE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "physicsEngine",
+        "snake_case": "physics_engine",
+        "PascalCase": "PhysicsEngine"
+      }
+    ]
+  },
+  "重力": {
+    "variable": [
+      {
+        "camelCase": "gravity",
+        "snake_case": "gravity",
+        "PascalCase": "Gravity"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "applyGravity",
+        "snake_case": "apply_gravity",
+        "PascalCase": "ApplyGravity"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "GRAVITY",
+        "snake_case": "GRAVITY",
+        "PascalCase": "GRAVITY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "gravity",
+        "snake_case": "gravity",
+        "PascalCase": "Gravity"
+      }
+    ]
+  },
+  "摩擦力": {
+    "variable": [
+      {
+        "camelCase": "friction",
+        "snake_case": "friction",
+        "PascalCase": "Friction"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "applyFriction",
+        "snake_case": "apply_friction",
+        "PascalCase": "ApplyFriction"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "FRICTION",
+        "snake_case": "FRICTION",
+        "PascalCase": "FRICTION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "friction",
+        "snake_case": "friction",
+        "PascalCase": "Friction"
+      }
+    ]
+  },
+  "弹性系数": {
+    "variable": [
+      {
+        "camelCase": "restitution",
+        "snake_case": "restitution",
+        "PascalCase": "Restitution"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "bounce",
+        "snake_case": "bounce",
+        "PascalCase": "Bounce"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "RESTITUTION",
+        "snake_case": "RESTITUTION",
+        "PascalCase": "RESTITUTION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "restitution",
+        "snake_case": "restitution",
+        "PascalCase": "Restitution"
+      }
+    ]
+  },
+  "粒子系统": {
+    "variable": [
+      {
+        "camelCase": "particleSystem",
+        "snake_case": "particle_system",
+        "PascalCase": "ParticleSystem"
+      },
+      {
+        "camelCase": "particles",
+        "snake_case": "particles",
+        "PascalCase": "Particles"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "spawnParticle",
+        "snake_case": "spawn_particle",
+        "PascalCase": "SpawnParticle"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "PARTICLE_SYSTEM",
+        "snake_case": "PARTICLE_SYSTEM",
+        "PascalCase": "PARTICLE_SYSTEM"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "particleSystem",
+        "snake_case": "particle_system",
+        "PascalCase": "ParticleSystem"
+      }
+    ]
+  },
+  "精灵图": {
+    "variable": [
+      {
+        "camelCase": "sprite",
+        "snake_case": "sprite",
+        "PascalCase": "Sprite"
+      },
+      {
+        "camelCase": "spriteSheet",
+        "snake_case": "sprite_sheet",
+        "PascalCase": "SpriteSheet"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "drawSprite",
+        "snake_case": "draw_sprite",
+        "PascalCase": "DrawSprite"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SPRITE",
+        "snake_case": "SPRITE",
+        "PascalCase": "SPRITE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "sprite",
+        "snake_case": "sprite",
+        "PascalCase": "Sprite"
+      }
+    ]
+  },
+  "瓦片地图": {
+    "variable": [
+      {
+        "camelCase": "tilemap",
+        "snake_case": "tilemap",
+        "PascalCase": "Tilemap"
+      },
+      {
+        "camelCase": "tileMap",
+        "snake_case": "tile_map",
+        "PascalCase": "TileMap"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "loadTilemap",
+        "snake_case": "load_tilemap",
+        "PascalCase": "LoadTilemap"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TILEMAP",
+        "snake_case": "TILEMAP",
+        "PascalCase": "TILEMAP"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "tilemap",
+        "snake_case": "tilemap",
+        "PascalCase": "Tilemap"
+      }
+    ]
+  },
+  "摄像机": {
+    "variable": [
+      {
+        "camelCase": "camera",
+        "snake_case": "camera",
+        "PascalCase": "Camera"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "followTarget",
+        "snake_case": "follow_target",
+        "PascalCase": "FollowTarget"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "CAMERA",
+        "snake_case": "CAMERA",
+        "PascalCase": "CAMERA"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "camera",
+        "snake_case": "camera",
+        "PascalCase": "Camera"
+      }
+    ]
+  },
+  "视口": {
+    "variable": [
+      {
+        "camelCase": "viewport",
+        "snake_case": "viewport",
+        "PascalCase": "Viewport"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "resizeViewport",
+        "snake_case": "resize_viewport",
+        "PascalCase": "ResizeViewport"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "VIEWPORT",
+        "snake_case": "VIEWPORT",
+        "PascalCase": "VIEWPORT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "viewport",
+        "snake_case": "viewport",
+        "PascalCase": "Viewport"
+      }
+    ]
+  },
+  "场景": {
+    "variable": [
+      {
+        "camelCase": "scene",
+        "snake_case": "scene",
+        "PascalCase": "Scene"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "loadScene",
+        "snake_case": "load_scene",
+        "PascalCase": "LoadScene"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SCENE",
+        "snake_case": "SCENE",
+        "PascalCase": "SCENE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "scene",
+        "snake_case": "scene",
+        "PascalCase": "Scene"
+      }
+    ]
+  },
+  "渲染循环": {
+    "variable": [
+      {
+        "camelCase": "renderLoop",
+        "snake_case": "render_loop",
+        "PascalCase": "RenderLoop"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "renderFrame",
+        "snake_case": "render_frame",
+        "PascalCase": "RenderFrame"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "RENDER_LOOP",
+        "snake_case": "RENDER_LOOP",
+        "PascalCase": "RENDER_LOOP"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "renderLoop",
+        "snake_case": "render_loop",
+        "PascalCase": "RenderLoop"
+      }
+    ]
+  },
+  "补间动画": {
+    "variable": [
+      {
+        "camelCase": "tween",
+        "snake_case": "tween",
+        "PascalCase": "Tween"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "tweenTo",
+        "snake_case": "tween_to",
+        "PascalCase": "TweenTo"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TWEEN",
+        "snake_case": "TWEEN",
+        "PascalCase": "TWEEN"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "tween",
+        "snake_case": "tween",
+        "PascalCase": "Tween"
+      }
+    ]
+  },
+  "缓动函数": {
+    "variable": [
+      {
+        "camelCase": "easing",
+        "snake_case": "easing",
+        "PascalCase": "Easing"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "applyEasing",
+        "snake_case": "apply_easing",
+        "PascalCase": "ApplyEasing"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "EASING",
+        "snake_case": "EASING",
+        "PascalCase": "EASING"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "easing",
+        "snake_case": "easing",
+        "PascalCase": "Easing"
+      }
+    ]
+  },
+  "关键帧": {
+    "variable": [
+      {
+        "camelCase": "keyframe",
+        "snake_case": "keyframe",
+        "PascalCase": "Keyframe"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "addKeyframe",
+        "snake_case": "add_keyframe",
+        "PascalCase": "AddKeyframe"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "KEYFRAME",
+        "snake_case": "KEYFRAME",
+        "PascalCase": "KEYFRAME"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "keyframe",
+        "snake_case": "keyframe",
+        "PascalCase": "Keyframe"
+      }
+    ]
+  },
+  "游戏对象": {
+    "variable": [
+      {
+        "camelCase": "gameObject",
+        "snake_case": "game_object",
+        "PascalCase": "GameObject"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "spawnObject",
+        "snake_case": "spawn_object",
+        "PascalCase": "SpawnObject"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "GAME_OBJECT",
+        "snake_case": "GAME_OBJECT",
+        "PascalCase": "GAME_OBJECT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "gameObject",
+        "snake_case": "game_object",
+        "PascalCase": "GameObject"
+      }
+    ]
+  },
+  "游戏状态": {
+    "variable": [
+      {
+        "camelCase": "gameState",
+        "snake_case": "game_state",
+        "PascalCase": "GameState"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "setState",
+        "snake_case": "set_state",
+        "PascalCase": "SetState"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "GAME_STATE",
+        "snake_case": "GAME_STATE",
+        "PascalCase": "GAME_STATE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "gameState",
+        "snake_case": "game_state",
+        "PascalCase": "GameState"
+      }
+    ]
+  },
+  "分数板": {
+    "variable": [
+      {
+        "camelCase": "scoreboard",
+        "snake_case": "scoreboard",
+        "PascalCase": "Scoreboard"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "updateScore",
+        "snake_case": "update_score",
+        "PascalCase": "UpdateScore"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SCOREBOARD",
+        "snake_case": "SCOREBOARD",
+        "PascalCase": "SCOREBOARD"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "scoreboard",
+        "snake_case": "scoreboard",
+        "PascalCase": "Scoreboard"
+      }
+    ]
+  },
+  "关卡": {
+    "variable": [
+      {
+        "camelCase": "gameLevel",
+        "snake_case": "game_level",
+        "PascalCase": "GameLevel"
+      },
+      {
+        "camelCase": "stage",
+        "snake_case": "stage",
+        "PascalCase": "Stage"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "loadLevel",
+        "snake_case": "load_level",
+        "PascalCase": "LoadLevel"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "GAME_LEVEL",
+        "snake_case": "GAME_LEVEL",
+        "PascalCase": "GAME_LEVEL"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "gameLevel",
+        "snake_case": "game_level",
+        "PascalCase": "GameLevel"
+      }
+    ]
+  },
+  "玩家": {
+    "variable": [
+      {
+        "camelCase": "player",
+        "snake_case": "player",
+        "PascalCase": "Player"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "controlPlayer",
+        "snake_case": "control_player",
+        "PascalCase": "ControlPlayer"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "PLAYER",
+        "snake_case": "PLAYER",
+        "PascalCase": "PLAYER"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "player",
+        "snake_case": "player",
+        "PascalCase": "Player"
+      }
+    ]
+  },
+  "敌人": {
+    "variable": [
+      {
+        "camelCase": "enemy",
+        "snake_case": "enemy",
+        "PascalCase": "Enemy"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "spawnEnemy",
+        "snake_case": "spawn_enemy",
+        "PascalCase": "SpawnEnemy"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "ENEMY",
+        "snake_case": "ENEMY",
+        "PascalCase": "ENEMY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "enemy",
+        "snake_case": "enemy",
+        "PascalCase": "Enemy"
+      }
+    ]
+  },
+  "血量": {
+    "variable": [
+      {
+        "camelCase": "hp",
+        "snake_case": "hp",
+        "PascalCase": "Hp"
+      },
+      {
+        "camelCase": "health",
+        "snake_case": "health",
+        "PascalCase": "Health"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "takeDamage",
+        "snake_case": "take_damage",
+        "PascalCase": "TakeDamage"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "HP",
+        "snake_case": "HP",
+        "PascalCase": "HP"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "health",
+        "snake_case": "health",
+        "PascalCase": "Health"
+      }
+    ]
+  },
+  "攻击力": {
+    "variable": [
+      {
+        "camelCase": "attack",
+        "snake_case": "attack",
+        "PascalCase": "Attack"
+      },
+      {
+        "camelCase": "attackPower",
+        "snake_case": "attack_power",
+        "PascalCase": "AttackPower"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "performAttack",
+        "snake_case": "perform_attack",
+        "PascalCase": "PerformAttack"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "ATTACK",
+        "snake_case": "ATTACK",
+        "PascalCase": "ATTACK"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "attack",
+        "snake_case": "attack",
+        "PascalCase": "Attack"
+      }
+    ]
+  },
+  "防御力": {
+    "variable": [
+      {
+        "camelCase": "defense",
+        "snake_case": "defense",
+        "PascalCase": "Defense"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "absorbDamage",
+        "snake_case": "absorb_damage",
+        "PascalCase": "AbsorbDamage"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DEFENSE",
+        "snake_case": "DEFENSE",
+        "PascalCase": "DEFENSE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "defense",
+        "snake_case": "defense",
+        "PascalCase": "Defense"
+      }
+    ]
+  },
+  "伤害": {
+    "variable": [
+      {
+        "camelCase": "damage",
+        "snake_case": "damage",
+        "PascalCase": "Damage"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "dealDamage",
+        "snake_case": "deal_damage",
+        "PascalCase": "DealDamage"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DAMAGE",
+        "snake_case": "DAMAGE",
+        "PascalCase": "DAMAGE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "damage",
+        "snake_case": "damage",
+        "PascalCase": "Damage"
+      }
+    ]
+  },
+  "治疗": {
+    "variable": [
+      {
+        "camelCase": "heal",
+        "snake_case": "heal",
+        "PascalCase": "Heal"
+      },
+      {
+        "camelCase": "healing",
+        "snake_case": "healing",
+        "PascalCase": "Healing"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "heal",
+        "snake_case": "heal",
+        "PascalCase": "Heal"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "HEAL",
+        "snake_case": "HEAL",
+        "PascalCase": "HEAL"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "heal",
+        "snake_case": "heal",
+        "PascalCase": "Heal"
+      }
+    ]
+  },
+  "护盾": {
+    "variable": [
+      {
+        "camelCase": "shield",
+        "snake_case": "shield",
+        "PascalCase": "Shield"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "raiseShield",
+        "snake_case": "raise_shield",
+        "PascalCase": "RaiseShield"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SHIELD",
+        "snake_case": "SHIELD",
+        "PascalCase": "SHIELD"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "shield",
+        "snake_case": "shield",
+        "PascalCase": "Shield"
+      }
+    ]
+  },
+  "背包系统": {
+    "variable": [
+      {
+        "camelCase": "backpack",
+        "snake_case": "backpack",
+        "PascalCase": "Backpack"
+      },
+      {
+        "camelCase": "inventorySystem",
+        "snake_case": "inventory_system",
+        "PascalCase": "InventorySystem"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "addItem",
+        "snake_case": "add_item",
+        "PascalCase": "AddItem"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "BACKPACK",
+        "snake_case": "BACKPACK",
+        "PascalCase": "BACKPACK"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "backpack",
+        "snake_case": "backpack",
+        "PascalCase": "Backpack"
+      }
+    ]
+  },
+  "装备": {
+    "variable": [
+      {
+        "camelCase": "equipment",
+        "snake_case": "equipment",
+        "PascalCase": "Equipment"
+      },
+      {
+        "camelCase": "gear",
+        "snake_case": "gear",
+        "PascalCase": "Gear"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "equip",
+        "snake_case": "equip",
+        "PascalCase": "Equip"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "EQUIPMENT",
+        "snake_case": "EQUIPMENT",
+        "PascalCase": "EQUIPMENT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "equipment",
+        "snake_case": "equipment",
+        "PascalCase": "Equipment"
+      }
+    ]
+  },
+  "技能冷却": {
+    "variable": [
+      {
+        "camelCase": "cooldown",
+        "snake_case": "cooldown",
+        "PascalCase": "Cooldown"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "startCooldown",
+        "snake_case": "start_cooldown",
+        "PascalCase": "StartCooldown"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "COOLDOWN",
+        "snake_case": "COOLDOWN",
+        "PascalCase": "COOLDOWN"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "cooldown",
+        "snake_case": "cooldown",
+        "PascalCase": "Cooldown"
+      }
+    ]
+  },
+  "编解码器": {
+    "variable": [
+      {
+        "camelCase": "codec",
+        "snake_case": "codec",
+        "PascalCase": "Codec"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getCodec",
+        "snake_case": "get_codec",
+        "PascalCase": "GetCodec"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "CODEC",
+        "snake_case": "CODEC",
+        "PascalCase": "CODEC"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "codec",
+        "snake_case": "codec",
+        "PascalCase": "Codec"
+      }
+    ]
+  },
+  "比特率": {
+    "variable": [
+      {
+        "camelCase": "bitrate",
+        "snake_case": "bitrate",
+        "PascalCase": "Bitrate"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getBitrate",
+        "snake_case": "get_bitrate",
+        "PascalCase": "GetBitrate"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "BITRATE",
+        "snake_case": "BITRATE",
+        "PascalCase": "BITRATE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "bitrate",
+        "snake_case": "bitrate",
+        "PascalCase": "Bitrate"
+      }
+    ]
+  },
+  "帧数": {
+    "variable": [
+      {
+        "camelCase": "frameCount",
+        "snake_case": "frame_count",
+        "PascalCase": "FrameCount"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getFrameCount",
+        "snake_case": "get_frame_count",
+        "PascalCase": "GetFrameCount"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "FRAME_COUNT",
+        "snake_case": "FRAME_COUNT",
+        "PascalCase": "FRAME_COUNT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "frameCount",
+        "snake_case": "frame_count",
+        "PascalCase": "FrameCount"
+      }
+    ]
+  },
+  "音轨": {
+    "variable": [
+      {
+        "camelCase": "audioTrack",
+        "snake_case": "audio_track",
+        "PascalCase": "AudioTrack"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "switchAudioTrack",
+        "snake_case": "switch_audio_track",
+        "PascalCase": "SwitchAudioTrack"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "AUDIO_TRACK",
+        "snake_case": "AUDIO_TRACK",
+        "PascalCase": "AUDIO_TRACK"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "audioTrack",
+        "snake_case": "audio_track",
+        "PascalCase": "AudioTrack"
+      }
+    ]
+  },
+  "字幕": {
+    "variable": [
+      {
+        "camelCase": "subtitle",
+        "snake_case": "subtitle",
+        "PascalCase": "Subtitle"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "loadSubtitle",
+        "snake_case": "load_subtitle",
+        "PascalCase": "LoadSubtitle"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SUBTITLE",
+        "snake_case": "SUBTITLE",
+        "PascalCase": "SUBTITLE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "subtitle",
+        "snake_case": "subtitle",
+        "PascalCase": "Subtitle"
+      }
+    ]
+  },
+  "转码": {
+    "variable": [
+      {
+        "camelCase": "transcoding",
+        "snake_case": "transcoding",
+        "PascalCase": "Transcoding"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "transcode",
+        "snake_case": "transcode",
+        "PascalCase": "Transcode"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TRANSCODING",
+        "snake_case": "TRANSCODING",
+        "PascalCase": "TRANSCODING"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "transcoding",
+        "snake_case": "transcoding",
+        "PascalCase": "Transcoding"
+      }
+    ]
+  },
+  "推流": {
+    "variable": [
+      {
+        "camelCase": "streamPush",
+        "snake_case": "stream_push",
+        "PascalCase": "StreamPush"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "pushStream",
+        "snake_case": "push_stream",
+        "PascalCase": "PushStream"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "STREAM_PUSH",
+        "snake_case": "STREAM_PUSH",
+        "PascalCase": "STREAM_PUSH"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "streamPush",
+        "snake_case": "stream_push",
+        "PascalCase": "StreamPush"
+      }
+    ]
+  },
+  "拉流": {
+    "variable": [
+      {
+        "camelCase": "streamPull",
+        "snake_case": "stream_pull",
+        "PascalCase": "StreamPull"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "pullStream",
+        "snake_case": "pull_stream",
+        "PascalCase": "PullStream"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "STREAM_PULL",
+        "snake_case": "STREAM_PULL",
+        "PascalCase": "STREAM_PULL"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "streamPull",
+        "snake_case": "stream_pull",
+        "PascalCase": "StreamPull"
+      }
+    ]
+  },
+  "回声消除": {
+    "variable": [
+      {
+        "camelCase": "echoCancellation",
+        "snake_case": "echo_cancellation",
+        "PascalCase": "EchoCancellation"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "cancelEcho",
+        "snake_case": "cancel_echo",
+        "PascalCase": "CancelEcho"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "AEC",
+        "snake_case": "AEC",
+        "PascalCase": "AEC"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "echoCanceller",
+        "snake_case": "echo_canceller",
+        "PascalCase": "EchoCanceller"
+      }
+    ]
+  },
+  "静音检测": {
+    "variable": [
+      {
+        "camelCase": "vad",
+        "snake_case": "vad",
+        "PascalCase": "Vad"
+      },
+      {
+        "camelCase": "silenceDetection",
+        "snake_case": "silence_detection",
+        "PascalCase": "SilenceDetection"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "detectSilence",
+        "snake_case": "detect_silence",
+        "PascalCase": "DetectSilence"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "VAD",
+        "snake_case": "VAD",
+        "PascalCase": "VAD"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "voiceActivityDetector",
+        "snake_case": "voice_activity_detector",
+        "PascalCase": "VoiceActivityDetector"
+      }
+    ]
+  },
+  "声道": {
+    "variable": [
+      {
+        "camelCase": "audioChannel",
+        "snake_case": "audio_channel",
+        "PascalCase": "AudioChannel"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "balanceChannels",
+        "snake_case": "balance_channels",
+        "PascalCase": "BalanceChannels"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "AUDIO_CHANNEL",
+        "snake_case": "AUDIO_CHANNEL",
+        "PascalCase": "AUDIO_CHANNEL"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "audioChannel",
+        "snake_case": "audio_channel",
+        "PascalCase": "AudioChannel"
+      }
+    ]
+  },
+  "响度": {
+    "variable": [
+      {
+        "camelCase": "loudness",
+        "snake_case": "loudness",
+        "PascalCase": "Loudness"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "normalizeLoudness",
+        "snake_case": "normalize_loudness",
+        "PascalCase": "NormalizeLoudness"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "LOUDNESS",
+        "snake_case": "LOUDNESS",
+        "PascalCase": "LOUDNESS"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "loudness",
+        "snake_case": "loudness",
+        "PascalCase": "Loudness"
+      }
+    ]
+  },
+  "混音": {
+    "variable": [
+      {
+        "camelCase": "audioMixing",
+        "snake_case": "audio_mixing",
+        "PascalCase": "AudioMixing"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "mixAudio",
+        "snake_case": "mix_audio",
+        "PascalCase": "MixAudio"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "AUDIO_MIXING",
+        "snake_case": "AUDIO_MIXING",
+        "PascalCase": "AUDIO_MIXING"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "audioMixing",
+        "snake_case": "audio_mixing",
+        "PascalCase": "AudioMixing"
+      }
+    ]
+  },
+  "变速": {
+    "variable": [
+      {
+        "camelCase": "speed",
+        "snake_case": "speed",
+        "PascalCase": "Speed"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "changeSpeed",
+        "snake_case": "change_speed",
+        "PascalCase": "ChangeSpeed"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SPEED",
+        "snake_case": "SPEED",
+        "PascalCase": "SPEED"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "speed",
+        "snake_case": "speed",
+        "PascalCase": "Speed"
+      }
+    ]
+  },
+  "变调": {
+    "variable": [
+      {
+        "camelCase": "pitch",
+        "snake_case": "pitch",
+        "PascalCase": "Pitch"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "shiftPitch",
+        "snake_case": "shift_pitch",
+        "PascalCase": "ShiftPitch"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "PITCH",
+        "snake_case": "PITCH",
+        "PascalCase": "PITCH"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "pitch",
+        "snake_case": "pitch",
+        "PascalCase": "Pitch"
+      }
+    ]
+  },
+  "截帧": {
+    "variable": [
+      {
+        "camelCase": "frameCapture",
+        "snake_case": "frame_capture",
+        "PascalCase": "FrameCapture"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "captureFrame",
+        "snake_case": "capture_frame",
+        "PascalCase": "CaptureFrame"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "FRAME_CAPTURE",
+        "snake_case": "FRAME_CAPTURE",
+        "PascalCase": "FRAME_CAPTURE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "frameCapture",
+        "snake_case": "frame_capture",
+        "PascalCase": "FrameCapture"
+      }
+    ]
+  },
+  "封面图": {
+    "variable": [
+      {
+        "camelCase": "coverImage",
+        "snake_case": "cover_image",
+        "PascalCase": "CoverImage"
+      },
+      {
+        "camelCase": "poster",
+        "snake_case": "poster",
+        "PascalCase": "Poster"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "uploadCover",
+        "snake_case": "upload_cover",
+        "PascalCase": "UploadCover"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "COVER_IMAGE",
+        "snake_case": "COVER_IMAGE",
+        "PascalCase": "COVER_IMAGE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "coverImage",
+        "snake_case": "cover_image",
+        "PascalCase": "CoverImage"
+      }
+    ]
+  },
+  "倍速": {
+    "variable": [
+      {
+        "camelCase": "playbackRate",
+        "snake_case": "playback_rate",
+        "PascalCase": "PlaybackRate"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "setPlaybackRate",
+        "snake_case": "set_playback_rate",
+        "PascalCase": "SetPlaybackRate"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "PLAYBACK_RATE",
+        "snake_case": "PLAYBACK_RATE",
+        "PascalCase": "PLAYBACK_RATE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "playbackRate",
+        "snake_case": "playback_rate",
+        "PascalCase": "PlaybackRate"
+      }
+    ]
+  },
+  "播放列表": {
+    "variable": [
+      {
+        "camelCase": "playlist",
+        "snake_case": "playlist",
+        "PascalCase": "Playlist"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "nextTrack",
+        "snake_case": "next_track",
+        "PascalCase": "NextTrack"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "PLAYLIST",
+        "snake_case": "PLAYLIST",
+        "PascalCase": "PLAYLIST"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "playlist",
+        "snake_case": "playlist",
+        "PascalCase": "Playlist"
+      }
+    ]
+  },
+  "弹幕": {
+    "variable": [
+      {
+        "camelCase": "danmaku",
+        "snake_case": "danmaku",
+        "PascalCase": "Danmaku"
+      },
+      {
+        "camelCase": "bulletComment",
+        "snake_case": "bullet_comment",
+        "PascalCase": "BulletComment"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "sendDanmaku",
+        "snake_case": "send_danmaku",
+        "PascalCase": "SendDanmaku"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DANMAKU",
+        "snake_case": "DANMAKU",
+        "PascalCase": "DANMAKU"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "danmaku",
+        "snake_case": "danmaku",
+        "PascalCase": "Danmaku"
+      }
+    ]
+  },
+  "连麦": {
+    "variable": [
+      {
+        "camelCase": "linkMic",
+        "snake_case": "link_mic",
+        "PascalCase": "LinkMic"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "connectMic",
+        "snake_case": "connect_mic",
+        "PascalCase": "ConnectMic"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "LINK_MIC",
+        "snake_case": "LINK_MIC",
+        "PascalCase": "LINK_MIC"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "linkMic",
+        "snake_case": "link_mic",
+        "PascalCase": "LinkMic"
+      }
+    ]
+  },
+  "混流": {
+    "variable": [
+      {
+        "camelCase": "streamMix",
+        "snake_case": "stream_mix",
+        "PascalCase": "StreamMix"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "mixStreams",
+        "snake_case": "mix_streams",
+        "PascalCase": "MixStreams"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "STREAM_MIX",
+        "snake_case": "STREAM_MIX",
+        "PascalCase": "STREAM_MIX"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "streamMix",
+        "snake_case": "stream_mix",
+        "PascalCase": "StreamMix"
+      }
+    ]
+  },
+  "录屏": {
+    "variable": [
+      {
+        "camelCase": "screenRecording",
+        "snake_case": "screen_recording",
+        "PascalCase": "ScreenRecording"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "startRecording",
+        "snake_case": "start_recording",
+        "PascalCase": "StartRecording"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SCREEN_RECORDING",
+        "snake_case": "SCREEN_RECORDING",
+        "PascalCase": "SCREEN_RECORDING"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "screenRecording",
+        "snake_case": "screen_recording",
+        "PascalCase": "ScreenRecording"
+      }
+    ]
+  },
+  "屏幕共享": {
+    "variable": [
+      {
+        "camelCase": "screenShare",
+        "snake_case": "screen_share",
+        "PascalCase": "ScreenShare"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "shareScreen",
+        "snake_case": "share_screen",
+        "PascalCase": "ShareScreen"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SCREEN_SHARE",
+        "snake_case": "SCREEN_SHARE",
+        "PascalCase": "SCREEN_SHARE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "screenShare",
+        "snake_case": "screen_share",
+        "PascalCase": "ScreenShare"
+      }
+    ]
+  },
+  "视频通话": {
+    "variable": [
+      {
+        "camelCase": "videoCall",
+        "snake_case": "video_call",
+        "PascalCase": "VideoCall"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "startCall",
+        "snake_case": "start_call",
+        "PascalCase": "StartCall"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "VIDEO_CALL",
+        "snake_case": "VIDEO_CALL",
+        "PascalCase": "VIDEO_CALL"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "videoCall",
+        "snake_case": "video_call",
+        "PascalCase": "VideoCall"
+      }
+    ]
+  },
+  "语音识别": {
+    "variable": [
+      {
+        "camelCase": "asr",
+        "snake_case": "asr",
+        "PascalCase": "Asr"
+      },
+      {
+        "camelCase": "speechRecognition",
+        "snake_case": "speech_recognition",
+        "PascalCase": "SpeechRecognition"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "recognizeSpeech",
+        "snake_case": "recognize_speech",
+        "PascalCase": "RecognizeSpeech"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "ASR",
+        "snake_case": "ASR",
+        "PascalCase": "ASR"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "speechRecognition",
+        "snake_case": "speech_recognition",
+        "PascalCase": "SpeechRecognition"
+      }
+    ]
+  },
+  "语音合成": {
+    "variable": [
+      {
+        "camelCase": "tts",
+        "snake_case": "tts",
+        "PascalCase": "Tts"
+      },
+      {
+        "camelCase": "speechSynthesis",
+        "snake_case": "speech_synthesis",
+        "PascalCase": "SpeechSynthesis"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "synthesizeSpeech",
+        "snake_case": "synthesize_speech",
+        "PascalCase": "SynthesizeSpeech"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TTS",
+        "snake_case": "TTS",
+        "PascalCase": "TTS"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "speechSynthesis",
+        "snake_case": "speech_synthesis",
+        "PascalCase": "SpeechSynthesis"
+      }
+    ]
+  },
+  "说话人分离": {
+    "variable": [
+      {
+        "camelCase": "diarization",
+        "snake_case": "diarization",
+        "PascalCase": "Diarization"
+      },
+      {
+        "camelCase": "speakerSeparation",
+        "snake_case": "speaker_separation",
+        "PascalCase": "SpeakerSeparation"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "separateSpeakers",
+        "snake_case": "separate_speakers",
+        "PascalCase": "SeparateSpeakers"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DIARIZATION",
+        "snake_case": "DIARIZATION",
+        "PascalCase": "DIARIZATION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "diarization",
+        "snake_case": "diarization",
+        "PascalCase": "Diarization"
+      }
+    ]
+  },
+  "全屏": {
+    "variable": [
+      {
+        "camelCase": "fullscreen",
+        "snake_case": "fullscreen",
+        "PascalCase": "Fullscreen"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "enterFullscreen",
+        "snake_case": "enter_fullscreen",
+        "PascalCase": "EnterFullscreen"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "FULLSCREEN",
+        "snake_case": "FULLSCREEN",
+        "PascalCase": "FULLSCREEN"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "fullscreen",
+        "snake_case": "fullscreen",
+        "PascalCase": "Fullscreen"
+      }
+    ]
+  },
+  "淡入淡出": {
+    "variable": [
+      {
+        "camelCase": "fade",
+        "snake_case": "fade",
+        "PascalCase": "Fade"
+      },
+      {
+        "camelCase": "fadeInOut",
+        "snake_case": "fade_in_out",
+        "PascalCase": "FadeInOut"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "fade",
+        "snake_case": "fade",
+        "PascalCase": "Fade"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "FADE",
+        "snake_case": "FADE",
+        "PascalCase": "FADE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "fade",
+        "snake_case": "fade",
+        "PascalCase": "Fade"
+      }
+    ]
+  },
+  "频谱": {
+    "variable": [
+      {
+        "camelCase": "spectrum",
+        "snake_case": "spectrum",
+        "PascalCase": "Spectrum"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getSpectrum",
+        "snake_case": "get_spectrum",
+        "PascalCase": "GetSpectrum"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SPECTRUM",
+        "snake_case": "SPECTRUM",
+        "PascalCase": "SPECTRUM"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "spectrum",
+        "snake_case": "spectrum",
+        "PascalCase": "Spectrum"
+      }
+    ]
+  },
+  "时域": {
+    "variable": [
+      {
+        "camelCase": "timeDomain",
+        "snake_case": "time_domain",
+        "PascalCase": "TimeDomain"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getTimeDomain",
+        "snake_case": "get_time_domain",
+        "PascalCase": "GetTimeDomain"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TIME_DOMAIN",
+        "snake_case": "TIME_DOMAIN",
+        "PascalCase": "TIME_DOMAIN"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "timeDomain",
+        "snake_case": "time_domain",
+        "PascalCase": "TimeDomain"
+      }
+    ]
+  },
+  "频域": {
+    "variable": [
+      {
+        "camelCase": "frequencyDomain",
+        "snake_case": "frequency_domain",
+        "PascalCase": "FrequencyDomain"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getFrequencyDomain",
+        "snake_case": "get_frequency_domain",
+        "PascalCase": "GetFrequencyDomain"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "FREQUENCY_DOMAIN",
+        "snake_case": "FREQUENCY_DOMAIN",
+        "PascalCase": "FREQUENCY_DOMAIN"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "frequencyDomain",
+        "snake_case": "frequency_domain",
+        "PascalCase": "FrequencyDomain"
+      }
+    ]
+  },
+  "傅里叶变换": {
+    "variable": [
+      {
+        "camelCase": "fourierTransform",
+        "snake_case": "fourier_transform",
+        "PascalCase": "FourierTransform"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "transform",
+        "snake_case": "transform",
+        "PascalCase": "Transform"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "FOURIER_TRANSFORM",
+        "snake_case": "FOURIER_TRANSFORM",
+        "PascalCase": "FOURIER_TRANSFORM"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "fourierTransform",
+        "snake_case": "fourier_transform",
+        "PascalCase": "FourierTransform"
+      }
+    ]
+  },
+  "快速傅里叶变换": {
+    "variable": [
+      {
+        "camelCase": "fft",
+        "snake_case": "fft",
+        "PascalCase": "Fft"
+      },
+      {
+        "camelCase": "fastFourierTransform",
+        "snake_case": "fast_fourier_transform",
+        "PascalCase": "FastFourierTransform"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "computeFft",
+        "snake_case": "compute_fft",
+        "PascalCase": "ComputeFft"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "FFT",
+        "snake_case": "FFT",
+        "PascalCase": "FFT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "fastFourierTransform",
+        "snake_case": "fast_fourier_transform",
+        "PascalCase": "FastFourierTransform"
+      }
+    ]
+  },
+  "滤波": {
+    "variable": [
+      {
+        "camelCase": "filtering",
+        "snake_case": "filtering",
+        "PascalCase": "Filtering"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "applyFilter",
+        "snake_case": "apply_filter",
+        "PascalCase": "ApplyFilter"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "FILTERING",
+        "snake_case": "FILTERING",
+        "PascalCase": "FILTERING"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "filtering",
+        "snake_case": "filtering",
+        "PascalCase": "Filtering"
+      }
+    ]
+  },
+  "卷积核": {
+    "variable": [
+      {
+        "camelCase": "kernel",
+        "snake_case": "kernel",
+        "PascalCase": "Kernel"
+      },
+      {
+        "camelCase": "convKernel",
+        "snake_case": "conv_kernel",
+        "PascalCase": "ConvKernel"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "convolve",
+        "snake_case": "convolve",
+        "PascalCase": "Convolve"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "KERNEL",
+        "snake_case": "KERNEL",
+        "PascalCase": "KERNEL"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "kernel",
+        "snake_case": "kernel",
+        "PascalCase": "Kernel"
+      }
+    ]
+  },
+  "窗函数": {
+    "variable": [
+      {
+        "camelCase": "windowFunction",
+        "snake_case": "window_function",
+        "PascalCase": "WindowFunction"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "applyWindow",
+        "snake_case": "apply_window",
+        "PascalCase": "ApplyWindow"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "WINDOW_FUNCTION",
+        "snake_case": "WINDOW_FUNCTION",
+        "PascalCase": "WINDOW_FUNCTION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "windowFunction",
+        "snake_case": "window_function",
+        "PascalCase": "WindowFunction"
+      }
+    ]
+  },
+  "音频特征": {
+    "variable": [
+      {
+        "camelCase": "audioFeature",
+        "snake_case": "audio_feature",
+        "PascalCase": "AudioFeature"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "extractAudioFeature",
+        "snake_case": "extract_audio_feature",
+        "PascalCase": "ExtractAudioFeature"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "AUDIO_FEATURE",
+        "snake_case": "AUDIO_FEATURE",
+        "PascalCase": "AUDIO_FEATURE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "audioFeature",
+        "snake_case": "audio_feature",
+        "PascalCase": "AudioFeature"
+      }
+    ]
   }
 }
