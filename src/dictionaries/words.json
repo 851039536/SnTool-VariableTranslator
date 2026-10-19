@@ -40823,5 +40823,2400 @@
         "PascalCase": "ImageSlice"
       }
     ]
+  },
+  "词法分析": {
+    "variable": [
+      {
+        "camelCase": "lexicalAnalysis",
+        "snake_case": "lexical_analysis",
+        "PascalCase": "LexicalAnalysis"
+      },
+      {
+        "camelCase": "lexing",
+        "snake_case": "lexing",
+        "PascalCase": "Lexing"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "tokenize",
+        "snake_case": "tokenize",
+        "PascalCase": "Tokenize"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "LEXICAL_ANALYSIS",
+        "snake_case": "LEXICAL_ANALYSIS",
+        "PascalCase": "LEXICAL_ANALYSIS"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "lexicalAnalysis",
+        "snake_case": "lexical_analysis",
+        "PascalCase": "LexicalAnalysis"
+      }
+    ]
+  },
+  "语法分析": {
+    "variable": [
+      {
+        "camelCase": "parsing",
+        "snake_case": "parsing",
+        "PascalCase": "Parsing"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "parseTokens",
+        "snake_case": "parse_tokens",
+        "PascalCase": "ParseTokens"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "PARSING",
+        "snake_case": "PARSING",
+        "PascalCase": "PARSING"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "parsing",
+        "snake_case": "parsing",
+        "PascalCase": "Parsing"
+      }
+    ]
+  },
+  "语义分析": {
+    "variable": [
+      {
+        "camelCase": "semanticAnalysis",
+        "snake_case": "semantic_analysis",
+        "PascalCase": "SemanticAnalysis"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "analyzeSemantics",
+        "snake_case": "analyze_semantics",
+        "PascalCase": "AnalyzeSemantics"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SEMANTIC_ANALYSIS",
+        "snake_case": "SEMANTIC_ANALYSIS",
+        "PascalCase": "SEMANTIC_ANALYSIS"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "semanticAnalysis",
+        "snake_case": "semantic_analysis",
+        "PascalCase": "SemanticAnalysis"
+      }
+    ]
+  },
+  "抽象语法树": {
+    "variable": [
+      {
+        "camelCase": "ast",
+        "snake_case": "ast",
+        "PascalCase": "Ast"
+      },
+      {
+        "camelCase": "abstractSyntaxTree",
+        "snake_case": "abstract_syntax_tree",
+        "PascalCase": "AbstractSyntaxTree"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "walkAst",
+        "snake_case": "walk_ast",
+        "PascalCase": "WalkAst"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "AST",
+        "snake_case": "AST",
+        "PascalCase": "AST"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "abstractSyntaxTree",
+        "snake_case": "abstract_syntax_tree",
+        "PascalCase": "AbstractSyntaxTree"
+      }
+    ]
+  },
+  "符号表": {
+    "variable": [
+      {
+        "camelCase": "symbolTable",
+        "snake_case": "symbol_table",
+        "PascalCase": "SymbolTable"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "lookupSymbol",
+        "snake_case": "lookup_symbol",
+        "PascalCase": "LookupSymbol"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SYMBOL_TABLE",
+        "snake_case": "SYMBOL_TABLE",
+        "PascalCase": "SYMBOL_TABLE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "symbolTable",
+        "snake_case": "symbol_table",
+        "PascalCase": "SymbolTable"
+      }
+    ]
+  },
+  "作用域链": {
+    "variable": [
+      {
+        "camelCase": "scopeChain",
+        "snake_case": "scope_chain",
+        "PascalCase": "ScopeChain"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "resolveScope",
+        "snake_case": "resolve_scope",
+        "PascalCase": "ResolveScope"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SCOPE_CHAIN",
+        "snake_case": "SCOPE_CHAIN",
+        "PascalCase": "SCOPE_CHAIN"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "scopeChain",
+        "snake_case": "scope_chain",
+        "PascalCase": "ScopeChain"
+      }
+    ]
+  },
+  "依赖图": {
+    "variable": [
+      {
+        "camelCase": "dependencyGraph",
+        "snake_case": "dependency_graph",
+        "PascalCase": "DependencyGraph"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "buildDependencyGraph",
+        "snake_case": "build_dependency_graph",
+        "PascalCase": "BuildDependencyGraph"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DEPENDENCY_GRAPH",
+        "snake_case": "DEPENDENCY_GRAPH",
+        "PascalCase": "DEPENDENCY_GRAPH"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "dependencyGraph",
+        "snake_case": "dependency_graph",
+        "PascalCase": "DependencyGraph"
+      }
+    ]
+  },
+  "中间代码": {
+    "variable": [
+      {
+        "camelCase": "intermediateCode",
+        "snake_case": "intermediate_code",
+        "PascalCase": "IntermediateCode"
+      },
+      {
+        "camelCase": "ir",
+        "snake_case": "ir",
+        "PascalCase": "Ir"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "lowerCode",
+        "snake_case": "lower_code",
+        "PascalCase": "LowerCode"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "IR",
+        "snake_case": "IR",
+        "PascalCase": "IR"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "intermediateCode",
+        "snake_case": "intermediate_code",
+        "PascalCase": "IntermediateCode"
+      }
+    ]
+  },
+  "链接器": {
+    "variable": [
+      {
+        "camelCase": "linker",
+        "snake_case": "linker",
+        "PascalCase": "Linker"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "linkModules",
+        "snake_case": "link_modules",
+        "PascalCase": "LinkModules"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "LINKER",
+        "snake_case": "LINKER",
+        "PascalCase": "LINKER"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "linker",
+        "snake_case": "linker",
+        "PascalCase": "Linker"
+      }
+    ]
+  },
+  "指令集": {
+    "variable": [
+      {
+        "camelCase": "instructionSet",
+        "snake_case": "instruction_set",
+        "PascalCase": "InstructionSet"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "emitInstruction",
+        "snake_case": "emit_instruction",
+        "PascalCase": "EmitInstruction"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "INSTRUCTION_SET",
+        "snake_case": "INSTRUCTION_SET",
+        "PascalCase": "INSTRUCTION_SET"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "instructionSet",
+        "snake_case": "instruction_set",
+        "PascalCase": "InstructionSet"
+      }
+    ]
+  },
+  "寄存器": {
+    "variable": [
+      {
+        "camelCase": "cpuRegister",
+        "snake_case": "cpu_register",
+        "PascalCase": "CpuRegister"
+      },
+      {
+        "camelCase": "hardwareRegister",
+        "snake_case": "hardware_register",
+        "PascalCase": "HardwareRegister"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "allocateRegister",
+        "snake_case": "allocate_register",
+        "PascalCase": "AllocateRegister"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "CPU_REGISTER",
+        "snake_case": "CPU_REGISTER",
+        "PascalCase": "CPU_REGISTER"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "cpuRegister",
+        "snake_case": "cpu_register",
+        "PascalCase": "CpuRegister"
+      }
+    ]
+  },
+  "机器码": {
+    "variable": [
+      {
+        "camelCase": "machineCode",
+        "snake_case": "machine_code",
+        "PascalCase": "MachineCode"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "emitMachineCode",
+        "snake_case": "emit_machine_code",
+        "PascalCase": "EmitMachineCode"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "MACHINE_CODE",
+        "snake_case": "MACHINE_CODE",
+        "PascalCase": "MACHINE_CODE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "machineCode",
+        "snake_case": "machine_code",
+        "PascalCase": "MachineCode"
+      }
+    ]
+  },
+  "助记符": {
+    "variable": [
+      {
+        "camelCase": "mnemonic",
+        "snake_case": "mnemonic",
+        "PascalCase": "Mnemonic"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "lookupMnemonic",
+        "snake_case": "lookup_mnemonic",
+        "PascalCase": "LookupMnemonic"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "MNEMONIC",
+        "snake_case": "MNEMONIC",
+        "PascalCase": "MNEMONIC"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "mnemonic",
+        "snake_case": "mnemonic",
+        "PascalCase": "Mnemonic"
+      }
+    ]
+  },
+  "交叉编译": {
+    "variable": [
+      {
+        "camelCase": "crossCompilation",
+        "snake_case": "cross_compilation",
+        "PascalCase": "CrossCompilation"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "crossCompile",
+        "snake_case": "cross_compile",
+        "PascalCase": "CrossCompile"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "CROSS_COMPILATION",
+        "snake_case": "CROSS_COMPILATION",
+        "PascalCase": "CROSS_COMPILATION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "crossCompilation",
+        "snake_case": "cross_compilation",
+        "PascalCase": "CrossCompilation"
+      }
+    ]
+  },
+  "增量编译": {
+    "variable": [
+      {
+        "camelCase": "incrementalCompilation",
+        "snake_case": "incremental_compilation",
+        "PascalCase": "IncrementalCompilation"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "rebuildChanged",
+        "snake_case": "rebuild_changed",
+        "PascalCase": "RebuildChanged"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "INCREMENTAL_COMPILATION",
+        "snake_case": "INCREMENTAL_COMPILATION",
+        "PascalCase": "INCREMENTAL_COMPILATION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "incrementalCompilation",
+        "snake_case": "incremental_compilation",
+        "PascalCase": "IncrementalCompilation"
+      }
+    ]
+  },
+  "条件编译": {
+    "variable": [
+      {
+        "camelCase": "conditionalCompilation",
+        "snake_case": "conditional_compilation",
+        "PascalCase": "ConditionalCompilation"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "preprocess",
+        "snake_case": "preprocess",
+        "PascalCase": "Preprocess"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "CONDITIONAL_COMPILATION",
+        "snake_case": "CONDITIONAL_COMPILATION",
+        "PascalCase": "CONDITIONAL_COMPILATION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "conditionalCompilation",
+        "snake_case": "conditional_compilation",
+        "PascalCase": "ConditionalCompilation"
+      }
+    ]
+  },
+  "搜索引擎": {
+    "variable": [
+      {
+        "camelCase": "searchEngine",
+        "snake_case": "search_engine",
+        "PascalCase": "SearchEngine"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "buildIndex",
+        "snake_case": "build_index",
+        "PascalCase": "BuildIndex"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SEARCH_ENGINE",
+        "snake_case": "SEARCH_ENGINE",
+        "PascalCase": "SEARCH_ENGINE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "searchEngine",
+        "snake_case": "search_engine",
+        "PascalCase": "SearchEngine"
+      }
+    ]
+  },
+  "倒排索引": {
+    "variable": [
+      {
+        "camelCase": "invertedIndex",
+        "snake_case": "inverted_index",
+        "PascalCase": "InvertedIndex"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "buildInvertedIndex",
+        "snake_case": "build_inverted_index",
+        "PascalCase": "BuildInvertedIndex"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "INVERTED_INDEX",
+        "snake_case": "INVERTED_INDEX",
+        "PascalCase": "INVERTED_INDEX"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "invertedIndex",
+        "snake_case": "inverted_index",
+        "PascalCase": "InvertedIndex"
+      }
+    ]
+  },
+  "正排索引": {
+    "variable": [
+      {
+        "camelCase": "forwardIndex",
+        "snake_case": "forward_index",
+        "PascalCase": "ForwardIndex"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "buildForwardIndex",
+        "snake_case": "build_forward_index",
+        "PascalCase": "BuildForwardIndex"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "FORWARD_INDEX",
+        "snake_case": "FORWARD_INDEX",
+        "PascalCase": "FORWARD_INDEX"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "forwardIndex",
+        "snake_case": "forward_index",
+        "PascalCase": "ForwardIndex"
+      }
+    ]
+  },
+  "分词": {
+    "variable": [
+      {
+        "camelCase": "tokenization",
+        "snake_case": "tokenization",
+        "PascalCase": "Tokenization"
+      },
+      {
+        "camelCase": "wordSegmentation",
+        "snake_case": "word_segmentation",
+        "PascalCase": "WordSegmentation"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "segmentText",
+        "snake_case": "segment_text",
+        "PascalCase": "SegmentText"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TOKENIZATION",
+        "snake_case": "TOKENIZATION",
+        "PascalCase": "TOKENIZATION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "tokenization",
+        "snake_case": "tokenization",
+        "PascalCase": "Tokenization"
+      }
+    ]
+  },
+  "停用词": {
+    "variable": [
+      {
+        "camelCase": "stopword",
+        "snake_case": "stopword",
+        "PascalCase": "Stopword"
+      },
+      {
+        "camelCase": "stopWords",
+        "snake_case": "stop_words",
+        "PascalCase": "StopWords"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "filterStopwords",
+        "snake_case": "filter_stopwords",
+        "PascalCase": "FilterStopwords"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "STOPWORD",
+        "snake_case": "STOPWORD",
+        "PascalCase": "STOPWORD"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "stopword",
+        "snake_case": "stopword",
+        "PascalCase": "Stopword"
+      }
+    ]
+  },
+  "相关性评分": {
+    "variable": [
+      {
+        "camelCase": "relevanceScore",
+        "snake_case": "relevance_score",
+        "PascalCase": "RelevanceScore"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "scoreRelevance",
+        "snake_case": "score_relevance",
+        "PascalCase": "ScoreRelevance"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "RELEVANCE_SCORE",
+        "snake_case": "RELEVANCE_SCORE",
+        "PascalCase": "RELEVANCE_SCORE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "relevanceScore",
+        "snake_case": "relevance_score",
+        "PascalCase": "RelevanceScore"
+      }
+    ]
+  },
+  "关键词高亮": {
+    "variable": [
+      {
+        "camelCase": "keywordHighlight",
+        "snake_case": "keyword_highlight",
+        "PascalCase": "KeywordHighlight"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "highlightTerms",
+        "snake_case": "highlight_terms",
+        "PascalCase": "HighlightTerms"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "KEYWORD_HIGHLIGHT",
+        "snake_case": "KEYWORD_HIGHLIGHT",
+        "PascalCase": "KEYWORD_HIGHLIGHT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "keywordHighlight",
+        "snake_case": "keyword_highlight",
+        "PascalCase": "KeywordHighlight"
+      }
+    ]
+  },
+  "搜索建议": {
+    "variable": [
+      {
+        "camelCase": "searchSuggest",
+        "snake_case": "search_suggest",
+        "PascalCase": "SearchSuggest"
+      },
+      {
+        "camelCase": "suggestion",
+        "snake_case": "suggestion",
+        "PascalCase": "Suggestion"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "suggest",
+        "snake_case": "suggest",
+        "PascalCase": "Suggest"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SEARCH_SUGGEST",
+        "snake_case": "SEARCH_SUGGEST",
+        "PascalCase": "SEARCH_SUGGEST"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "searchSuggest",
+        "snake_case": "search_suggest",
+        "PascalCase": "SearchSuggest"
+      }
+    ]
+  },
+  "拼写纠错": {
+    "variable": [
+      {
+        "camelCase": "spellCorrection",
+        "snake_case": "spell_correction",
+        "PascalCase": "SpellCorrection"
+      },
+      {
+        "camelCase": "didYouMean",
+        "snake_case": "did_you_mean",
+        "PascalCase": "DidYouMean"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "correctSpelling",
+        "snake_case": "correct_spelling",
+        "PascalCase": "CorrectSpelling"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SPELL_CORRECTION",
+        "snake_case": "SPELL_CORRECTION",
+        "PascalCase": "SPELL_CORRECTION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "spellCorrection",
+        "snake_case": "spell_correction",
+        "PascalCase": "SpellCorrection"
+      }
+    ]
+  },
+  "同义词扩展": {
+    "variable": [
+      {
+        "camelCase": "synonymExpansion",
+        "snake_case": "synonym_expansion",
+        "PascalCase": "SynonymExpansion"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "expandSynonyms",
+        "snake_case": "expand_synonyms",
+        "PascalCase": "ExpandSynonyms"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SYNONYM_EXPANSION",
+        "snake_case": "SYNONYM_EXPANSION",
+        "PascalCase": "SYNONYM_EXPANSION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "synonymExpansion",
+        "snake_case": "synonym_expansion",
+        "PascalCase": "SynonymExpansion"
+      }
+    ]
+  },
+  "文档评分": {
+    "variable": [
+      {
+        "camelCase": "documentScore",
+        "snake_case": "document_score",
+        "PascalCase": "DocumentScore"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "scoreDocument",
+        "snake_case": "score_document",
+        "PascalCase": "ScoreDocument"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DOCUMENT_SCORE",
+        "snake_case": "DOCUMENT_SCORE",
+        "PascalCase": "DOCUMENT_SCORE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "documentScore",
+        "snake_case": "document_score",
+        "PascalCase": "DocumentScore"
+      }
+    ]
+  },
+  "布尔查询": {
+    "variable": [
+      {
+        "camelCase": "booleanQuery",
+        "snake_case": "boolean_query",
+        "PascalCase": "BooleanQuery"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "buildBooleanQuery",
+        "snake_case": "build_boolean_query",
+        "PascalCase": "BuildBooleanQuery"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "BOOLEAN_QUERY",
+        "snake_case": "BOOLEAN_QUERY",
+        "PascalCase": "BOOLEAN_QUERY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "booleanQuery",
+        "snake_case": "boolean_query",
+        "PascalCase": "BooleanQuery"
+      }
+    ]
+  },
+  "范围查询": {
+    "variable": [
+      {
+        "camelCase": "rangeQuery",
+        "snake_case": "range_query",
+        "PascalCase": "RangeQuery"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "buildRangeQuery",
+        "snake_case": "build_range_query",
+        "PascalCase": "BuildRangeQuery"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "RANGE_QUERY",
+        "snake_case": "RANGE_QUERY",
+        "PascalCase": "RANGE_QUERY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "rangeQuery",
+        "snake_case": "range_query",
+        "PascalCase": "RangeQuery"
+      }
+    ]
+  },
+  "召回": {
+    "variable": [
+      {
+        "camelCase": "recall",
+        "snake_case": "recall",
+        "PascalCase": "Recall"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "recallCandidates",
+        "snake_case": "recall_candidates",
+        "PascalCase": "RecallCandidates"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "RECALL",
+        "snake_case": "RECALL",
+        "PascalCase": "RECALL"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "recall",
+        "snake_case": "recall",
+        "PascalCase": "Recall"
+      }
+    ]
+  },
+  "图形渲染": {
+    "variable": [
+      {
+        "camelCase": "graphicsRendering",
+        "snake_case": "graphics_rendering",
+        "PascalCase": "GraphicsRendering"
+      },
+      {
+        "camelCase": "rendering",
+        "snake_case": "rendering",
+        "PascalCase": "Rendering"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "renderGraphics",
+        "snake_case": "render_graphics",
+        "PascalCase": "RenderGraphics"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "GRAPHICS_RENDERING",
+        "snake_case": "GRAPHICS_RENDERING",
+        "PascalCase": "GRAPHICS_RENDERING"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "graphicsRendering",
+        "snake_case": "graphics_rendering",
+        "PascalCase": "GraphicsRendering"
+      }
+    ]
+  },
+  "着色器": {
+    "variable": [
+      {
+        "camelCase": "shader",
+        "snake_case": "shader",
+        "PascalCase": "Shader"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "compileShader",
+        "snake_case": "compile_shader",
+        "PascalCase": "CompileShader"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SHADER",
+        "snake_case": "SHADER",
+        "PascalCase": "SHADER"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "shader",
+        "snake_case": "shader",
+        "PascalCase": "Shader"
+      }
+    ]
+  },
+  "顶点": {
+    "variable": [
+      {
+        "camelCase": "vertex",
+        "snake_case": "vertex",
+        "PascalCase": "Vertex"
+      },
+      {
+        "camelCase": "vertices",
+        "snake_case": "vertices",
+        "PascalCase": "Vertices"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "bindVertex",
+        "snake_case": "bind_vertex",
+        "PascalCase": "BindVertex"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "VERTEX",
+        "snake_case": "VERTEX",
+        "PascalCase": "VERTEX"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "vertex",
+        "snake_case": "vertex",
+        "PascalCase": "Vertex"
+      }
+    ]
+  },
+  "片元": {
+    "variable": [
+      {
+        "camelCase": "fragment",
+        "snake_case": "fragment",
+        "PascalCase": "Fragment"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "shadeFragment",
+        "snake_case": "shade_fragment",
+        "PascalCase": "ShadeFragment"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "FRAGMENT",
+        "snake_case": "FRAGMENT",
+        "PascalCase": "FRAGMENT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "fragment",
+        "snake_case": "fragment",
+        "PascalCase": "Fragment"
+      }
+    ]
+  },
+  "光栅化": {
+    "variable": [
+      {
+        "camelCase": "rasterization",
+        "snake_case": "rasterization",
+        "PascalCase": "Rasterization"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "rasterize",
+        "snake_case": "rasterize",
+        "PascalCase": "Rasterize"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "RASTERIZATION",
+        "snake_case": "RASTERIZATION",
+        "PascalCase": "RASTERIZATION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "rasterization",
+        "snake_case": "rasterization",
+        "PascalCase": "Rasterization"
+      }
+    ]
+  },
+  "纹理": {
+    "variable": [
+      {
+        "camelCase": "texture",
+        "snake_case": "texture",
+        "PascalCase": "Texture"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "bindTexture",
+        "snake_case": "bind_texture",
+        "PascalCase": "BindTexture"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TEXTURE",
+        "snake_case": "TEXTURE",
+        "PascalCase": "TEXTURE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "texture",
+        "snake_case": "texture",
+        "PascalCase": "Texture"
+      }
+    ]
+  },
+  "贴图": {
+    "variable": [
+      {
+        "camelCase": "textureMapping",
+        "snake_case": "texture_mapping",
+        "PascalCase": "TextureMapping"
+      },
+      {
+        "camelCase": "uvMap",
+        "snake_case": "uv_map",
+        "PascalCase": "UvMap"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "applyTexture",
+        "snake_case": "apply_texture",
+        "PascalCase": "ApplyTexture"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TEXTURE_MAPPING",
+        "snake_case": "TEXTURE_MAPPING",
+        "PascalCase": "TEXTURE_MAPPING"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "textureMapping",
+        "snake_case": "texture_mapping",
+        "PascalCase": "TextureMapping"
+      }
+    ]
+  },
+  "材质": {
+    "variable": [
+      {
+        "camelCase": "material",
+        "snake_case": "material",
+        "PascalCase": "Material"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "applyMaterial",
+        "snake_case": "apply_material",
+        "PascalCase": "ApplyMaterial"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "MATERIAL",
+        "snake_case": "MATERIAL",
+        "PascalCase": "MATERIAL"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "material",
+        "snake_case": "material",
+        "PascalCase": "Material"
+      }
+    ]
+  },
+  "光照": {
+    "variable": [
+      {
+        "camelCase": "lighting",
+        "snake_case": "lighting",
+        "PascalCase": "Lighting"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "applyLighting",
+        "snake_case": "apply_lighting",
+        "PascalCase": "ApplyLighting"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "LIGHTING",
+        "snake_case": "LIGHTING",
+        "PascalCase": "LIGHTING"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "lighting",
+        "snake_case": "lighting",
+        "PascalCase": "Lighting"
+      }
+    ]
+  },
+  "阴影": {
+    "variable": [
+      {
+        "camelCase": "shadow",
+        "snake_case": "shadow",
+        "PascalCase": "Shadow"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "castShadow",
+        "snake_case": "cast_shadow",
+        "PascalCase": "CastShadow"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SHADOW",
+        "snake_case": "SHADOW",
+        "PascalCase": "SHADOW"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "shadow",
+        "snake_case": "shadow",
+        "PascalCase": "Shadow"
+      }
+    ]
+  },
+  "反射率": {
+    "variable": [
+      {
+        "camelCase": "reflectance",
+        "snake_case": "reflectance",
+        "PascalCase": "Reflectance"
+      },
+      {
+        "camelCase": "albedo",
+        "snake_case": "albedo",
+        "PascalCase": "Albedo"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "computeReflectance",
+        "snake_case": "compute_reflectance",
+        "PascalCase": "ComputeReflectance"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "REFLECTANCE",
+        "snake_case": "REFLECTANCE",
+        "PascalCase": "REFLECTANCE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "reflectance",
+        "snake_case": "reflectance",
+        "PascalCase": "Reflectance"
+      }
+    ]
+  },
+  "折射": {
+    "variable": [
+      {
+        "camelCase": "refraction",
+        "snake_case": "refraction",
+        "PascalCase": "Refraction"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "refract",
+        "snake_case": "refract",
+        "PascalCase": "Refract"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "REFRACTION",
+        "snake_case": "REFRACTION",
+        "PascalCase": "REFRACTION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "refraction",
+        "snake_case": "refraction",
+        "PascalCase": "Refraction"
+      }
+    ]
+  },
+  "渲染管线": {
+    "variable": [
+      {
+        "camelCase": "renderPipeline",
+        "snake_case": "render_pipeline",
+        "PascalCase": "RenderPipeline"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "configurePipeline",
+        "snake_case": "configure_pipeline",
+        "PascalCase": "ConfigurePipeline"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "RENDER_PIPELINE",
+        "snake_case": "RENDER_PIPELINE",
+        "PascalCase": "RENDER_PIPELINE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "renderPipeline",
+        "snake_case": "render_pipeline",
+        "PascalCase": "RenderPipeline"
+      }
+    ]
+  },
+  "合成层": {
+    "variable": [
+      {
+        "camelCase": "compositingLayer",
+        "snake_case": "compositing_layer",
+        "PascalCase": "CompositingLayer"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "promoteLayer",
+        "snake_case": "promote_layer",
+        "PascalCase": "PromoteLayer"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "COMPOSITING_LAYER",
+        "snake_case": "COMPOSITING_LAYER",
+        "PascalCase": "COMPOSITING_LAYER"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "compositingLayer",
+        "snake_case": "compositing_layer",
+        "PascalCase": "CompositingLayer"
+      }
+    ]
+  },
+  "重绘": {
+    "variable": [
+      {
+        "camelCase": "repaint",
+        "snake_case": "repaint",
+        "PascalCase": "Repaint"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "repaint",
+        "snake_case": "repaint",
+        "PascalCase": "Repaint"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "REPAINT",
+        "snake_case": "REPAINT",
+        "PascalCase": "REPAINT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "repaint",
+        "snake_case": "repaint",
+        "PascalCase": "Repaint"
+      }
+    ]
+  },
+  "帧缓冲": {
+    "variable": [
+      {
+        "camelCase": "framebuffer",
+        "snake_case": "framebuffer",
+        "PascalCase": "Framebuffer"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "bindFramebuffer",
+        "snake_case": "bind_framebuffer",
+        "PascalCase": "BindFramebuffer"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "FRAMEBUFFER",
+        "snake_case": "FRAMEBUFFER",
+        "PascalCase": "FRAMEBUFFER"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "framebuffer",
+        "snake_case": "framebuffer",
+        "PascalCase": "Framebuffer"
+      }
+    ]
+  },
+  "深度缓冲": {
+    "variable": [
+      {
+        "camelCase": "depthBuffer",
+        "snake_case": "depth_buffer",
+        "PascalCase": "DepthBuffer"
+      },
+      {
+        "camelCase": "zBuffer",
+        "snake_case": "z_buffer",
+        "PascalCase": "ZBuffer"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "clearDepth",
+        "snake_case": "clear_depth",
+        "PascalCase": "ClearDepth"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DEPTH_BUFFER",
+        "snake_case": "DEPTH_BUFFER",
+        "PascalCase": "DEPTH_BUFFER"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "depthBuffer",
+        "snake_case": "depth_buffer",
+        "PascalCase": "DepthBuffer"
+      }
+    ]
+  },
+  "抗锯齿": {
+    "variable": [
+      {
+        "camelCase": "antialiasing",
+        "snake_case": "antialiasing",
+        "PascalCase": "Antialiasing"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "enableAntialiasing",
+        "snake_case": "enable_antialiasing",
+        "PascalCase": "EnableAntialiasing"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "ANTIALIASING",
+        "snake_case": "ANTIALIASING",
+        "PascalCase": "ANTIALIASING"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "antialiasing",
+        "snake_case": "antialiasing",
+        "PascalCase": "Antialiasing"
+      }
+    ]
+  },
+  "法线": {
+    "variable": [
+      {
+        "camelCase": "normal",
+        "snake_case": "normal",
+        "PascalCase": "Normal"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "computeNormal",
+        "snake_case": "compute_normal",
+        "PascalCase": "ComputeNormal"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "NORMAL",
+        "snake_case": "NORMAL",
+        "PascalCase": "NORMAL"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "normal",
+        "snake_case": "normal",
+        "PascalCase": "Normal"
+      }
+    ]
+  },
+  "骨骼动画": {
+    "variable": [
+      {
+        "camelCase": "skeletalAnimation",
+        "snake_case": "skeletal_animation",
+        "PascalCase": "SkeletalAnimation"
+      },
+      {
+        "camelCase": "rigging",
+        "snake_case": "rigging",
+        "PascalCase": "Rigging"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "playSkeletonAnim",
+        "snake_case": "play_skeleton_anim",
+        "PascalCase": "PlaySkeletonAnim"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "SKELETAL_ANIMATION",
+        "snake_case": "SKELETAL_ANIMATION",
+        "PascalCase": "SKELETAL_ANIMATION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "skeletalAnimation",
+        "snake_case": "skeletal_animation",
+        "PascalCase": "SkeletalAnimation"
+      }
+    ]
+  },
+  "桌面端": {
+    "variable": [
+      {
+        "camelCase": "desktop",
+        "snake_case": "desktop",
+        "PascalCase": "Desktop"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "detectDesktop",
+        "snake_case": "detect_desktop",
+        "PascalCase": "DetectDesktop"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DESKTOP",
+        "snake_case": "DESKTOP",
+        "PascalCase": "DESKTOP"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "desktop",
+        "snake_case": "desktop",
+        "PascalCase": "Desktop"
+      }
+    ]
+  },
+  "托盘": {
+    "variable": [
+      {
+        "camelCase": "tray",
+        "snake_case": "tray",
+        "PascalCase": "Tray"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "createTray",
+        "snake_case": "create_tray",
+        "PascalCase": "CreateTray"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "TRAY",
+        "snake_case": "TRAY",
+        "PascalCase": "TRAY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "tray",
+        "snake_case": "tray",
+        "PascalCase": "Tray"
+      }
+    ]
+  },
+  "全局快捷键": {
+    "variable": [
+      {
+        "camelCase": "globalShortcut",
+        "snake_case": "global_shortcut",
+        "PascalCase": "GlobalShortcut"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "registerShortcut",
+        "snake_case": "register_shortcut",
+        "PascalCase": "RegisterShortcut"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "GLOBAL_SHORTCUT",
+        "snake_case": "GLOBAL_SHORTCUT",
+        "PascalCase": "GLOBAL_SHORTCUT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "globalShortcut",
+        "snake_case": "global_shortcut",
+        "PascalCase": "GlobalShortcut"
+      }
+    ]
+  },
+  "文件对话框": {
+    "variable": [
+      {
+        "camelCase": "fileDialog",
+        "snake_case": "file_dialog",
+        "PascalCase": "FileDialog"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "openFileDialog",
+        "snake_case": "open_file_dialog",
+        "PascalCase": "OpenFileDialog"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "FILE_DIALOG",
+        "snake_case": "FILE_DIALOG",
+        "PascalCase": "FILE_DIALOG"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "fileDialog",
+        "snake_case": "file_dialog",
+        "PascalCase": "FileDialog"
+      }
+    ]
+  },
+  "自启动": {
+    "variable": [
+      {
+        "camelCase": "autoLaunch",
+        "snake_case": "auto_launch",
+        "PascalCase": "AutoLaunch"
+      },
+      {
+        "camelCase": "autoStart",
+        "snake_case": "auto_start",
+        "PascalCase": "AutoStart"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "enableAutoLaunch",
+        "snake_case": "enable_auto_launch",
+        "PascalCase": "EnableAutoLaunch"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "AUTO_LAUNCH",
+        "snake_case": "AUTO_LAUNCH",
+        "PascalCase": "AUTO_LAUNCH"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "autoLaunch",
+        "snake_case": "auto_launch",
+        "PascalCase": "AutoLaunch"
+      }
+    ]
+  },
+  "开机启动": {
+    "variable": [
+      {
+        "camelCase": "launchOnStartup",
+        "snake_case": "launch_on_startup",
+        "PascalCase": "LaunchOnStartup"
+      },
+      {
+        "camelCase": "bootStart",
+        "snake_case": "boot_start",
+        "PascalCase": "BootStart"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "enableBootStart",
+        "snake_case": "enable_boot_start",
+        "PascalCase": "EnableBootStart"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "LAUNCH_ON_STARTUP",
+        "snake_case": "LAUNCH_ON_STARTUP",
+        "PascalCase": "LAUNCH_ON_STARTUP"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "launchOnStartup",
+        "snake_case": "launch_on_startup",
+        "PascalCase": "LaunchOnStartup"
+      }
+    ]
+  },
+  "自动更新": {
+    "variable": [
+      {
+        "camelCase": "autoUpdate",
+        "snake_case": "auto_update",
+        "PascalCase": "AutoUpdate"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "checkUpdate",
+        "snake_case": "check_update",
+        "PascalCase": "CheckUpdate"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "AUTO_UPDATE",
+        "snake_case": "AUTO_UPDATE",
+        "PascalCase": "AUTO_UPDATE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "autoUpdate",
+        "snake_case": "auto_update",
+        "PascalCase": "AutoUpdate"
+      }
+    ]
+  },
+  "安装包": {
+    "variable": [
+      {
+        "camelCase": "installer",
+        "snake_case": "installer",
+        "PascalCase": "Installer"
+      },
+      {
+        "camelCase": "package",
+        "snake_case": "package",
+        "PascalCase": "Package"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "buildInstaller",
+        "snake_case": "build_installer",
+        "PascalCase": "BuildInstaller"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "INSTALLER",
+        "snake_case": "INSTALLER",
+        "PascalCase": "INSTALLER"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "installer",
+        "snake_case": "installer",
+        "PascalCase": "Installer"
+      }
+    ]
+  },
+  "主进程": {
+    "variable": [
+      {
+        "camelCase": "mainProcess",
+        "snake_case": "main_process",
+        "PascalCase": "MainProcess"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "spawnMain",
+        "snake_case": "spawn_main",
+        "PascalCase": "SpawnMain"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "MAIN_PROCESS",
+        "snake_case": "MAIN_PROCESS",
+        "PascalCase": "MAIN_PROCESS"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "mainProcess",
+        "snake_case": "main_process",
+        "PascalCase": "MainProcess"
+      }
+    ]
+  },
+  "渲染进程": {
+    "variable": [
+      {
+        "camelCase": "rendererProcess",
+        "snake_case": "renderer_process",
+        "PascalCase": "RendererProcess"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "createRenderer",
+        "snake_case": "create_renderer",
+        "PascalCase": "CreateRenderer"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "RENDERER_PROCESS",
+        "snake_case": "RENDERER_PROCESS",
+        "PascalCase": "RENDERER_PROCESS"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "rendererProcess",
+        "snake_case": "renderer_process",
+        "PascalCase": "RendererProcess"
+      }
+    ]
+  },
+  "进程间通信": {
+    "variable": [
+      {
+        "camelCase": "ipc",
+        "snake_case": "ipc",
+        "PascalCase": "Ipc"
+      },
+      {
+        "camelCase": "interProcessCommunication",
+        "snake_case": "inter_process_communication",
+        "PascalCase": "InterProcessCommunication"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "sendIpc",
+        "snake_case": "send_ipc",
+        "PascalCase": "SendIpc"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "IPC",
+        "snake_case": "IPC",
+        "PascalCase": "IPC"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "interProcessCommunication",
+        "snake_case": "inter_process_communication",
+        "PascalCase": "InterProcessCommunication"
+      }
+    ]
+  },
+  "原生模块": {
+    "variable": [
+      {
+        "camelCase": "nativeModule",
+        "snake_case": "native_module",
+        "PascalCase": "NativeModule"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "loadNativeModule",
+        "snake_case": "load_native_module",
+        "PascalCase": "LoadNativeModule"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "NATIVE_MODULE",
+        "snake_case": "NATIVE_MODULE",
+        "PascalCase": "NATIVE_MODULE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "nativeModule",
+        "snake_case": "native_module",
+        "PascalCase": "NativeModule"
+      }
+    ]
+  },
+  "远程调用": {
+    "variable": [
+      {
+        "camelCase": "remoteCall",
+        "snake_case": "remote_call",
+        "PascalCase": "RemoteCall"
+      },
+      {
+        "camelCase": "rpc",
+        "snake_case": "rpc",
+        "PascalCase": "Rpc"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "invokeRemote",
+        "snake_case": "invoke_remote",
+        "PascalCase": "InvokeRemote"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "RPC",
+        "snake_case": "RPC",
+        "PascalCase": "RPC"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "remoteCall",
+        "snake_case": "remote_call",
+        "PascalCase": "RemoteCall"
+      }
+    ]
+  },
+  "接口定义": {
+    "variable": [
+      {
+        "camelCase": "interfaceDefinition",
+        "snake_case": "interface_definition",
+        "PascalCase": "InterfaceDefinition"
+      },
+      {
+        "camelCase": "idl",
+        "snake_case": "idl",
+        "PascalCase": "Idl"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "defineInterface",
+        "snake_case": "define_interface",
+        "PascalCase": "DefineInterface"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "IDL",
+        "snake_case": "IDL",
+        "PascalCase": "IDL"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "interfaceDefinition",
+        "snake_case": "interface_definition",
+        "PascalCase": "InterfaceDefinition"
+      }
+    ]
+  },
+  "服务端点": {
+    "variable": [
+      {
+        "camelCase": "endpoint",
+        "snake_case": "endpoint",
+        "PascalCase": "Endpoint"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "getEndpoint",
+        "snake_case": "get_endpoint",
+        "PascalCase": "GetEndpoint"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "ENDPOINT",
+        "snake_case": "ENDPOINT",
+        "PascalCase": "ENDPOINT"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "endpoint",
+        "snake_case": "endpoint",
+        "PascalCase": "Endpoint"
+      }
+    ]
+  },
+  "混沌工程": {
+    "variable": [
+      {
+        "camelCase": "chaosEngineering",
+        "snake_case": "chaos_engineering",
+        "PascalCase": "ChaosEngineering"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "injectChaos",
+        "snake_case": "inject_chaos",
+        "PascalCase": "InjectChaos"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "CHAOS_ENGINEERING",
+        "snake_case": "CHAOS_ENGINEERING",
+        "PascalCase": "CHAOS_ENGINEERING"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "chaosEngineering",
+        "snake_case": "chaos_engineering",
+        "PascalCase": "ChaosEngineering"
+      }
+    ]
+  },
+  "内容分发": {
+    "variable": [
+      {
+        "camelCase": "contentDelivery",
+        "snake_case": "content_delivery",
+        "PascalCase": "ContentDelivery"
+      },
+      {
+        "camelCase": "cdn",
+        "snake_case": "cdn",
+        "PascalCase": "Cdn"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "purgeCache",
+        "snake_case": "purge_cache",
+        "PascalCase": "PurgeCache"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "CDN",
+        "snake_case": "CDN",
+        "PascalCase": "CDN"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "contentDeliveryNetwork",
+        "snake_case": "content_delivery_network",
+        "PascalCase": "ContentDeliveryNetwork"
+      }
+    ]
+  },
+  "边缘计算": {
+    "variable": [
+      {
+        "camelCase": "edgeComputing",
+        "snake_case": "edge_computing",
+        "PascalCase": "EdgeComputing"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "deployEdge",
+        "snake_case": "deploy_edge",
+        "PascalCase": "DeployEdge"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "EDGE_COMPUTING",
+        "snake_case": "EDGE_COMPUTING",
+        "PascalCase": "EDGE_COMPUTING"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "edgeComputing",
+        "snake_case": "edge_computing",
+        "PascalCase": "EdgeComputing"
+      }
+    ]
+  },
+  "对象存储": {
+    "variable": [
+      {
+        "camelCase": "objectStorage",
+        "snake_case": "object_storage",
+        "PascalCase": "ObjectStorage"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "putObject",
+        "snake_case": "put_object",
+        "PascalCase": "PutObject"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "OBJECT_STORAGE",
+        "snake_case": "OBJECT_STORAGE",
+        "PascalCase": "OBJECT_STORAGE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "objectStorage",
+        "snake_case": "object_storage",
+        "PascalCase": "ObjectStorage"
+      }
+    ]
+  },
+  "弹性伸缩": {
+    "variable": [
+      {
+        "camelCase": "autoScaling",
+        "snake_case": "auto_scaling",
+        "PascalCase": "AutoScaling"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "scaleOut",
+        "snake_case": "scale_out",
+        "PascalCase": "ScaleOut"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "AUTO_SCALING",
+        "snake_case": "AUTO_SCALING",
+        "PascalCase": "AUTO_SCALING"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "autoScaling",
+        "snake_case": "auto_scaling",
+        "PascalCase": "AutoScaling"
+      }
+    ]
+  },
+  "云函数": {
+    "variable": [
+      {
+        "camelCase": "cloudFunction",
+        "snake_case": "cloud_function",
+        "PascalCase": "CloudFunction"
+      },
+      {
+        "camelCase": "serverlessFunction",
+        "snake_case": "serverless_function",
+        "PascalCase": "ServerlessFunction"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "invokeFunction",
+        "snake_case": "invoke_function",
+        "PascalCase": "InvokeFunction"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "CLOUD_FUNCTION",
+        "snake_case": "CLOUD_FUNCTION",
+        "PascalCase": "CLOUD_FUNCTION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "cloudFunction",
+        "snake_case": "cloud_function",
+        "PascalCase": "CloudFunction"
+      }
+    ]
+  },
+  "资源编排": {
+    "variable": [
+      {
+        "camelCase": "resourceOrchestration",
+        "snake_case": "resource_orchestration",
+        "PascalCase": "ResourceOrchestration"
+      },
+      {
+        "camelCase": "iacTemplate",
+        "snake_case": "iac_template",
+        "PascalCase": "IacTemplate"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "applyTemplate",
+        "snake_case": "apply_template",
+        "PascalCase": "ApplyTemplate"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "RESOURCE_ORCHESTRATION",
+        "snake_case": "RESOURCE_ORCHESTRATION",
+        "PascalCase": "RESOURCE_ORCHESTRATION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "resourceOrchestration",
+        "snake_case": "resource_orchestration",
+        "PascalCase": "ResourceOrchestration"
+      }
+    ]
+  },
+  "基础设施": {
+    "variable": [
+      {
+        "camelCase": "infrastructure",
+        "snake_case": "infrastructure",
+        "PascalCase": "Infrastructure"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "provision",
+        "snake_case": "provision",
+        "PascalCase": "Provision"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "INFRASTRUCTURE",
+        "snake_case": "INFRASTRUCTURE",
+        "PascalCase": "INFRASTRUCTURE"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "infrastructure",
+        "snake_case": "infrastructure",
+        "PascalCase": "Infrastructure"
+      }
+    ]
+  },
+  "故障注入": {
+    "variable": [
+      {
+        "camelCase": "faultInjection",
+        "snake_case": "fault_injection",
+        "PascalCase": "FaultInjection"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "injectFault",
+        "snake_case": "inject_fault",
+        "PascalCase": "InjectFault"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "FAULT_INJECTION",
+        "snake_case": "FAULT_INJECTION",
+        "PascalCase": "FAULT_INJECTION"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "faultInjection",
+        "snake_case": "fault_injection",
+        "PascalCase": "FaultInjection"
+      }
+    ]
+  },
+  "容灾": {
+    "variable": [
+      {
+        "camelCase": "disasterRecovery",
+        "snake_case": "disaster_recovery",
+        "PascalCase": "DisasterRecovery"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "failover",
+        "snake_case": "failover",
+        "PascalCase": "Failover"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "DISASTER_RECOVERY",
+        "snake_case": "DISASTER_RECOVERY",
+        "PascalCase": "DISASTER_RECOVERY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "disasterRecovery",
+        "snake_case": "disaster_recovery",
+        "PascalCase": "DisasterRecovery"
+      }
+    ]
+  },
+  "高可用": {
+    "variable": [
+      {
+        "camelCase": "highAvailability",
+        "snake_case": "high_availability",
+        "PascalCase": "HighAvailability"
+      }
+    ],
+    "method": [
+      {
+        "camelCase": "ensureAvailability",
+        "snake_case": "ensure_availability",
+        "PascalCase": "EnsureAvailability"
+      }
+    ],
+    "constant": [
+      {
+        "camelCase": "HIGH_AVAILABILITY",
+        "snake_case": "HIGH_AVAILABILITY",
+        "PascalCase": "HIGH_AVAILABILITY"
+      }
+    ],
+    "class": [
+      {
+        "camelCase": "highAvailability",
+        "snake_case": "high_availability",
+        "PascalCase": "HighAvailability"
+      }
+    ]
   }
 }
