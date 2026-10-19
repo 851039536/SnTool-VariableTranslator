@@ -193,6 +193,25 @@ if (synonymGroups.length) {
   console.log(`  ${C.green}✓${C.reset} 无同义重复词条`);
 }
 
+// 2.5 跨词条：首选变量名撞车（比 2.4 更宽的口径——四类字段不必完全同构，
+//     只要 variable[0].camelCase 相同即提示。多数是「代理/代理模式」这类可接受的
+//     近义收录，但「位置/职位 都叫 position」这类则说明有一方需要更精确的命名。
+//     仅告警不失败：数量是词表冗余度的观察指标，由维护者人工判断。）
+const byFirstName = new Map();
+for (const [zh, entry] of Object.entries(words)) {
+  const n = entry.variable?.[0]?.camelCase;
+  if (!n) continue;
+  if (!byFirstName.has(n)) byFirstName.set(n, []);
+  byFirstName.get(n).push(zh);
+}
+const firstNameClashes = [...byFirstName.entries()].filter(([, g]) => g.length > 1);
+if (firstNameClashes.length) {
+  warn(`不同中文词共用同一首选变量名（近义收录或需人工复核）: ${firstNameClashes.length} 组`);
+  console.log(`      ${C.dim}${firstNameClashes.slice(0, 10).map(([n, g]) => g.join('/') + '=' + n).join('；')}${firstNameClashes.length > 10 ? ` …等 ${firstNameClashes.length} 组` : ''}${C.reset}`);
+} else {
+  console.log(`  ${C.green}✓${C.reset} 无首选变量名撞车`);
+}
+
 // ── 3. 命名规范 ──────────────────────────────────────────────
 
 section('3. 命名规范');
