@@ -143,6 +143,7 @@ API 调用参数优化：
 - **命中即跳过 API**：`translate()` 中词典查询前置于缓存与 Key 校验，命中直接返回结果，**不调用 API、不写缓存、不计缓存统计**
 - **懒加载（异步）**：`lookupDictionary(text)` / `dictionarySize()` 均返回 **Promise**，内部用动态 `import('./words.json')` 加载并缓存，整个会话只加载一次
   - ⚠️ **调用方必须 `await`**，否则拿到的是 Promise（恒为真值），会导致所有词条被误判为命中
+  - **英→中反查**：`lookupDictionaryReverse(text)` 两级匹配——逐段唯一释义拼合优先，整名兜底；歧义段（get/is 等高频词根）自动跳过，宁缺勿错；未命中交由 API。`pendingSource` 与 `translate()` 在两个方向都先查词典（正/反），测试第 5 组有对应断言
   - ⚠️ **构建产物必须保持多文件**：`vite-plugin-singlefile` 会把动态 `import()` 一并内联，使懒加载彻底失效，故 `vite.config.js` 中**已不再引用该插件**（详见该文件注释与 [README](README.md) 的「构建与体积」）
     - 注意：该依赖**仍在 `package.json` 的 devDependencies 中**（只是不再被 import）。若看到它出现在依赖列表，属预期，不代表构建会内联
   - 加载失败时捕获并 `console.warn`，返回 `null` 降级为「未命中」，**绝不阻断翻译**（由 API 兜底）

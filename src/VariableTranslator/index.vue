@@ -163,7 +163,11 @@
             <code class="result-english">{{ result.input }}</code>
             <span class="style-badge" :class="'badge-' + (result.style || 'unknown')">{{ result.style || 'unknown'
             }}</span>
-            <span v-if="resultSource === 'cache'" class="cache-badge">
+            <span v-if="resultSource === 'dictionary'" class="dictionary-badge"
+              title="命中内置词典反查，本地直译，未调用 API、不产生费用">
+              <Icon :icon="TI.dictionary" width="12" /> 内置词典
+            </span>
+            <span v-else-if="resultSource === 'cache'" class="cache-badge">
               <Icon :icon="TI.cache" width="12" /> 缓存
             </span>
             <span v-else class="api-badge">
@@ -340,7 +344,7 @@
 import { ref, computed, onMounted, watch, onUnmounted, nextTick } from 'vue';
 import { COMMON_ICONS, FEATURE_ICONS } from '@/config/icons';
 import { API_CONFIG, CACHE_TTL } from '@/config/api';
-import { lookupDictionary, dictionarySize, dictionaryCategories, listDictionary } from '@/dictionaries';
+import { lookupDictionary, lookupDictionaryReverse, dictionarySize, dictionaryCategories, listDictionary } from '@/dictionaries';
 
 const TI = FEATURE_ICONS.translator;
 
@@ -500,12 +504,10 @@ async function refreshPendingSource() {
     pendingSource.value = '';
     return;
   }
-  // 英→中方向不启用词典
-  if (!isZhToEn.value) {
-    pendingSource.value = 'api';
-    return;
-  }
-  const hit = await lookupDictionary(text);
+  // 两个方向都先查词典：中→英查正向词表，英→中走反查（逐段/整名，见 dictionaries/index.js）
+  const hit = isZhToEn.value
+    ? await lookupDictionary(text)
+    : await lookupDictionaryReverse(text);
   // 异步返回时输入可能已变，丢弃过期结果
   if (chineseInput.value.trim() !== text) return;
   pendingSource.value = hit ? 'dictionary' : 'api';
@@ -822,9 +824,12 @@ async function translate() {
 
   // 词典为纯本地数据（懒加载），命中的判定与任何外部选项无关；
   // 未配置 Key 时也能直译，故先于 Key 校验查询。
+  // 中→英查正向词表；英→中走反查（逐段/整名两级匹配，见 dictionaries/index.js）。
   // 注意：await 期间输入可能变化，取出文本快照用于后续比对。
   const inputSnapshot = chineseInput.value.trim();
-  const dictResult = isZhToEn.value ? await lookupDictionary(inputSnapshot) : null;
+  const dictResult = isZhToEn.value
+    ? await lookupDictionary(inputSnapshot)
+    : await lookupDictionaryReverse(inputSnapshot);
   if (chineseInput.value.trim() !== inputSnapshot) return;
 
   if (!dictResult && !isApiConfigured.value) return;

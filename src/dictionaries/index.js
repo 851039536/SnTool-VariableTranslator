@@ -103,6 +103,156 @@ export async function dictionarySize() {
   return words ? Object.keys(words).length : 0;
 }
 
+// ── 英→中 反查 ──────────────────────────────────────────
+//
+// 词表是「中文 → 英文命名」的单向映射；反查把英文命名切词后逐段比对词表。
+// 与正向查询同一设计原则：纯函数、全部段命中才返回（部分命中会给出误导性释义）。
+
+/**
+ * 英文索引缓存（模块级）：小写英文词段 -> 中文 key 集合。
+ * 仅为**单字段单词条**的段建立映射：索引时若某段已存在且中文不同，
+ * 说明该段是多义词（如 get 出现在几乎所有 getXxx 方法里），标记为歧义段，
+ * 反查时跳过歧义段（动词前缀通常无需翻译也能读懂，误译反而误导）。
+ */
+let enIndexPromise = null;
+
+function loadEnIndex() {
+  if (!enIndexPromise) {
+    enIndexPromise = loadWords().then((words) => {
+      if (!words) return null;
+      const index = new Map(); // 'cache' -> '缓存'（唯一）；歧义段不入索引
+      for (const [zh, entry] of Object.entries(words)) {
+        for (const field of REQUIRED_FIELDS) {
+          for (const opt of entry[field] || []) {
+            for (const style of REQUIRED_STYLES) {
+              for (const seg of splitEnglishName(opt[style])) {
+                const k = seg.toLowerCase();
+                if (!k) continue;
+                const prev = index.get(k);
+                if (prev === undefined) {
+                  index.set(k, zh);
+                } else if (prev !== zh) {
+                  index.set(k, null); // 歧义：多词条共用同一段
+                }
+              }
+            }
+          }
+        }
+      }
+      // 清除歧义段
+      for (const [k, v] of index) if (v === null) index.delete(k);
+      return index;
+    });
+  }
+  return enIndexPromise;
+}
+
+/**
+ * 把英文命名切为小写词段：camelCase / snake_case / kebab-case / 空格 / 点分均可。
+ * 'getUserName' → ['get','user','name']；'user_name' → ['user','name']；'USER_NAME' → ['user','name']
+ */
+function splitEnglishName(text) {
+  return String(text)
+    .replace(/([a-z0-9])([A-Z])/g, '$1 $2')      // camelCase 边界
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')   // HTTPServer 连续大写边界
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter(Boolean);
+}
+
+/** 整名索引缓存（模块级）：去掉分隔符的小写完整拼写 -> 中文 key（唯一时） */
+let fullNameIndexPromise = null;
+
+function loadFullNameIndex() {
+  if (!fullNameIndexPromise) {
+    fullNameIndexPromise = loadWords().then((words) => {
+      if (!words) return null;
+      const index = new Map(); // 'cachepenetration' -> '缓存穿透'
+      const add = (en, zh) => {
+        const k = String(en || '').replace(/[^A-Za-z0-9]/g, '').toLowerCase();
+        if (!k) return;
+        const prev = index.get(k);
+        // 同一拼写对应多词条时取最短中文（多为同义词，取简洁者）
+        if (prev === undefined || [...zh].length < [...prev].length) index.set(k, zh);
+      };
+      for (const [zh, entry] of Object.entries(words)) {
+        for (const field of REQUIRED_FIELDS) {
+          for (const opt of entry[field] || []) {
+            for (const style of REQUIRED_STYLES) add(opt[style], zh);
+          }
+        }
+      }
+      return index;
+    });
+  }
+  return fullNameIndexPromise;
+}
+
+/** 整名精确匹配：'cachePenetration' → '缓存穿透'；未命中返回 null */
+async function matchFullName(raw) {
+  const index = await loadFullNameIndex();
+  if (!index) return null;
+  return index.get(String(raw).replace(/[^A-Za-z0-9]/g, '').toLowerCase()) || null;
+}
+
+/**
+ * 英→中反查：逐段命中优先，整名兜底，两者皆败交由 API。
+ *
+ * 两级匹配（部分命中会给出误导性释义，故宁缺勿错）：
+ *  1. 逐段命中：'shoppingCart' → shopping+cart 全部有唯一释义 → 拼合（相邻段同释义只保留一个）
+ *  2. 整名兜底：输入去掉分隔符后与某词条完整拼写一致（cachePenetration = 缓存穿透，
+ *     组成段 penetration 无独立词条，逐段必失败，整名救回；getUserName/isDeleted 等
+ *     method 命名也靠这一级翻译）
+ *
+ * @param {string} text 英文命名（内部 trim）
+ * @returns {Promise<Array|null>} 与 LLM 英→中输出同构：[{ input, style, meaning, breakdown }]
+ */
+export async function lookupDictionaryReverse(text) {
+  const raw = typeof text === 'string' ? text.trim() : '';
+  if (!raw) return null;
+
+  const index = await loadEnIndex();
+  if (!index) return null;
+
+  // 风格检测（与 LLM 输出的 style 字段同口径）
+  const style = /^[a-z]+([A-Z]|$)/.test(raw) && !raw.includes('_')
+    ? 'camelCase'
+    : /^[a-z0-9]+(_[a-z0-9]+)+$/.test(raw) ? 'snake_case'
+    : /^[A-Z0-9]+(_[A-Z0-9]+)+$/.test(raw) ? 'constant'
+    : /^[A-Z]/.test(raw) ? 'PascalCase' : 'unknown';
+
+  // 1) 逐段命中：仅收录唯一释义的段参与拼合；任何一段无唯一释义 → 试整名兜底。
+  //    （get/is 这类高频段几乎必然歧义，不会入选；误译不如不译）
+  const parts = splitEnglishName(raw);
+  if (parts.length === 0) return null;
+
+  let segmentMiss = false;
+  const breakdown = [];
+  for (const part of parts) {
+    const zh = index.get(part); // undefined=未收录/歧义；命中即唯一释义
+    if (!zh) {
+      segmentMiss = true;
+      break;
+    }
+    // 相邻段同释义只保留一个（'shoppingCart' 两段都是"购物车"，避免"购物车购物车"）
+    if (breakdown.length === 0 || breakdown[breakdown.length - 1].zh !== zh) {
+      breakdown.push({ en: part, zh });
+    }
+  }
+  if (!segmentMiss) {
+    const meaning = breakdown.map((b) => b.zh).join('');
+    return [{ input: raw, style, meaning, breakdown }];
+  }
+
+  // 2) 整名兜底：完整拼写比对（O(1)，预建索引）
+  const full = await matchFullName(raw);
+  if (full) {
+    return [{ input: raw, style, meaning: full, breakdown: [{ en: raw, zh: full }] }];
+  }
+
+  return null;
+}
+
 /**
  * 加载分类数据（惰性、单次）。失败返回 null，词表页降级为「暂无分类」而不是抛错。
  * @returns {Promise<object|null>}

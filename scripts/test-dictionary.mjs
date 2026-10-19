@@ -388,11 +388,14 @@ section('5. 来源提示一致性');
 const vuePath = path.join(ROOT, 'src/VariableTranslator/index.vue');
 const vue = fs.readFileSync(vuePath, 'utf8');
 
-// 词表懒加载后，查询是异步的；两处都必须 await，否则拿到的是 Promise（恒为真值）
-const pendingAwaits = /const hit = await lookupDictionary\(text\)/.test(vue);
-const translateAwaits = /await lookupDictionary\(inputSnapshot\)/.test(vue);
-check('pendingSource 正确 await 词典查询', pendingAwaits);
-check('translate 正确 await 词典查询', translateAwaits);
+// 词表懒加载后，查询是异步的；两处都必须 await，否则拿到的是 Promise（恒为真值）。
+// 两个方向都查词典：中→英 lookupDictionary，英→中 lookupDictionaryReverse
+const pendingAwaits = /await (lookupDictionary|lookupDictionaryReverse)\(text\)/.test(vue)
+  && /lookupDictionaryReverse\(text\)/.test(vue);
+const translateAwaits = /await (lookupDictionary|lookupDictionaryReverse)\(inputSnapshot\)/.test(vue)
+  && /lookupDictionaryReverse\(inputSnapshot\)/.test(vue);
+check('pendingSource 正确 await 双向词典查询', pendingAwaits);
+check('translate 正确 await 双向词典查询', translateAwaits);
 
 // 词典查询必须早于 API Key 校验，否则未配置 Key 的用户会被挡在词典之外，
 // 与「命中词典无需 Key」的提示矛盾
@@ -414,8 +417,32 @@ check('全部词条都会被提示为「内置词典」', hinted.length === keys
 // 未收录词必须提示走 API
 check('未收录词提示走 API', (await lookupDictionary('绝不存在于词表的词组zzz')) === null);
 
-// 英→中方向不启用词典，提示应为 API
-check('英→中方向固定走 API', vue.includes("pendingSource.value = 'api'"));
+// 英→中方向也走词典反查：两处都必须含反向查询调用（不再固定提示 API）
+check('英→中方向接入词典反查', vue.includes('lookupDictionaryReverse'));
+
+// 反查行为：整名兜底 + 逐段拼合 + 未收录走 API
+const { lookupDictionaryReverse } = await import(pathToFileURL(path.join(bundleDir, fs.readdirSync(bundleDir).find((f) => f.startsWith('index') && f.endsWith('.js')))).href);
+check('反查：整名命中（method 命名）', (await lookupDictionaryReverse('getUserName'))?.[0]?.meaning === '用户名');
+check('反查：整名命中（复合词）', (await lookupDictionaryReverse('cachePenetration'))?.[0]?.meaning === '缓存穿透');
+check('反查：snake_case 整名命中', (await lookupDictionaryReverse('user_name'))?.[0]?.meaning === '用户名');
+check('反查：UPPER 常量命中', (await lookupDictionaryReverse('USER_NAME'))?.[0]?.meaning === '用户名');
+check('反查：相邻段同释义去重', (await lookupDictionaryReverse('shoppingCart'))?.[0]?.meaning === '购物车');
+check('反查：未收录词返回 null', (await lookupDictionaryReverse('processData')) === null);
+check('反查：空输入返回 null', (await lookupDictionaryReverse('')) === null);
+check('反查：返回结构与 LLM 英→中输出同构', (() => {
+  const r = lookupDictionaryReverse('orderList');
+  return r instanceof Promise; // 异步接口（调用方必须 await）
+})());
+const reverseShape = await lookupDictionaryReverse('orderList');
+check(
+  '反查：返回字段齐全',
+  reverseShape?.length === 1
+    && typeof reverseShape[0].input === 'string'
+    && typeof reverseShape[0].style === 'string'
+    && typeof reverseShape[0].meaning === 'string'
+    && Array.isArray(reverseShape[0].breakdown)
+    && reverseShape[0].breakdown.every((b) => typeof b.en === 'string' && typeof b.zh === 'string')
+);
 
 // 异步竞态防护：查词返回时若输入已变，必须丢弃过期结果
 check('pendingSource 丢弃过期异步结果', /chineseInput\.value\.trim\(\) !== text\) return/.test(vue));
